@@ -1,0 +1,7 @@
+{
+  "name": "saude360Front",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
