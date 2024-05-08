@@ -15,13 +15,13 @@
     "start:dev": "yarn watch:css & ionic capacitor run ios -l --external"
   },
   "dependencies": {
-    "@capacitor/android": "5.0.5",
-    "@capacitor/app": "5.0.3",
-    "@capacitor/core": "5.0.5",
-    "@capacitor/haptics": "5.0.4",
-    "@capacitor/ios": "5.0.5",
-    "@capacitor/keyboard": "5.0.4",
-    "@capacitor/status-bar": "5.0.4",
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/app": "^6.0.0",
+    "@capacitor/core": "^6.0.0",
+    "@capacitor/haptics": "^6.0.0",
+    "@capacitor/ios": "^6.0.0",
+    "@capacitor/keyboard": "^6.0.0",
+    "@capacitor/status-bar": "^6.0.0",
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
     "@types/react-router": "^5.1.20",
@@ -33,7 +33,7 @@
     "react-router-dom": "^5.3.4"
   },
   "devDependencies": {
-    "@capacitor/cli": "5.0.5",
+    "@capacitor/cli": "^6.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@testing-library/user-event": "^14.4.3",
