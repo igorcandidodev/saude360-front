@@ -6,13 +6,9 @@ import Menu from '../components/Menu';
 const Home: React.FC = () => {
   return (
     <IonPage>
-      <IonHeader>
-        <IonToolbar>
-
-        </IonToolbar>
-      </IonHeader>
-      <Menu/>
       <IonContent fullscreen className="relative">
+        <Menu/>
+        
         <div className="text-center absolute left-0 right-0 top-1/2 transform -translate-y-1/2 flex justify-center items-center">
           <div className="border border-gray-100 rounded-xl shadow-2xl p-8 bg-gradient-to-r from-green-400 via-blue-900 to-blue-400 text-white max-w-lg">
             <h1 className="text-2xl  font-bold">Using TailwindCSS in Ionic with React</h1>
