@@ -4,7 +4,7 @@ export function FormAddress() {
     return (
 <>
      <Form.Header text="Endereço Consultório"/>
-      <form className="w-80">
+      <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cep">
             CEP

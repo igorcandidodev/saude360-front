@@ -29,7 +29,7 @@ const RegisterProfessional: React.FC = () => {
           <>
             <Form.Address />
             <Form.Actions>
-              <div className="flex flex-col">
+              <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
                   text="VOLTAR"
                   onClick={() => setIndexForm(1)}
@@ -47,7 +47,7 @@ const RegisterProfessional: React.FC = () => {
             <>
             <Form.DataClinic />
             <Form.Actions>
-              <div className="flex flex-col">
+              <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
                   text="VOLTAR"
                   onClick={() => setIndexForm(2)}
