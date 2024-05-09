@@ -18,7 +18,7 @@ const RegisterProfessional: React.FC = () => {
             <Form.PersonalInformation />
             <Form.Actions>
               <Form.ActionButton
-                text="Próximo"
+                text="PRÓXIMO"
                 onClick={() => setIndexForm(2)}
               />
             </Form.Actions>
@@ -31,17 +31,34 @@ const RegisterProfessional: React.FC = () => {
             <Form.Actions>
               <div className="flex flex-col">
                 <Form.ActionButtonOutline
-                  text="Voltar"
+                  text="VOLTAR"
                   onClick={() => setIndexForm(1)}
                 />
                 <Form.ActionButton
-                  text="Próximo"
+                  text="PRÓXIMO"
                   onClick={() => setIndexForm(3)}
                 />
               </div>
             </Form.Actions>
           </>
         );
+        case 3:
+          return (
+            <>
+            <Form.DataClinic />
+            <Form.Actions>
+              <div className="flex flex-col">
+                <Form.ActionButtonOutline
+                  text="VOLTAR"
+                  onClick={() => setIndexForm(2)}
+                />
+                <Form.ActionButton
+                  text="CADASTRAR"
+                />
+              </div>
+            </Form.Actions>
+            </>
+          )
     }
   };
 
