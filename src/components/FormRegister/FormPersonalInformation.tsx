@@ -3,6 +3,7 @@ import { Form } from ".";
 export default function FormPersonalInformation() {
   return (
     <>
+     <Form.Header text="Informacões Pessoais"/>
       <form className="w-80">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="fullName">
@@ -114,10 +115,6 @@ export default function FormPersonalInformation() {
             No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
           </p>
         </div>
-
-        <Form.Actions>
-            <Form.ActionButton text="Próximo"/>
-        </Form.Actions>
       </form>
     </>
   );
