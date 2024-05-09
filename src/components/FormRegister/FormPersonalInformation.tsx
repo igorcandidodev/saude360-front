@@ -2,12 +2,13 @@ import { Form } from ".";
 import { IonImg } from "@ionic/react";
 
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
+import IconDown from "../../Images/Icons/IconDown.svg";
 
 export default function FormPersonalInformation() {
   return (
     <>
       <Form.Header text="Informacões Pessoais" />
-      <form className="w-80">
+      <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="fullName">
             NOME COMPLETO
@@ -80,12 +81,34 @@ export default function FormPersonalInformation() {
             />
           </div>
 
-          <input
+          {/* <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="helthSector"
             name="helthSector"
-          ></input>
+            placeholder="Selecione sua área de saúde"
+            disabled
+          >
+          </input>
+          <IonImg
+            src={IconDown}
+            className=""
+            alt="Icone de seta para baixo" /> */}
+          <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
+            <input
+              className="w-full bg-transparent"
+              type="text"
+              id="helthSector"
+              name="helthSector"
+              placeholder="Selecione sua área de saúde"
+              disabled
+            />
+            <IonImg
+              src={IconDown}
+              className="absolute cursor-pointer"
+              alt="Icone de seta para baixo"
+            />
+          </div>
         </div>
         <div className="flex flex-col pt-6">
           <div className="flex items-center">
