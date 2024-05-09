@@ -1,5 +1,10 @@
 import { Form } from "."
 
+import { IonImg } from "@ionic/react";
+
+
+import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
+
 export default function FormDataClinic() {
   return (
     <>
@@ -18,9 +23,16 @@ export default function FormDataClinic() {
           ></input>
         </div>
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="cnes">
-            NÚMERO CNES
-          </label>
+          <div className="flex items-center">
+            <label className="pb-2" htmlFor="cnes">
+              NÚMERO CNES
+            </label>
+            <IonImg
+              src={IconInterrogacao}
+              className="pb-2 pl-1 cursor-pointer"
+              alt="Icone de interrogação"
+            />
+          </div>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
