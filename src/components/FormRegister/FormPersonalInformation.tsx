@@ -1,9 +1,12 @@
 import { Form } from ".";
+import { IonImg } from "@ionic/react";
+
+import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 
 export default function FormPersonalInformation() {
   return (
     <>
-     <Form.Header text="Informacões Pessoais"/>
+      <Form.Header text="Informacões Pessoais" />
       <form className="w-80">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="fullName">
@@ -66,9 +69,17 @@ export default function FormPersonalInformation() {
         </div>
 
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="helthSector">
-            ÁREA DE TRABALHO
-          </label>
+          <div className="flex items-center">
+            <label className="pb-2" htmlFor="helthSector">
+              ÁREA DE TRABALHO
+            </label>
+            <IonImg
+              src={IconInterrogacao}
+              className="pb-2 pl-1 cursor-pointer"
+              alt="Icone de interrogação"
+            />
+          </div>
+
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
@@ -77,9 +88,16 @@ export default function FormPersonalInformation() {
           ></input>
         </div>
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="cns">
-            NÚMERO CNS
-          </label>
+          <div className="flex items-center">
+            <label className="pb-2" htmlFor="cns">
+              NÚMERO CNS
+            </label>
+            <IonImg
+              src={IconInterrogacao}
+              className="pb-2 pl-1 cursor-pointer"
+              alt="Icone de interrogação"
+            />
+          </div>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
