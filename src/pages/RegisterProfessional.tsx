@@ -15,7 +15,7 @@ const RegisterProfessional: React.FC = () => {
       case 1:
         return (
           <>
-            <Form.PersonalInformation />
+            <Form.PersonalInformation isProfessional={true}/>
             <Form.Actions>
               <Form.ActionButton
                 text="PRÓXIMO"
