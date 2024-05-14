@@ -6,6 +6,12 @@ import Menu from '../components/Menu';
 const Home: React.FC = () => {
   return (
     <IonPage>
+      <IonHeader>
+        <IonToolbar>
+        <Menu/>
+        </IonToolbar>
+      </IonHeader>
+
       <IonContent fullscreen className="relative">
         <Menu/>
         

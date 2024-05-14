@@ -51,15 +51,12 @@ function Menu() {
 
         </IonContent>
       </IonMenu>
-      <IonPage id="main-content">
-        <IonHeader>
-          <IonToolbar>
+      <div id="main-content">
+
             <IonButtons slot="start">
               <IonMenuButton></IonMenuButton>
             </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-      </IonPage>
+      </div>
     </>
   );
 }
