@@ -1,0 +1,85 @@
+import { IonContent, IonPage, IonImg } from "@ionic/react";
+
+/* logo */
+import Logo from "../Images/Logo Saude360.svg";
+
+import { Form } from "../components/FormRegister";
+import { useState } from "react";
+
+const RegisterPatient: React.FC = () => {
+  const [indexForm, setIndexForm] = useState(1);
+  const [dateOfBirth, setDateOfBirth] = useState("");
+  const [age, setAge] = useState<number | null>(null);
+
+  const calculateAge = (date: string) => {
+    const birthDate = new Date(date);
+    const today = new Date();
+    const age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      return age - 1;
+    }
+    return age;
+  };
+
+  const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('entrou no handle change')
+    const date = e.target.value;
+    setDateOfBirth(date);
+    const calculatedAge = calculateAge(date);
+    setAge(calculatedAge);
+  };
+
+  const renderForm = () => {
+    switch (indexForm) {
+      case 1:
+        return (
+          <>
+            <Form.PersonalInformation isProfessional={false} onDateChange={handleDateChange} />
+            <Form.Actions>
+                {age !== null && age < 18 ? (
+                <Form.ActionButton
+                  text="PRÓXIMO"
+                  onClick={() => setIndexForm(2)}
+                />
+              ) : (
+                <Form.ActionButton text="CONCLUIR" />
+              )}
+            </Form.Actions>
+          </>
+        );
+      case 2:
+        return (
+          <>
+            <Form.MinorPatient />
+            <Form.Actions>
+              <div className="flex flex-col md:flex md:flex-row md:gap-4">
+                <Form.ActionButtonOutline
+                  text="VOLTAR"
+                  onClick={() => setIndexForm(1)}
+                />
+                <Form.ActionButton
+                  text="CADASTRAR"
+                />
+              </div>
+            </Form.Actions>
+          </>
+        );
+    }
+  };
+
+  return (
+    <IonPage>
+      <IonContent>
+        <div className="flex justify-center">
+          <IonImg className="mt-10 w-80" src={Logo} alt="Logo"></IonImg>
+        </div>
+        <Form.Root>
+          {renderForm()}
+        </Form.Root>
+      </IonContent>
+    </IonPage>
+  );
+};
+
+export default RegisterPatient;
