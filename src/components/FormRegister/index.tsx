@@ -4,6 +4,7 @@ import { FormActions } from "./FormActions";
 import { FormAddress } from "./FormAddress";
 import FormDataClinic from "./FormDataClinic";
 import FormHeader from "./FormHeader";
+import { FormMinorPatient } from "./FormMinorPatient";
 import FormPersonalInformation from "./FormPersonalInformation";
 import FormRoot from "./FormRoot";
 
@@ -15,5 +16,6 @@ export const Form = {
     ActionButton: FormActionButton,
     Address: FormAddress,
     ActionButtonOutline: FormActionButtonOutline,
-    DataClinic: FormDataClinic
+    DataClinic: FormDataClinic,
+    MinorPatient: FormMinorPatient
 }

@@ -4,7 +4,11 @@ import { IonImg } from "@ionic/react";
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import IconDown from "../../Images/Icons/IconDown.svg";
 
-export default function FormPersonalInformation() {
+interface FormPersonalInformationProps {
+  isProfessional?: boolean;
+  onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+export default function FormPersonalInformation({ isProfessional, onDateChange  } : FormPersonalInformationProps) {
   return (
     <>
       <Form.Header text="Informacões Pessoais" />
@@ -41,6 +45,7 @@ export default function FormPersonalInformation() {
             type="date"
             id="dateBirthday"
             name="dateBirthday"
+            onChange={onDateChange}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -69,93 +74,129 @@ export default function FormPersonalInformation() {
           <p className="text-xs text-zinc-400 pt-2">Não coloque símbolos</p>
         </div>
 
-        <div className="flex flex-col pt-6">
-          <div className="flex items-center">
-            <label className="pb-2" htmlFor="helthSector">
-              ÁREA DE TRABALHO
-            </label>
-            <IonImg
-              src={IconInterrogacao}
-              className="pb-2 pl-1 cursor-pointer"
-              alt="Icone de interrogação"
-            />
-          </div>
+        {isProfessional && (
+          <>
+            <div className="flex flex-col pt-6">
+              <div className="flex items-center">
+                <label className="pb-2" htmlFor="helthSector">
+                  ÁREA DE TRABALHO
+                </label>
+                <IonImg
+                  src={IconInterrogacao}
+                  className="pb-2 pl-1 cursor-pointer"
+                  alt="Icone de interrogação"
+                />
+              </div>
 
-          {/* <input
-            className="border border-zinc-400 p-2 rounded"
-            type="text"
-            id="helthSector"
-            name="helthSector"
-            placeholder="Selecione sua área de saúde"
-            disabled
-          >
-          </input>
-          <IonImg
-            src={IconDown}
-            className=""
-            alt="Icone de seta para baixo" /> */}
-          <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
-            <input
-              className="w-full bg-transparent"
-              type="text"
-              id="helthSector"
-              name="helthSector"
-              placeholder="Selecione sua área de saúde"
-              disabled
-            />
-            <IonImg
-              src={IconDown}
-              className="absolute cursor-pointer"
-              alt="Icone de seta para baixo"
-            />
-          </div>
-        </div>
-        <div className="flex flex-col pt-6">
-          <div className="flex items-center">
-            <label className="pb-2" htmlFor="cns">
-              NÚMERO CNS
-            </label>
-            <IonImg
-              src={IconInterrogacao}
-              className="pb-2 pl-1 cursor-pointer"
-              alt="Icone de interrogação"
-            />
-          </div>
-          <input
-            className="border border-zinc-400 p-2 rounded"
-            type="text"
-            id="cns"
-            name="cns"
-          ></input>
-        </div>
-        <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="password">
-            SENHA
-          </label>
-          <input
-            className="border border-zinc-400 p-2 rounded"
-            type="password"
-            id="password"
-            name="password"
-          ></input>
-          <p className="text-xs text-zinc-400 pt-2">
-            No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
-          </p>
-        </div>
-        <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="passwordConfirm">
-            CONFIRMAR SENHA
-          </label>
-          <input
-            className="border border-zinc-400 p-2 rounded"
-            type="passwordConfirm"
-            id="password"
-            name="passwordConfirm "
-          ></input>
-          <p className="text-xs text-zinc-400 pt-2">
-            No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
-          </p>
-        </div>
+              {/* <input
+                className="border border-zinc-400 p-2 rounded"
+                type="text"
+                id="helthSector"
+                name="helthSector"
+                placeholder="Selecione sua área de saúde"
+                disabled
+              >
+              </input>
+              <IonImg
+                src={IconDown}
+                className=""
+                alt="Icone de seta para baixo" /> */}
+              <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
+                <input
+                  className="w-full bg-transparent"
+                  type="text"
+                  id="helthSector"
+                  name="helthSector"
+                  placeholder="Selecione sua área de saúde"
+                  disabled
+                />
+                <IonImg
+                  src={IconDown}
+                  className="absolute cursor-pointer"
+                  alt="Icone de seta para baixo"
+                />
+              </div>
+            </div>
+            <div className="flex flex-col pt-6">
+              <div className="flex items-center">
+                <label className="pb-2" htmlFor="cns">
+                  NÚMERO CNS
+                </label>
+                <IonImg
+                  src={IconInterrogacao}
+                  className="pb-2 pl-1 cursor-pointer"
+                  alt="Icone de interrogação"
+                />
+              </div>
+              <input
+                className="border border-zinc-400 p-2 rounded"
+                type="text"
+                id="cns"
+                name="cns"
+              ></input>
+            </div>
+            <div className="flex flex-col pt-6">
+              <label className="pb-2" htmlFor="password">
+                SENHA
+              </label>
+              <input
+                className="border border-zinc-400 p-2 rounded"
+                type="password"
+                id="password"
+                name="password"
+              ></input>
+              <p className="text-xs text-zinc-400 pt-2">
+                No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
+              </p>
+            </div>
+            <div className="flex flex-col pt-6">
+              <label className="pb-2" htmlFor="passwordConfirm">
+                CONFIRMAR SENHA
+              </label>
+              <input
+                className="border border-zinc-400 p-2 rounded"
+                type="passwordConfirm"
+                id="password"
+                name="passwordConfirm "
+              ></input>
+              <p className="text-xs text-zinc-400 pt-2">
+                No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
+              </p>
+            </div>
+          </>
+          )}
+          
+        {!isProfessional && (
+          <>
+            <div className="flex flex-col pt-6">
+              <div className="flex items-center">
+                <label className="pb-2" htmlFor="helthSector">
+                  FREQUÊNCIA DE ATENDIMENTO
+                </label>
+                <IonImg
+                  src={IconInterrogacao}
+                  className="pb-2 pl-1 cursor-pointer"
+                  alt="Icone de interrogação"
+                />
+              </div>
+
+              <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
+                <input
+                  className="w-full bg-transparent"
+                  type="text"
+                  id="serviceFrequency"
+                  name="serviceFrequency"
+                  placeholder="Selecione a frequência"
+                  disabled
+                />
+                <IonImg
+                  src={IconDown}
+                  className="absolute cursor-pointer"
+                  alt="Icone de seta para baixo"
+                />
+              </div>
+            </div>
+          </>)}
       </form>
     </>
   );
