@@ -30,6 +30,16 @@ const RegisterPatient: React.FC = () => {
     setAge(calculatedAge);
   };
 
+
+  const backStep = () => {
+    if(age !== null && age < 18 && indexForm === 3){
+        setIndexForm(indexForm - 1);
+    }else{
+        setAge(null);
+        setIndexForm(1);
+    }
+  }
+  
   const renderForm = () => {
     switch (indexForm) {
       case 1:
@@ -43,7 +53,10 @@ const RegisterPatient: React.FC = () => {
                   onClick={() => setIndexForm(2)}
                 />
               ) : (
-                <Form.ActionButton text="CONCLUIR" />
+                <Form.ActionButton
+                  text="PRÓXIMO"
+                  onClick={() => setIndexForm(3)}
+              />
               )}
             </Form.Actions>
           </>
@@ -56,15 +69,33 @@ const RegisterPatient: React.FC = () => {
               <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
                   text="VOLTAR"
-                  onClick={() => setIndexForm(1)}
+                  onClick={() => backStep()}
                 />
                 <Form.ActionButton
-                  text="CADASTRAR"
+                  text="PRÓXIMO"
+                  onClick={() => setIndexForm(3)}
                 />
               </div>
             </Form.Actions>
           </>
         );
+        case 3:
+            return (
+              <>
+                <Form.Address />
+                <Form.Actions>
+                  <div className="flex flex-col md:flex md:flex-row md:gap-4">
+                    <Form.ActionButtonOutline
+                      text="VOLTAR"
+                      onClick={() => backStep()}
+                    />
+                    <Form.ActionButton
+                      text="CADASTRAR"
+                    />
+                  </div>
+                </Form.Actions>
+              </>
+            );
     }
   };
 
