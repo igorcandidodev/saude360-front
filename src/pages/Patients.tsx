@@ -10,7 +10,7 @@ import PatientsTable from '../components/PatientsTable';
 
 
 
-const Home: React.FC = () => {
+const Patients: React.FC = () => {
   return (
     <IonPage className='justify-start'>
       <Menu />
@@ -41,4 +41,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default Patients;

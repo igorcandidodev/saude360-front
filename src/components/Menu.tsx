@@ -9,10 +9,22 @@ import { calendarOutline, closeOutline } from 'ionicons/icons';
 import CalendarIcon from  "../Images/Icons/calendar.svg"
 
 
+const routes = {
+  appPages: [
+    { title: 'Agendamentos', path: '/agendamentos', icon: CalendarIcon },
+    { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
+    { title: 'Financeiro', path: '/financeiros', icon: CalendarIcon },
+    { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },
+    { title: 'Configurações', path: '/configuracoes', icon: CalendarIcon }
+  ]
+}
+
+
+
 function Menu() {
   return (
     <>
-      <IonMenu contentId="main-content">
+      <IonMenu contentId="main-content" >
         <IonHeader>
           <IonToolbar className='w-full flex flex-col text-center justify-center px-5 items-center'>
           <IonMenuToggle slot='end'>
@@ -26,28 +38,13 @@ function Menu() {
         </IonHeader>
         <IonContent className="ion-padding">
         <IonList lines="none" >
-        <IonItem >
-          <IonIcon icon={calendarOutline} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
-          <IonLabel>Agendamentos</IonLabel>
-        </IonItem>
-        <IonItem>
-        <IonIcon icon={calendarOutline} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
-          <IonLabel>Pacientes</IonLabel>
-        </IonItem>
-        <IonItem>
-        <IonIcon icon={calendarOutline} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
-          <IonLabel>Financeiro</IonLabel>
-        </IonItem>
-        <IonItem>
-        <IonIcon icon={calendarOutline} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
-          <IonLabel>Notificações</IonLabel>
-        </IonItem>
-        <IonItem>
-        <IonIcon icon={calendarOutline} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
-          <IonLabel>Configurações</IonLabel>
-        </IonItem>
-      </IonList>
-
+        {routes.appPages.map((item, index) => (
+          <IonItem key={index} routerLink={item.path} >
+            <IonIcon icon={item.icon} className='size-6 cursor-pointer text-slate-400 '></IonIcon>
+            <IonLabel>{item.title}</IonLabel>
+         </IonItem>
+           ))}
+        </IonList>
 
         </IonContent>
       </IonMenu>

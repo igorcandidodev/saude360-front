@@ -24,7 +24,7 @@ const Table = () => {
   ];
 
   return (
-    <div className="rounded-lg overflow-hidden border" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+    <div className="rounded-lg overflow-hidden border max-h-500px">
       <div className="overflow-x-auto">
         <table className="w-full table-fixed">
           <thead className="bg-black text-white">
