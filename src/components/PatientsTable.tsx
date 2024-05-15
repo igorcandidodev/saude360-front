@@ -24,10 +24,10 @@ const Table = () => {
   ];
 
   return (
-    <div className="rounded-lg overflow-hidden border" style={{ maxHeight: '500px', overflowY: 'auto' }}>
+    <div className="rounded-lg overflow-hidden border max-h-500px">
       <div className="overflow-x-auto">
         <table className="w-full table-fixed">
-          <thead className="bg-black text-white">
+          <thead className="bg-gray1 text-white">
             <tr>
               <th className="w-2/6 px-4 py-2 rounded-tl-lg text-left">Paciente</th>
               <th className=" px-4 py-2 text-left">Próxima Consulta</th>
