@@ -20,3 +20,20 @@
 .bg-blue1{
     background-color: #0443BE;
 }
+
+.bg-menu-color{
+    
+}
+.bg-menu-color:hover{
+    background-color: #0443BE;
+}
+
+/* Fill Color Custom */
+.fill-gray2{
+    fill:818181;
+}
+
+
+.h-90{
+    height: 90%;
+}
