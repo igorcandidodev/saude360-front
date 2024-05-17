@@ -9,9 +9,6 @@ import ContactIcon from "../Images/Icons/contact.svg"
 import PatientsTable from '../components/PatientsTable';
 
 
-
-
-
 const Patients: React.FC = () => {
   return (
     <IonPage className='justify-start'>
