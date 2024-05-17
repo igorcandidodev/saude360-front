@@ -1,23 +1,16 @@
-# Scheduling Calendar
+# Saude360 
+This is a system for autonomous healthcare professionals, with the aim of facilitating the management of patients and their costs.  
 
-This is a Scheduling Calendar application built with React, Tailwind CSS, dayjs, and Ant Design. It utilizes Context to manage state across the application and offers various features to schedule appointments effectively.
-
-## Features
-
-* **Day, Week, and Month Views:** Switch between different calendar views to suit your needs.
-* **Appointment Scheduling:** Click on a day to open a modal and schedule an appointment with specific time and details.
-* **Local Storage:** Appointments are saved in local storage for persistent access.
-* **Fully Responsive:** The calendar adapts seamlessly to different screen sizes and devices.
-* **Built with Context:** Simplifies state management across the application.
-* **Tailwind CSS:** Utilizes Tailwind CSS for rapid and responsive styling.
-* **Ant Design:** Leverages Ant Design components for a clean and modern UI.
 
 ### Requirements
 
 * Node.js 16+
 * NPM 7+
+* Ionic 8+
 
 ### Installation
+- Ensure you follow the steps [here](https://ionicframework.com/docs/intro/cli) to install ionic framework
+- Clone this repository to local development environment
 
 1. Clone this repository:
 
@@ -35,26 +28,35 @@ cd calendar-main
 
 3. Install dependencies:
 
-```bash
-npm install or pnpn install or yarn
-```
+~~~bash  
+`npm install` or `yarn install`
+~~~
+
 
 ### Development
 
 1. Start the development server:
 
 ```bash
-npm run dev or  pnpm run dev or yarn dev
+npm run dev 
 ```
 
-2. Open <http://localhost:5173> in your browser to access the application
+or
+
+For run the app
+
+~~~bash 
+- Run `npm run start:dev` 
+~~~
+
+
 
 ### Build for Production
 
 1. Build the application for production:
 
 ```bash
-npm run build or pnpm run buil or yarn build
+npm run build
 ```
 
 2. The production build will be generated in the `build` directory.
@@ -63,26 +65,13 @@ npm run build or pnpm run buil or yarn build
 
 You can deploy the application to any static hosting platform like Netlify, Vercel, or Heroku.
 
-### Localstorage
-
-The application utilizes localstorage to persist appointments. Appointments are stored as an array of objects, where each object contains the following properties:
-
-```json
-{
-  date: "2023-12-05",
-  time: "10:00",
-  title: "Meeting with John Doe",
-  details: "Discuss project progress and next steps.",
-}
-```
-
-## Project Demo
-
-<https://ucalender.netlify.app/>
-
-## Contributing
-
-We welcome contributions to this project! If you have any bug fixes, feature suggestions, or pull requests, please feel free to create an issue or submit your contribution through GitHub.
+## Authors  
+- [@igorcandidodev](https://www.github.com/igorcandidodev)  
+- [@SidneyLimaDev](https://www.github.com/sidneyLimaDev)  
+- [@hamiltonGomes](https://www.github.com/hamiltonGomes) 
+- [@Rayhene](https://www.github.com/Rayhene)  
+- [@juliarcoelho](https://www.github.com/juliarcoelho) 
+- [@monica-gomes](https://www.github.com/monica-gomes)  
 
 ## License
 
