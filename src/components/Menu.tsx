@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Logo from '../Images/Logo Saude360.svg';
 import { IonIcon } from '@ionic/react';
 
+
 import CalendarIcon from '../Images/Icons/calendar.svg';
 import { menuOutline, closeOutline } from 'ionicons/icons';
 
@@ -14,7 +15,7 @@ const SideMenu = () => {
 
   const routes = {
     appPages: [
-      { title: 'Agendamentos', path: '/agendamentos', icon: CalendarIcon },
+      { title: 'Agendamentos', path: '/', icon: CalendarIcon },
       { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
       { title: 'Financeiro', path: '/financeiros', icon: CalendarIcon },
       { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },
@@ -26,13 +27,13 @@ const SideMenu = () => {
     <div className=" z-50">
       {isOpen && (
         <div
-          className="fixed inset-0 bg-gray-600 opacity-50"
+          className="fixed inset-0 z-[100] bg-gray-600 opacity-50"
           onClick={toggleMenu}
         ></div>
       )}
 
       <div
-        className={`transform-gpu transition-transform duration-300 bg-white w-64 h-full shadow-lg fixed top-0 left-0 overflow-y-auto ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
+        className={`transform-gpu z-[100] transition-transform duration-300 bg-white w-64 h-full shadow-lg fixed top-0 left-0 overflow-y-auto ease-in-out ${isOpen ? 'translate-x-0' : '-translate-x-full'
           }`}
       >
         <div className="p-4 h-90">
