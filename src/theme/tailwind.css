@@ -15,17 +15,15 @@
 /* Background Color Custom */
 .bg-gray1{
     background-color: #333333;
-};
-
-.bg-gray2{
-  background-color: #F2F2F2;
 }
 
 .bg-blue1{
     background-color: #0443BE;
 }
 
-
+.bg-menu-color{
+    
+}
 .bg-menu-color:hover{
     background-color: #0443BE;
 }
@@ -38,87 +36,4 @@
 
 .h-90{
     height: 90%;
-}
-
-
- /* Mobile  */
- @media only screen and (max-width: 768px){
-    .hiddenItemsSmallScreen {
-      display: none;
-    }
-    .calenderHeaderMenu{
-      padding: 8px 1px;
-      max-width: 480px;
-      justify-content: center;
-    }
-    body{
-      max-width: 768px;
-    }
-    .controls{
-    gap: 5px;
-  }
-  .event{
-    top: none;
-    bottom: none;
-  }
-  .week{
-    font-size: 12px;
-  }
-  .day {
-    height: 140px;
-  }
-  .mobileScreenView{
-    display: flex;
-  }
-  }
-
-  @media only screen and (max-width: 480px) {
-    body{
-      max-width: 480px;
-    }
-  }
-  @media only screen and (min-width: 768px) {
-    body{
-      max-width: 100vw;
-    }
-    .mobileScreenView{
-      display: none;
-    }
-  }
-
-
-
-/* width */
-::-webkit-scrollbar {
-width: 5px;
-margin-left: 3px;
-position: relative;
-z-index: -1;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-background: #f1f1f1;
-border-radius: 30px;
-position: relative;
-z-index: -1;
-}
-
-/* Handle */
-::-webkit-scrollbar-thumb {
-background: gray;
-border-radius: 30px;
-position: relative;
-z-index: -1;
-}
-
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
-background: #555;
-position: relative;
-z-index: -1;
-}
-
-.my-custom-ok-button {
-background-color: red;
 }
