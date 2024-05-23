@@ -12,7 +12,7 @@ export default function FormActionButton({
   return (
     <button
       {...rest}
-      className="w-80 bg-blue-800 rounded mt-10 mb-12 md:mb-1 pr-5 pl-5 pt-3 pb-3 font-semibold text-lg text-white"
+      className="w-80 bg-blue-600 rounded mt-10 mb-12 md:mb-1 pr-5 pl-5 pt-3 pb-3 font-semibold text-lg text-white"
     >
       {text}
     </button>

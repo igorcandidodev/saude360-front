@@ -4,16 +4,16 @@ import { IonImg } from "@ionic/react";
 import BackgroundImage from "../Images/BackgroundImage.png";
 import Saude360 from "../Images/Saude360.svg";
 import { Form } from "../components/FormRegister";
+import FormLogin from "../components/FormRegister/FormLogin";
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState("");
+  const [cpf, setCpf] = useState("");
   const [password, setPassword] = useState("");
 
   const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Username:", username);
+    console.log("Cpf:", cpf);
     console.log("Password:", password);
-    // add a lógica de autenticação
   };
 
   return (
@@ -34,32 +34,8 @@ const LoginPage: React.FC = () => {
             
             <Form.Root>
               <form className="w-80 md:w-2.5/12 2xl:w-7/12" onSubmit={handleLogin}>
-                <div className="flex flex-col pt-6">
-                  <label className="pb-2" htmlFor="username">CPF</label>
-                  <input
-                    className="border border-zinc-400 p-2 rounded"
-                    type="text"
-                    id="username"
-                    name="username"
-                    placeholder="Digite seu CPF"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
-                    required
-                  />
-                </div>
-                <div className="flex flex-col pt-6">
-                  <label className="pb-2" htmlFor="password">Senha</label>
-                  <input
-                    className="border border-zinc-400 p-2 rounded"
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="Digite sua senha"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
-                    required
-                  />
-                </div>
+              <FormLogin /> {/* Campos de entrada */}
+
                 <Form.Actions>
                   <Form.ActionButton text="Entrar" />
                   <div className="flex items-center justify-center mt-2">
