@@ -1,8 +1,0 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-ion-toolbar {
-  --background: transparent;
-  --border-color: transparent
-}
