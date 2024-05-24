@@ -1,15 +1,18 @@
 import { IonContent, IonPage, IonImg } from "@ionic/react";
+import { useHistory } from "react-router-dom";
 
 /* logo */
 import Logo from "../Images/Logo Saude360.svg";
 
 import { Form } from "../components/FormRegister";
 import { useState } from "react";
+import { LeftOutlined } from "@ant-design/icons";
 
 const RegisterPatient: React.FC = () => {
   const [indexForm, setIndexForm] = useState(1);
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [age, setAge] = useState<number | null>(null);
+  const history = useHistory(); 
 
   const calculateAge = (date: string) => {
     const birthDate = new Date(date);
@@ -23,7 +26,6 @@ const RegisterPatient: React.FC = () => {
   };
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('entrou no handle change')
     const date = e.target.value;
     setDateOfBirth(date);
     const calculatedAge = calculateAge(date);
@@ -39,6 +41,10 @@ const RegisterPatient: React.FC = () => {
         setIndexForm(1);
     }
   }
+
+  const backToPatientsPage = () => {
+    history.push('/pacientes'); 
+  };
   
   const renderForm = () => {
     switch (indexForm) {
@@ -103,10 +109,11 @@ const RegisterPatient: React.FC = () => {
     <IonPage>
       <IonContent>
         <div className="flex justify-center">
+          <LeftOutlined className="mt-10 w-10" style={{ color: '#0443BE', fontSize: '24px' }} onClick={backToPatientsPage}/>
           <IonImg className="mt-10 w-80" src={Logo} alt="Logo"></IonImg>
         </div>
         <Form.Root>
-          {renderForm()}
+            {renderForm()}
         </Form.Root>
       </IonContent>
     </IonPage>
