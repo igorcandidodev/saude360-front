@@ -5,6 +5,7 @@ import Patients from './pages/Patients'; // Importe a página Patients aqui
 import RegisterProfessional from './pages/RegisterProfessional';
 import RegisterPatient from './pages/RegisterPatient';
 import MainEntry from './components/schedule/MainEntry'
+import PatientRecord from './pages/PatientRecord';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,6 +37,9 @@ const App = () => (
       <IonRouterOutlet>
         <Route exact path="/pacientes">
           <Patients />
+        </Route>
+        <Route exact path="/ficha-pacientes">
+          <PatientRecord />
         </Route>
         <Route exact path="/cadastro-profissional">
           <RegisterProfessional />
