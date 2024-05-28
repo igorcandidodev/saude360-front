@@ -5,10 +5,17 @@ import Menu from "../components/Menu";
 import Logo from "../Images/Logo Saude360.svg";
 
 import { Form } from "../components/FormRegister";
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { UserContext } from "../context/userContext";
 
 const RegisterProfessional: React.FC = () => {
   const [indexForm, setIndexForm] = useState(1);
+
+  const { user }: any = useContext(UserContext);
+
+  const handlerRegister = () => {
+    console.log(user);
+  }
 
   const renderForm = () => {
     switch (indexForm) {
@@ -54,6 +61,7 @@ const RegisterProfessional: React.FC = () => {
                 />
                 <Form.ActionButton
                   text="CADASTRAR"
+                  onClick={handlerRegister}
                 />
               </div>
             </Form.Actions>

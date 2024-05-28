@@ -4,11 +4,30 @@ import { IonImg } from "@ionic/react";
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import IconDown from "../../Images/Icons/IconDown.svg";
 
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+
+
+
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 export default function FormPersonalInformation({ isProfessional, onDateChange  } : FormPersonalInformationProps) {
+
+  const { user, setUser } = useContext(UserContext);
+
+  const handleChange = (event: any) => {
+      setUser({
+        ...user,
+        professional: {
+          ...user.professional,
+          [event.target.name]: event.target.value
+        }
+      });
+  }
+
+
   return (
     <>
       <Form.Header text="Informacões Pessoais" />
@@ -22,6 +41,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             type="text"
             id="fullName"
             name="fullName"
+            onChange={handleChange}
+            value={user.professional.fullName}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -34,6 +55,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             id="cpf"
             name="cpf"
             placeholder="000.000.000-00"
+            onChange={handleChange}
+            value={user.professional.cpf}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -43,9 +66,10 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
           <input
             className="border border-zinc-400 p-2 rounded"
             type="date"
-            id="dateBirthday"
-            name="dateBirthday"
-            onChange={onDateChange}
+            id="birthDate"
+            name="birthDate"
+            onChange={handleChange}
+            value={user.professional.birthDate}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -55,8 +79,10 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
           <input
             className="border border-zinc-400 p-2 rounded"
             type="email"
-            id="fullName"
-            name="fullName"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            value={user.professional.email}
           ></input>
         </div>
 
@@ -67,9 +93,11 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
-            id="cellphone"
-            name="cellphone"
+            id="phoneNumber"
+            name="phoneNumber"
             placeholder="(00) 90000-0000"
+            onChange={handleChange}
+            value={user.professional.phoneNumber}
           ></input>
           <p className="text-xs text-zinc-400 pt-2">Não coloque símbolos</p>
         </div>
@@ -131,8 +159,10 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
               <input
                 className="border border-zinc-400 p-2 rounded"
                 type="text"
-                id="cns"
-                name="cns"
+                id="cnsNumber"
+                name="cnsNumber"
+                onChange={handleChange}
+                value={user.professional.cnsNumber}
               ></input>
             </div>
             <div className="flex flex-col pt-6">
@@ -144,6 +174,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 type="password"
                 id="password"
                 name="password"
+                onChange={handleChange}
+                value={user.professional.password}
               ></input>
               <p className="text-xs text-zinc-400 pt-2">
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
