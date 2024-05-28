@@ -7,6 +7,7 @@ import RegisterPatient from './pages/RegisterPatient';
 import MainEntry from './components/schedule/MainEntry'
 import PatientRecord from './pages/PatientRecord';
 import Login from './pages/Login';
+import { UserContextProvider } from './context/userContext';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -34,6 +35,7 @@ setupIonicReact();
 
 const App = () => (
   <IonApp>
+  <UserContextProvider>
     <IonReactRouter>
       <IonRouterOutlet>
         <Route exact path="/pacientes">
@@ -56,6 +58,7 @@ const App = () => (
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>
+    </UserContextProvider>
   </IonApp>
 );
 
