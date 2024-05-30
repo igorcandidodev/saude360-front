@@ -13,24 +13,25 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 const UserContextProvider = ({ children }) => {
 
 
-const [initialUser, setInitialUser] = useState({professional:  {
+const [initialUser, setInitialUser] = useState({
     fullName: "",
     birthDate: "",
     email: "",
     phoneNumber: "",
     cpf: "",
     password: "",
-    healthSectors: "",
-    cnsNumber: ""
-}, address: {
-    cep: "",
-    street: "",
-    number: "",
-    complement: "",
-    neighborhood: "",
-    city: "",
-    state: ""
-}} as User);
+    healthSectorsNames: [""],
+    cnsNumber: "",
+    address: {
+        cep: "",
+        street: "",
+        number: "",
+        complement: "",
+        neighborhood: "",
+        city: "",
+        state: ""
+    }
+} as User);
 
 const [user, setUser] = useState<User>(initialUser);
 

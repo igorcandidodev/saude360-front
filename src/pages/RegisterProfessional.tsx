@@ -7,15 +7,22 @@ import Logo from "../Images/Logo Saude360.svg";
 import { Form } from "../components/FormRegister";
 import { useState, useContext } from "react";
 import { UserContext } from "../context/userContext";
+import ProfessionalService from "../core/services/ProfessionalService";
 
 const RegisterProfessional: React.FC = () => {
   const [indexForm, setIndexForm] = useState(1);
+  const professionalService = new ProfessionalService();
 
   const { user }: any = useContext(UserContext);
 
-  const handlerRegister = () => {
-    console.log(user);
-  }
+  const handleRegister = async () => {
+    try {
+      await professionalService.createProfessional(user);
+    } catch (error) {
+      console.error("Error registering professional:", error);
+    }
+  };
+
 
   const renderForm = () => {
     switch (indexForm) {
@@ -61,7 +68,7 @@ const RegisterProfessional: React.FC = () => {
                 />
                 <Form.ActionButton
                   text="CADASTRAR"
-                  onClick={handlerRegister}
+                  onClick={handleRegister}
                 />
               </div>
             </Form.Actions>

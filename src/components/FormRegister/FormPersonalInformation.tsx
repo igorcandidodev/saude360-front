@@ -6,27 +6,35 @@ import IconDown from "../../Images/Icons/IconDown.svg";
 
 import { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-
-
+import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
 
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export default function FormPersonalInformation({ isProfessional, onDateChange  } : FormPersonalInformationProps) {
-
+export default function FormPersonalInformation({
+  isProfessional,
+  onDateChange,
+}: FormPersonalInformationProps) {
   const { user, setUser } = useContext(UserContext);
 
-  const handleChange = (event: any) => {
-      setUser({
-        ...user,
-        professional: {
-          ...user.professional,
-          [event.target.name]: event.target.value
-        }
-      });
-  }
+  const [ healthSectors, setHealthSectors ] = useState<string[]>(["Medicina", "Nutrição", "Terapia Ocupacional", "Fisioterapia"]);
+  const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
 
+  const handleChange = (event: any) => {
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleHealthSector = (healthSector: string) => {
+    setUser({
+      ...user,
+      healthSectorsNames: [healthSector],
+    });
+    setHealthSectorsIsOpen(!healthSectorsIsOpen)
+  }
 
   return (
     <>
@@ -42,7 +50,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             id="fullName"
             name="fullName"
             onChange={handleChange}
-            value={user.professional.fullName}
+            value={user.fullName}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -56,7 +64,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             name="cpf"
             placeholder="000.000.000-00"
             onChange={handleChange}
-            value={user.professional.cpf}
+            value={user.cpf}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -69,7 +77,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             id="birthDate"
             name="birthDate"
             onChange={handleChange}
-            value={user.professional.birthDate}
+            value={user.birthDate}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -82,7 +90,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             id="email"
             name="email"
             onChange={handleChange}
-            value={user.professional.email}
+            value={user.email}
           ></input>
         </div>
 
@@ -97,7 +105,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             name="phoneNumber"
             placeholder="(00) 90000-0000"
             onChange={handleChange}
-            value={user.professional.phoneNumber}
+            value={user.phoneNumber}
           ></input>
           <p className="text-xs text-zinc-400 pt-2">Não coloque símbolos</p>
         </div>
@@ -115,35 +123,34 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                   alt="Icone de interrogação"
                 />
               </div>
-
-              {/* <input
-                className="border border-zinc-400 p-2 rounded"
-                type="text"
-                id="helthSector"
-                name="helthSector"
-                placeholder="Selecione sua área de saúde"
-                disabled
-              >
-              </input>
-              <IonImg
-                src={IconDown}
-                className=""
-                alt="Icone de seta para baixo" /> */}
               <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
                 <input
                   className="w-full bg-transparent"
                   type="text"
-                  id="helthSector"
-                  name="helthSector"
+                  id="healthSectorsNames"
+                  name="healthSectorsNames"
                   placeholder="Selecione sua área de saúde"
+                  value={user.healthSectorsNames}
                   disabled
                 />
                 <IonImg
                   src={IconDown}
                   className="absolute cursor-pointer"
                   alt="Icone de seta para baixo"
+                  onClick={() => setHealthSectorsIsOpen(!healthSectorsIsOpen)}
                 />
               </div>
+              {healthSectorsIsOpen && (
+                  healthSectors.map((healthSector, index) => {
+                    return (
+                      <div key={index}>
+                        <IonItem button={true}>
+                          <IonLabel onClick={() => handleHealthSector(healthSector)}>{healthSector}</IonLabel>
+                        </IonItem>
+                      </div>
+                    )
+                  })
+                  )} 
             </div>
             <div className="flex flex-col pt-6">
               <div className="flex items-center">
@@ -162,7 +169,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 id="cnsNumber"
                 name="cnsNumber"
                 onChange={handleChange}
-                value={user.professional.cnsNumber}
+                value={user.cnsNumber}
               ></input>
             </div>
             <div className="flex flex-col pt-6">
@@ -175,7 +182,7 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 id="password"
                 name="password"
                 onChange={handleChange}
-                value={user.professional.password}
+                value={user.password}
               ></input>
               <p className="text-xs text-zinc-400 pt-2">
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
@@ -196,8 +203,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
               </p>
             </div>
           </>
-          )}
-          
+        )}
+
         {!isProfessional && (
           <>
             <div className="flex flex-col pt-6">
@@ -228,7 +235,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 />
               </div>
             </div>
-          </>)}
+          </>
+        )}
       </form>
     </>
   );
