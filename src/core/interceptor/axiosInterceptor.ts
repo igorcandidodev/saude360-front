@@ -11,18 +11,18 @@ export class AxiosInterceptor {
       this.handleRequestError
     );
 
-    this.axiosInstance.interceptors.response.use(
-      this.handleResponse,
-      this.handleResponseError
-    );
+    // this.axiosInstance.interceptors.response.use(
+    //   this.handleResponse,
+    //   this.handleResponseError
+    // );
   }
 
 
 
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
-    const token = localStorage.getItem("__jwt");
+    const token = localStorage.getItem("token");
     
-    config.headers.Authorization = token
+    // config.headers.Authorization = token
 
     return config;
   }
@@ -36,7 +36,6 @@ export class AxiosInterceptor {
   }
 
   private handleResponseError(error: any) {
-    
     return error;
   }
 
