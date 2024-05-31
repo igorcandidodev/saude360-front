@@ -6,7 +6,9 @@ import IconDown from "../../Images/Icons/IconDown.svg";
 
 import { useState, useContext } from "react";
 import { UserContext } from "../../context/userContext";
-import { IonAccordion, IonAccordionGroup, IonItem, IonLabel } from '@ionic/react';
+import { IonItem, IonLabel } from '@ionic/react';
+import { cpfMask } from "../../utils/cpfMask";
+import { cellPhoneMask} from "../../utils/cellPhoneMask";
 
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
@@ -22,6 +24,20 @@ export default function FormPersonalInformation({
   const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
 
   const handleChange = (event: any) => {
+    if (event.target.name === "cpf") {
+      setUser({
+        ...user,
+        [event.target.name]: cpfMask(event.target.value),
+      });
+      return;
+    }
+    if (event.target.name === "phoneNumber") {
+      setUser({
+        ...user,
+        [event.target.name]: cellPhoneMask(event.target.value),
+      });
+      return;
+    }
     setUser({
       ...user,
       [event.target.name]: event.target.value,
@@ -95,7 +111,7 @@ export default function FormPersonalInformation({
         </div>
 
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="cellphone">
+          <label className="pb-2" htmlFor="phoneNumber">
             NÚMERO DE CELULAR
           </label>
           <input
