@@ -1,12 +1,20 @@
 import React, { useContext } from "react";
 import { Form } from ".";
 import { UserAuthContext } from "../../context/userAuth";
+import { cpfMask } from "../../utils/cpfMask";
 
 export default function FormLogin() {
 
   const { authInitial, setAuthInitial } = useContext(UserAuthContext);
 
   const handleChange = (event: any) => {
+    if(event.target.name === "cpf") {
+      setAuthInitial({
+        ...authInitial,
+        [event.target.name]: cpfMask(event.target.value)
+      });
+      return;
+    }
     setAuthInitial({
       ...authInitial,
       [event.target.name]: event.target.value,
