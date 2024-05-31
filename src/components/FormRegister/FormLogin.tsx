@@ -1,7 +1,18 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Form } from ".";
+import { UserAuthContext } from "../../context/userAuth";
 
 export default function FormLogin() {
+
+  const { authInitial, setAuthInitial } = useContext(UserAuthContext);
+
+  const handleChange = (event: any) => {
+    setAuthInitial({
+      ...authInitial,
+      [event.target.name]: event.target.value,
+    });
+  }
+
   return (
     <>
       <form className="flex flex-col w-80"> {/* Mudança aqui */}
@@ -15,6 +26,8 @@ export default function FormLogin() {
             id="cpf"
             placeholder="000.000.000-00"
             name="cpf"
+            onChange={handleChange}
+            value={authInitial.cpf}
           />
         </div>
         <div className="mb-4">
@@ -26,6 +39,8 @@ export default function FormLogin() {
             type="password"
             id="password"
             name="password"
+            onChange={handleChange}
+            value={authInitial.password}
           />
         </div>
       </form>
