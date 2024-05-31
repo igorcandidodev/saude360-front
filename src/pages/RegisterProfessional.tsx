@@ -10,23 +10,28 @@ import { UserContext } from "../context/userContext";
 import ProfessionalService from "../core/services/ProfessionalService";
 import { useHistory } from "react-router-dom";
 import ToastService from "../core/services/ToastService";
+import { MoonLoader } from "react-spinners";
 
 const RegisterProfessional: React.FC = () => {
   const [indexForm, setIndexForm] = useState(1);
   const professionalService = new ProfessionalService();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
 
   const { user }: any = useContext(UserContext);
 
   const handleRegister = async () => {
+    setLoading(true);
     await professionalService
       .createProfessional(user)
       .then((response) => {
         console.log("Professional registered successfully", response);
+        setLoading(false);
         ToastService.showSuccess("Cadastro efetuado com sucesso");
         history.push("/login");
       })
       .catch((error) => {
+        setLoading(false);
         ToastService.showError("Erro ao cadastrar profissional");
         console.error("Error registering professional:", error);
       });
@@ -74,8 +79,22 @@ const RegisterProfessional: React.FC = () => {
                   text="VOLTAR"
                   onClick={() => setIndexForm(2)}
                 />
-                <Form.ActionButton text="CADASTRAR" onClick={handleRegister} />
+                <Form.ActionButton
+                  text="CADASTRAR"
+                  disabled={loading}
+                  onClick={handleRegister}
+                />
               </div>
+              {loading && (
+                  <div className="mt-5 flex justify-center">
+                    <MoonLoader
+                      color="#0443BE"
+                      loading
+                      size={50}
+                      speedMultiplier={0.5}
+                    />
+                  </div>
+                )}
             </Form.Actions>
           </>
         );
