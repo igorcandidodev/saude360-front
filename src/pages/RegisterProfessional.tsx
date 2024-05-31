@@ -1,4 +1,4 @@
-import { IonContent, IonPage, IonImg } from "@ionic/react";
+import { IonContent, IonPage, IonImg, IonToggle } from "@ionic/react";
 import Menu from "../components/Menu";
 
 /* logo */
@@ -17,6 +17,7 @@ const RegisterProfessional: React.FC = () => {
   const professionalService = new ProfessionalService();
   const history = useHistory();
   const [loading, setLoading] = useState(false);
+  const [hasClinic, setHasClinic] = useState(false);
 
   const { user }: any = useContext(UserContext);
 
@@ -43,18 +44,45 @@ const RegisterProfessional: React.FC = () => {
         return (
           <>
             <Form.PersonalInformation isProfessional={true} />
+            <div className="flex justify-start mt-4">
+              <IonToggle
+                labelPlacement="end"
+                checked={hasClinic}
+                onClick={() => setHasClinic(!hasClinic)}
+              >
+                Deseja cadastrar um consultório?
+              </IonToggle>
+            </div>
             <Form.Actions>
-              <Form.ActionButton
-                text="PRÓXIMO"
-                onClick={() => setIndexForm(2)}
-              />
+              {hasClinic ? (
+                <Form.ActionButton
+                  text="PRÓXIMO"
+                  onClick={() => setIndexForm(2)}
+                />
+              ) : (
+                <Form.ActionButton
+                  text="CADASTRAR"
+                  onClick={handleRegister}
+                  disabled={loading}
+                />
+              )}
+              {loading && (
+                <div className="mt-5 flex justify-center">
+                  <MoonLoader
+                    color="#0443BE"
+                    loading
+                    size={50}
+                    speedMultiplier={0.5}
+                  />
+                </div>
+              )}
             </Form.Actions>
           </>
         );
       case 2:
         return (
           <>
-            <Form.Address />
+            <Form.DataClinic />
             <Form.Actions>
               <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
@@ -72,7 +100,7 @@ const RegisterProfessional: React.FC = () => {
       case 3:
         return (
           <>
-            <Form.DataClinic />
+            <Form.Address />
             <Form.Actions>
               <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
@@ -86,15 +114,15 @@ const RegisterProfessional: React.FC = () => {
                 />
               </div>
               {loading && (
-                  <div className="mt-5 flex justify-center">
-                    <MoonLoader
-                      color="#0443BE"
-                      loading
-                      size={50}
-                      speedMultiplier={0.5}
-                    />
-                  </div>
-                )}
+                <div className="mt-5 flex justify-center">
+                  <MoonLoader
+                    color="#0443BE"
+                    loading
+                    size={50}
+                    speedMultiplier={0.5}
+                  />
+                </div>
+              )}
             </Form.Actions>
           </>
         );
