@@ -17,12 +17,15 @@ export class AxiosInterceptor {
     // );
   }
 
-
-
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem("token");
+
+    if (config.url.search("/api/authentication/login")) {
+      return config;
+    }
+    console.log(config)
     
-    // config.headers.Authorization = token
+    config.headers.Authorization = token
 
     return config;
   }
