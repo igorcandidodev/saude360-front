@@ -1,3 +1,5 @@
+import { Clinic } from "./ClinicType";
+
 export type Professional = {
     fullName: string;
     birthDate: string;
@@ -6,5 +8,5 @@ export type Professional = {
     cpf: string;
     password: string;
     healthSectors: string;
-    cnsNumber: string
+    cnsNumber: string;
 };
