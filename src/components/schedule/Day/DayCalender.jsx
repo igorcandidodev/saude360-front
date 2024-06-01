@@ -22,7 +22,7 @@ const DayCalender = () => {
     return (
         <div className="w-full">
             <div><CalenderHeader /></div>
-        <div className="animate__delay-2s animate__backOutLeft animate__backInRight flex flex-1 overflow-y-scroll mt-0.5">
+        <div className="animate__delay-2s animate__backOutLeft animate__backInRight flex flex-1 overflow-y-scroll mt-0.5 h-screen">
             {/* left */}
             <div className="">
                 {/*Side Bar With hours  */}

@@ -32,11 +32,11 @@ const Week = () => {
 
 
   return (
-    <div className='w-full'>
+    <div className='w-full '>
        <div><CalenderHeader /></div>
        <div className='flex flex-1 animate__backOutLeft animate__delay-2s animate__backInRight'>
      
-      <div className='flex flex-col flex-1'>
+      <div className='flex flex-col flex-1 h-screen'>
         <div>
           {/* Header with Weekdays */}
           <div className="grid grid-cols-7 grid-rows-1 py-4 border border-l-0 border-b-0 shadow-md pl-16">
