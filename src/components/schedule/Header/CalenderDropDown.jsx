@@ -45,7 +45,7 @@ const CalenderButtons = () => {
                     type={viewCalender === item.key ? 'primary' : 'default'}
                     onClick={item.onClick}
                     style={{ marginRight: '8px', backgroundColor: viewCalender === item.key ? 'blue' : undefined, color: viewCalender === item.key ? 'white' : undefined }}
-                >
+                className="h-10">
                     {item.label}
                 </Button>
             ))}

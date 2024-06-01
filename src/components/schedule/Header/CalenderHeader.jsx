@@ -77,11 +77,14 @@ const CalenderHeader = () => {
 
 
     return (
-        <header className=" calenderHeaderMenu px-4 py-3 flex items-center justify-between border shadow-md border-b-gray-200">
-            <div className="flex  items-center justify-between w-full">
+        <header className=" calenderHeaderMenu px-4 py-3 flex  items-center justify-between border shadow-md border-b-gray-200">
+            <div className=" flex flex-col lg:flex-row items-center w-full">
+                <div className='flex justify-around w-full'>
                 <Button className=" py-2 px-4 mr-5" size="large" onClick={handleReset}>Hoje</Button>
                 <CalenderDropDown />
-                <div className=' controls flex items-centerjustify-center gap-4'>
+                </div>
+
+                <div className=' controls flex items-center justify-center gap-4 mt-2 lg:mt-0'>
                 {/* Left Control */}
                 <Button size='large' onClick={() => handleNextPrevMonth(-1)} className='flex items-center justify-center border rounded p-3'>
                     <span className='cursor-pointer text-black '>

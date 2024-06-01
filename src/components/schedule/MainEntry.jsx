@@ -14,6 +14,7 @@ import AddButton from './AddButton'
 import MobileMenu from './Header/MobileMenu'
 
 import Menu from '../Menu'
+import { IonPage } from '@ionic/react'
 
 // Lazy Loaded Components
 const Appointments = lazy(() => import('./Appointments/Appointments'))
@@ -40,7 +41,7 @@ const MainEntry = () => {
 
 
     return (
-        <React.Fragment>
+        <IonPage>
             <Menu/>
             {/* Event Modal For handling our appointments  */}
             {showEventModal && <EventModal />}
@@ -56,14 +57,14 @@ const MainEntry = () => {
                             
                         }
                     </div>
-                    {/* Calender + Appointment components loads when calender mode is met */}
+                    
                     <Suspense fallback={<Loading />}>
                         {viewCalender === "Day" ? <DayCalender /> : (viewCalender === "Week" ? <Week /> :( viewCalender === "Month" ? <Month month={currentMonth}/> : <Appointments />) )}
                     </Suspense>
                 </div>
                 <AddButton />
             </div>
-        </React.Fragment>
+        </IonPage>
     )
 }
 
