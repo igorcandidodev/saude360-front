@@ -8,10 +8,15 @@ export function FormAddress() {
     const handleChange = (event: any) => {
         setUser({
           ...user,
-          address: {
-            ...user.address,
-            [event.target.name]: event.target.value
-          }
+          clinic: [
+            {
+              ...user.clinic[0],
+              address: {
+                ...user.clinic[0].address,
+                [event.target.name]: event.target.value,
+              },
+            },
+          ]
         });
     }
 
@@ -26,7 +31,7 @@ export function FormAddress() {
           <input
             className="border border-zinc-400 p-2 rounded"
             onChange={handleChange}
-            value={user.address.cep}
+            value={user.clinic[0].address.cep}
             type="text"
             id="cep"
             placeholder="00000-000"
@@ -43,7 +48,7 @@ export function FormAddress() {
             id="street"
             name="street"
             onChange={handleChange}
-            value={user.address.street}
+            value={user.clinic[0].address.street}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -56,7 +61,7 @@ export function FormAddress() {
             id="number"
             name="number"
             onChange={handleChange}
-            value={user.address.number}
+            value={user.clinic[0].address.number}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -69,7 +74,7 @@ export function FormAddress() {
             id="complement"
             name="complement"
             onChange={handleChange}
-            value={user.address.complement}
+            value={user.clinic[0].address.complement}
           ></input>
         </div>
 
@@ -83,7 +88,7 @@ export function FormAddress() {
             id="neighborhood"
             name="neighborhood"
             onChange={handleChange}
-            value={user.address.neighborhood}
+            value={user.clinic[0].address.neighborhood}
           ></input>
         </div>
 
@@ -97,7 +102,7 @@ export function FormAddress() {
             id="city"
             name="city"
             onChange={handleChange}
-            value={user.address.city}
+            value={user.clinic[0].address.city}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -110,7 +115,7 @@ export function FormAddress() {
             id="state"
             name="state"
             onChange={handleChange}
-            value={user.address.state}
+            value={user.clinic[0].address.state}
           ></input>
         </div>
       </form>

@@ -19,9 +19,16 @@ const RegisterProfessional: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasClinic, setHasClinic] = useState(false);
 
-  const { user }: any = useContext(UserContext);
+  const { user, setUser }: any = useContext(UserContext);
 
   const handleRegister = async () => {
+    if(!hasClinic) {
+      setUser({
+        ...user,
+        clinic: null
+      });
+    }
+    console.log(user)
     setLoading(true);
     await professionalService
       .createProfessional(user)
