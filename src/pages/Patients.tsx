@@ -13,16 +13,16 @@ const Patients: React.FC = () => {
   return (
     <IonPage className='justify-start'>
       <Menu />
-      <div className='h-full flex items-center '>
+      <div className='h-full flex items-start mt-10  '>
         
 
       <div className=' flex flex-col lg:justify-center'>
 
         <div className='flex justify-center'>
-          <div className='flex-col lg:w-3/4 '>
+          <div className='flex-col  w-full mx-5 lg:w-3/4 mt-10 lg:mt-0'>
             <h1 className='text-3xl'>Pacientes</h1>
             <div className='flex justify-between'>
-              <div className='flex w-full items-center'>
+              <div className='flex w-2/5  lg:w-full items-center'>
                 <IonSearchbar animated={true} placeholder="Pesquise o nome do paciente" className='w-[22rem]'></IonSearchbar>
                 <FilterButton />
               </div>
@@ -35,8 +35,8 @@ const Patients: React.FC = () => {
 
 
         </div>
-        <div className='flex justify-center'>
-          <div className='w-full lg:w-3/4'>
+        <div className='flex w-screen overflow-scroll p-5 justify-center '>
+          <div className='w-full lg:mx-0 lg:w-3/4 '>
             <PatientsTable />
           </div>
 

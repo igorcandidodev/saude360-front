@@ -49,9 +49,9 @@ const LoginPage: React.FC = () => {
   return (
     <IonPage>
       <IonContent>
-        <div className="grid grid-cols-2 h-screen">
+        <div className="grid grid-cols-2 h-screen w-full">
           {/* Coluna da imagem */}
-          <div className="h-full">
+          <div className="h-full hidden lg:block">
             <IonImg
               className="h-full w-full object-cover"
               src={BackgroundImage}
@@ -60,7 +60,7 @@ const LoginPage: React.FC = () => {
           </div>
 
           {/* Coluna do formulário */}
-          <div className="flex flex-col justify-center items-center p-8">
+          <div className="flex flex-col justify-center items-center p-8 w-screen lg:w-full">
             <div className="flex justify-center">
               <IonImg className="w-60 mb-8" src={Saude360} alt="Logo" />
             </div>

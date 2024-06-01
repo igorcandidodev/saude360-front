@@ -2,11 +2,13 @@ import { Route } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Patients from "./pages/Patients"; // Importe a página Patients aqui
+import Finances from "./pages/Finances"
 import RegisterProfessional from "./pages/RegisterProfessional";
 import RegisterPatient from "./pages/RegisterPatient";
 import MainEntry from "./components/schedule/MainEntry";
 import PatientRecord from "./pages/PatientRecord";
 import Login from "./pages/Login";
+import Configuration from "./pages/Configuration";
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
@@ -47,6 +49,9 @@ const App = () => (
               <Route exact path="/pacientes">
                 <Patients />
               </Route>
+              <Route exact path="/financeiro">
+                <Finances />
+              </Route>
               <Route exact path="/ficha-pacientes">
                 <PatientRecord />
               </Route>
@@ -64,6 +69,9 @@ const App = () => (
               </Route>
               <Route exact path="/login">
                 <Login />
+              </Route>
+              <Route exact path="/configuracoes">
+                <Configuration />
               </Route>
             </IonRouterOutlet>
           </IonReactRouter>
