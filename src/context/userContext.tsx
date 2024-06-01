@@ -11,6 +11,8 @@ import { Address } from "../types/AddressType";
 interface UserContextType {
   user: User;
   setUser: Dispatch<SetStateAction<User>>;
+
+  resetUser: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -32,13 +34,13 @@ const UserContextProvider = ({ children }) => {
         telephoneNumber: "",
         cnesNumber: "",
         address: {
-            cep:  "",
-            state: "",
-            city: "",
-            neighborhood: "",
-            street: "",
-            number: "",
-            complement: ""
+          cep: "",
+          state: "",
+          city: "",
+          neighborhood: "",
+          street: "",
+          number: "",
+          complement: "",
         },
       },
     ],
@@ -46,8 +48,10 @@ const UserContextProvider = ({ children }) => {
 
   const [user, setUser] = useState<User>(initialUser);
 
+  const resetUser = () => setUser(initialUser);
+
   return (
-    <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser, resetUser }}>
       {children}
     </UserContext.Provider>
   );
