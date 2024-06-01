@@ -19,7 +19,7 @@ const RegisterProfessional: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [hasClinic, setHasClinic] = useState(false);
 
-  const { user, setUser }: any = useContext(UserContext);
+  const { user, setUser, resetUser }: any = useContext(UserContext);
 
   const handleRegister = async () => {
     if(!hasClinic) {
@@ -35,6 +35,7 @@ const RegisterProfessional: React.FC = () => {
       .then((response) => {
         console.log("Professional registered successfully", response);
         setLoading(false);
+        resetUser();
         ToastService.showSuccess("Cadastro efetuado com sucesso");
         history.push("/login");
       })
