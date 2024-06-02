@@ -6,6 +6,7 @@ import RegisterProfessional from './pages/RegisterProfessional';
 import RegisterPatient from './pages/RegisterPatient';
 import MainEntry from './components/schedule/MainEntry'
 import PatientRecord from './pages/PatientRecord';
+import Posts from './pages/Posts';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -35,6 +36,9 @@ const App = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet>
+      <Route exact path="/posts">
+          <Posts />
+        </Route>
         <Route exact path="/pacientes">
           <Patients />
         </Route>
