@@ -11,7 +11,7 @@ import Login from "./pages/Login";
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
-
+import Posts from './pages/Posts';
 import 'react-toastify/dist/ReactToastify.css';
 
 /* Core CSS required for Ionic components to work properly */
@@ -53,6 +53,9 @@ const App = () => (
               </Route>
               <Route exact path="/ficha-pacientes">
                 <PatientRecord />
+              </Route>
+              <Route exact path="/posts">
+                <Posts />
               </Route>
               <Route exact path="/cadastro-profissional">
                 <RegisterProfessional />
