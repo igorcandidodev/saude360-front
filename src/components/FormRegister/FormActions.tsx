@@ -6,7 +6,7 @@ interface FormActionsProps {
 
 export function FormActions({ children } : FormActionsProps) {
     return (
-        <div>
+        <div className="md:mb-7">
             {children}
         </div>
     )

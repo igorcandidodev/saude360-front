@@ -4,8 +4,64 @@ import { IonImg } from "@ionic/react";
 
 
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
+import { UserContext } from "../../context/userContext";
+import { useContext } from "react";
+import { cnpjMask } from "../../utils/cnpjMask";
+import { cellPhoneMask } from "../../utils/cellPhoneMask";
+import { phoneMask } from "../../utils/phoneMask";
 
 export default function FormDataClinic() {
+
+  const { user, setUser } = useContext(UserContext);
+  
+  const handleChange = (event: any) => {
+    if(event.target.name === "cnpj") {
+      setUser({
+        ...user,
+        clinic: [
+          {
+            ...user.clinic[0],
+            [event.target.name]: cnpjMask(event.target.value),
+          },
+        ],
+      });
+      return;
+    }
+    if(event.target.name === "phoneNumber") {
+      setUser({
+        ...user,
+        clinic: [
+          {
+            ...user.clinic[0],
+            [event.target.name]: cellPhoneMask(event.target.value),
+          },
+        ],
+      });
+      return;
+    }
+    if(event.target.name === "telephoneNumber") {
+      setUser({
+        ...user,
+        clinic: [
+          {
+            ...user.clinic[0],
+            [event.target.name]: phoneMask(event.target.value),
+          },
+        ],
+      });
+      return;
+    }
+    setUser({
+      ...user,
+      clinic: [
+        {
+          ...user.clinic[0],
+          [event.target.name]: event.target.value,
+        },
+      ],
+    });
+
+  }
   return (
     <>
       <Form.Header text="Dados do Consultório" />
@@ -18,8 +74,10 @@ export default function FormDataClinic() {
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="cnpj"
-            placeholder="000.000/0000-00"
+            placeholder="XX.XXX.XXX/XXXX-XX"
             name="cnpj"
+            onChange={handleChange}
+            value={user.clinic[0].cnpj}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -36,8 +94,10 @@ export default function FormDataClinic() {
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
-            id="cnes"
-            name="cnes"
+            id="cnesNumber"
+            name="cnesNumber"
+            onChange={handleChange}
+            value={user.clinic[0].cnesNumber}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -47,9 +107,11 @@ export default function FormDataClinic() {
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
-            id="cellphone"
-            name="cellphone"
-            placeholder="(00) 90000-0000"
+            id="phoneNumber"
+            name="phoneNumber"
+            placeholder="(00)90000-0000"
+            onChange={handleChange}
+            value={user.clinic[0].phoneNumber}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -59,9 +121,11 @@ export default function FormDataClinic() {
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
-            id="phone"
-            name="phone"
-            placeholder="(00) 0000-0000"
+            id="telephoneNumber"
+            name="telephoneNumber"
+            placeholder="(00)0000-0000"
+            onChange={handleChange}
+            value={user.clinic[0].telephoneNumber}
           ></input>
         </div>
       </form>

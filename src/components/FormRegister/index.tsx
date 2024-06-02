@@ -4,12 +4,14 @@ import { FormActions } from "./FormActions";
 import { FormAddress } from "./FormAddress";
 import FormDataClinic from "./FormDataClinic";
 import FormHeader from "./FormHeader";
+import FormLogin from "./FormLogin";
 import { FormMinorPatient } from "./FormMinorPatient";
 import FormPersonalInformation from "./FormPersonalInformation";
 import FormRoot from "./FormRoot";
 
 export const Form = {
     Root: FormRoot,
+    Login: FormLogin,
     Header: FormHeader,
     PersonalInformation: FormPersonalInformation,
     Actions: FormActions,

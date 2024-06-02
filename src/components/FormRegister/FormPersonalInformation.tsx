@@ -4,11 +4,54 @@ import { IonImg } from "@ionic/react";
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import IconDown from "../../Images/Icons/IconDown.svg";
 
+import { useState, useContext } from "react";
+import { UserContext } from "../../context/userContext";
+import { IonItem, IonLabel } from '@ionic/react';
+import { cpfMask } from "../../utils/cpfMask";
+import { cellPhoneMask} from "../../utils/cellPhoneMask";
+
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
-export default function FormPersonalInformation({ isProfessional, onDateChange  } : FormPersonalInformationProps) {
+export default function FormPersonalInformation({
+  isProfessional,
+  onDateChange,
+}: FormPersonalInformationProps) {
+  const { user, setUser } = useContext(UserContext);
+
+  const [ healthSectors, setHealthSectors ] = useState<string[]>(["Medicina", "Nutrição", "Terapia Ocupacional", "Fisioterapia"]);
+  const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
+
+  const handleChange = (event: any) => {
+    if (event.target.name === "cpf") {
+      setUser({
+        ...user,
+        [event.target.name]: cpfMask(event.target.value),
+      });
+      return;
+    }
+    if (event.target.name === "phoneNumber") {
+      setUser({
+        ...user,
+        [event.target.name]: cellPhoneMask(event.target.value),
+      });
+      return;
+    }
+    setUser({
+      ...user,
+      [event.target.name]: event.target.value,
+    });
+  };
+
+  const handleHealthSector = (healthSector: string) => {
+    setUser({
+      ...user,
+      healthSectorsNames: [healthSector],
+    });
+    setHealthSectorsIsOpen(!healthSectorsIsOpen)
+  }
+
   return (
     <>
       <Form.Header text="Informacões Pessoais" />
@@ -22,6 +65,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             type="text"
             id="fullName"
             name="fullName"
+            onChange={handleChange}
+            value={user.fullName}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -34,6 +79,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
             id="cpf"
             name="cpf"
             placeholder="000.000.000-00"
+            onChange={handleChange}
+            value={user.cpf}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -43,9 +90,10 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
           <input
             className="border border-zinc-400 p-2 rounded"
             type="date"
-            id="dateBirthday"
-            name="dateBirthday"
-            onChange={onDateChange}
+            id="birthDate"
+            name="birthDate"
+            onChange={handleChange}
+            value={user.birthDate}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -55,21 +103,25 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
           <input
             className="border border-zinc-400 p-2 rounded"
             type="email"
-            id="fullName"
-            name="fullName"
+            id="email"
+            name="email"
+            onChange={handleChange}
+            value={user.email}
           ></input>
         </div>
 
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="cellphone">
+          <label className="pb-2" htmlFor="phoneNumber">
             NÚMERO DE CELULAR
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
-            id="cellphone"
-            name="cellphone"
+            id="phoneNumber"
+            name="phoneNumber"
             placeholder="(00) 90000-0000"
+            onChange={handleChange}
+            value={user.phoneNumber}
           ></input>
           <p className="text-xs text-zinc-400 pt-2">Não coloque símbolos</p>
         </div>
@@ -87,35 +139,34 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                   alt="Icone de interrogação"
                 />
               </div>
-
-              {/* <input
-                className="border border-zinc-400 p-2 rounded"
-                type="text"
-                id="helthSector"
-                name="helthSector"
-                placeholder="Selecione sua área de saúde"
-                disabled
-              >
-              </input>
-              <IonImg
-                src={IconDown}
-                className=""
-                alt="Icone de seta para baixo" /> */}
               <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
                 <input
                   className="w-full bg-transparent"
                   type="text"
-                  id="helthSector"
-                  name="helthSector"
+                  id="healthSectorsNames"
+                  name="healthSectorsNames"
                   placeholder="Selecione sua área de saúde"
+                  value={user.healthSectorsNames}
                   disabled
                 />
                 <IonImg
                   src={IconDown}
                   className="absolute cursor-pointer"
                   alt="Icone de seta para baixo"
+                  onClick={() => setHealthSectorsIsOpen(!healthSectorsIsOpen)}
                 />
               </div>
+              {healthSectorsIsOpen && (
+                  healthSectors.map((healthSector, index) => {
+                    return (
+                      <div key={index}>
+                        <IonItem button={true}>
+                          <IonLabel onClick={() => handleHealthSector(healthSector)}>{healthSector}</IonLabel>
+                        </IonItem>
+                      </div>
+                    )
+                  })
+                  )} 
             </div>
             <div className="flex flex-col pt-6">
               <div className="flex items-center">
@@ -131,8 +182,10 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
               <input
                 className="border border-zinc-400 p-2 rounded"
                 type="text"
-                id="cns"
-                name="cns"
+                id="cnsNumber"
+                name="cnsNumber"
+                onChange={handleChange}
+                value={user.cnsNumber}
               ></input>
             </div>
             <div className="flex flex-col pt-6">
@@ -144,6 +197,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 type="password"
                 id="password"
                 name="password"
+                onChange={handleChange}
+                value={user.password}
               ></input>
               <p className="text-xs text-zinc-400 pt-2">
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
@@ -164,8 +219,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
               </p>
             </div>
           </>
-          )}
-          
+        )}
+
         {!isProfessional && (
           <>
             <div className="flex flex-col pt-6">
@@ -196,7 +251,8 @@ export default function FormPersonalInformation({ isProfessional, onDateChange  
                 />
               </div>
             </div>
-          </>)}
+          </>
+        )}
       </form>
     </>
   );

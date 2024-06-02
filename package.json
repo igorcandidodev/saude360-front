@@ -1,5 +1,5 @@
 {
-  "name": "calender-main",
+  "name": "saude360-front",
   "private": true,
   "version": "0.0.1",
   "type": "module",
@@ -25,13 +25,17 @@
     "animate.css": "^4.1.1",
     "antd": "^5.11.5",
     "autoprefixer": "^10.4.16",
+    "axios": "^1.7.2",
     "D": "^1.0.0",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.4.5",
     "postcss": "^8.4.31",
     "prop-types": "^15.8.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.12.0",
+    "react-spinners": "^0.13.8",
+    "react-toastify": "^10.0.5",
     "tailwindcss": "^3.3.5"
   },
   "devDependencies": {

@@ -17,7 +17,7 @@ const SideMenu = () => {
     appPages: [
       { title: 'Agendamentos', path: '/', icon: CalendarIcon },
       { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
-      { title: 'Financeiro', path: '/financeiros', icon: CalendarIcon },
+      { title: 'Financeiro', path: '/financeiro', icon: CalendarIcon },
       { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },
       { title: 'Configurações', path: '/configuracoes', icon: CalendarIcon },
     ],
@@ -70,7 +70,7 @@ const SideMenu = () => {
             </div>
             <div>
               <a
-                href=""
+                href="/login"
                 className="flex items-center px-4 py-2 text-gray-800 bg-menu-color hover:rounded-md hover:text-white"
               >
                 <IonIcon icon={closeOutline} className="w-6 h-6 mr-2 fill-gray2"></IonIcon>
