@@ -15,7 +15,7 @@ const SideMenu = () => {
 
   const routes = {
     appPages: [
-      { title: 'Agendamentos', path: '/', icon: CalendarIcon },
+      { title: 'Agendamentos', path: '/home', icon: CalendarIcon },
       { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
       { title: 'Financeiro', path: '/financeiro', icon: CalendarIcon },
       { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },

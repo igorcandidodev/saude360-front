@@ -1,6 +1,5 @@
-import { list } from "postcss";
 import { Address } from "./AddressType";
-import { Professional } from "./ProfessionalType";
+import { Clinic } from "./ClinicType";
 
 export type User = {
     fullName: string;
@@ -11,5 +10,6 @@ export type User = {
     password: string;
     healthSectorsNames: string[];
     cnsNumber: string;
+    clinic: Clinic[];
     address: Address;
 };
