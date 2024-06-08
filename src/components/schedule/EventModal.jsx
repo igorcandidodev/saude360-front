@@ -101,7 +101,7 @@ const EventModal = () => {
                         {/* First Input Titke */}
                         <input type="text"
                             name="title"
-                            placeholder='Add title'
+                            placeholder='Adicione um Titulo'
                             required
                             className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
                             value={title} onChange={(e) => setTitle(e.target.value)
@@ -127,11 +127,19 @@ const EventModal = () => {
                         <span className='text-gray-400'>
                             <AiOutlineAlignLeft />
                         </span>
+                        <select name="select">
+                            <option value="" disabled selected>Selecione o paciente</option>
+                            <option value="valor1">Valor 1</option>
+                            <option value="valor2">Valor 2</option>
+                            <option value="valor3">Valor 3</option>
+                        </select>
+                        <span className='text-gray-400'>
+                            <AiOutlineAlignLeft />
+                        </span>
                         {/* Second Input Description */}
                         <input type="text"
                             name="description"
-                            placeholder='Add a description'
-                            required
+                            placeholder='Adicione uma descrição'
                             className='pt-3 border-0 text-gray-600  pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200 flex items-center justify-center'
                             value={description} onChange={(e) => setDescription(e.target.value)
                             } />
@@ -143,7 +151,7 @@ const EventModal = () => {
                         <div className="flex gap-x-2">
                             {labelHexCodes.map((lblClass, i) => (
                                 <div key={i}
-                                    className=" w-6  h-4  flex items-center justify-center cursor-pointer"
+                                    className=" w-4  h-4  flex items-center justify-center cursor-pointer rounded-xl"
                                     style={{ backgroundColor: `${lblClass}` }}
                                     onClick={() => setSelectedLabel(lblClass)}
                                 >
@@ -158,7 +166,7 @@ const EventModal = () => {
                 {/* The bottom part of our Event Model(form) */}
                 <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
                     <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} onClick={(e) => handleSubmit(e)}>
-                        Save
+                        Salvar
                     </button>
                 </footer>
             </form>

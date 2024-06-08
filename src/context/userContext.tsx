@@ -22,16 +22,33 @@ const [initialUser, setInitialUser] = useState({
     password: "",
     healthSectorsNames: [""],
     cnsNumber: "",
+    clinic: [
+      {
+        cnpj: "",
+        phoneNumber: "",
+        telephoneNumber: "",
+        cnesNumber: "",
+        address: {
+          cep: "",
+          state: "",
+          city: "",
+          neighborhood: "",
+          street: "",
+          number: "",
+          complement: "",
+        },
+      },
+    ],
     address: {
-        cep: "",
-        street: "",
-        number: "",
-        complement: "",
-        neighborhood: "",
-        city: "",
-        state: ""
-    }
-} as User);
+      cep: "",
+      state: "",
+      city: "",
+      neighborhood: "",
+      street: "",
+      number: "",
+      complement: "",
+    },
+  } as User);
 
 const [user, setUser] = useState<User>(initialUser);
 

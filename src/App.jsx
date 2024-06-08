@@ -63,9 +63,9 @@ const App = () => (
               <Route exact path="/home">
                 <MainEntry />
               </Route>
-              <Route exact path="/">
+ {/*              <Route exact path="/">
                 <Login />
-              </Route>
+              </Route> */}
               <Route exact path="/login">
                 <Login />
               </Route>

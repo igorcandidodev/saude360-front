@@ -3,7 +3,7 @@ Main entry file that bundles up all components and is called as on single compon
 */
 
 // Imports
-import React, { lazy, useState, useEffect, Suspense } from 'react'
+import  { lazy, useState, useEffect, Suspense } from 'react'
 import { getMonth } from '../../util'
 import EventModal from './EventModal'
 import { useContext } from 'react'

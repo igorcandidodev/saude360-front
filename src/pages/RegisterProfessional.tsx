@@ -29,7 +29,6 @@ const RegisterProfessional: React.FC = () => {
         console.log("Professional registered successfully", response);
         setLoading(false);
         ToastService.showSuccess("Cadastro efetuado com sucesso");
-        history.push("/login");
       })
       .catch((error) => {
         setLoading(false);
@@ -100,7 +99,7 @@ const RegisterProfessional: React.FC = () => {
       case 3:
         return (
           <>
-            <Form.Address />
+            <Form.Address isProfessional={true}/>
             <Form.Actions>
               <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
