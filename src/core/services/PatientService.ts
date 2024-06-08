@@ -6,7 +6,7 @@ class PatientService {
 
   constructor() {}
 
-  public async createPatient( patient: any) {
+  public async createPatient(patient: any) {
     const response = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/user/patient/`, patient);
     return response.data;
   }
@@ -15,6 +15,12 @@ class PatientService {
     const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/user/patient/consultation-and-orientation`);
     return response.data;
   }
+
+  public async getAllPatients() {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/user/patient/`);
+    return response.data;
+  }
+
 }
 
 export default PatientService;
