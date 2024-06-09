@@ -69,6 +69,9 @@ const App = () => (
               <Route exact path="/login">
                 <Login />
               </Route>
+{/*               <Route exact path="/configuracoes">
+                <Configuration />
+              </Route> */}
             </IonRouterOutlet>
           </IonReactRouter>
         </UserContextProvider>

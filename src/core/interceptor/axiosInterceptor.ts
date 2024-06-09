@@ -11,10 +11,10 @@ export class AxiosInterceptor {
       this.handleRequestError
     );
 
-    // this.axiosInstance.interceptors.response.use(
-    //   this.handleResponse,
-    //   this.handleResponseError
-    // );
+    this.axiosInstance.interceptors.response.use(
+      this.handleResponse,
+      this.handleResponseError
+    );
   }
 
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
@@ -33,7 +33,7 @@ export class AxiosInterceptor {
   }
 
   private handleRequestError(error: any) {
-    return error;
+    return Promise.reject(error);
   }
 
   private handleResponse(response: AxiosResponse): AxiosResponse {

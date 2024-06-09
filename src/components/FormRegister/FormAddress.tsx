@@ -2,22 +2,34 @@ import { Form } from ".";
 import { useContext } from "react";
 import { UserContext } from "../../context/userContext";
 
-export function FormAddress() {
+interface FormPersonalInformationProps {
+  isProfessional?: boolean;
+}
+
+export function FormAddress({isProfessional}:FormPersonalInformationProps) {
+  
     const { user, setUser } = useContext(UserContext);
 
     const handleChange = (event: any) => {
+      if (isProfessional){
         setUser({
           ...user,
-          clinic: [
-            {
-              ...user.clinic[0],
-              address: {
-                ...user.clinic[0].address,
-                [event.target.name]: event.target.value,
-              },
-            },
-          ]
+          address: {
+            ...user.address,
+            [event.target.name]: event.target.value
+          }
         });
+        return
+      }
+      setUser({
+        ...user,
+            address: {
+              ...user.address,
+              [event.target.name]: event.target.value,
+            },
+          },
+      );
+      
     }
 
     return (
@@ -31,7 +43,7 @@ export function FormAddress() {
           <input
             className="border border-zinc-400 p-2 rounded"
             onChange={handleChange}
-            value={user.clinic[0].address.cep}
+            value={(isProfessional) ? user.clinic[0].address.cep : user.address.cep}
             type="text"
             id="cep"
             placeholder="00000-000"
@@ -48,7 +60,7 @@ export function FormAddress() {
             id="street"
             name="street"
             onChange={handleChange}
-            value={user.clinic[0].address.street}
+            value={(isProfessional) ? user.clinic[0].address.street : user.address.street}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -61,7 +73,7 @@ export function FormAddress() {
             id="number"
             name="number"
             onChange={handleChange}
-            value={user.clinic[0].address.number}
+            value={(isProfessional) ? user.clinic[0].address.number : user.address.number}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -74,7 +86,7 @@ export function FormAddress() {
             id="complement"
             name="complement"
             onChange={handleChange}
-            value={user.clinic[0].address.complement}
+            value={(isProfessional) ? user.clinic[0].address.complement : user.address.complement}
           ></input>
         </div>
 
@@ -88,7 +100,7 @@ export function FormAddress() {
             id="neighborhood"
             name="neighborhood"
             onChange={handleChange}
-            value={user.clinic[0].address.neighborhood}
+            value={(isProfessional) ? user.clinic[0].address.neighborhood : user.address.neighborhood}
           ></input>
         </div>
 
@@ -102,7 +114,7 @@ export function FormAddress() {
             id="city"
             name="city"
             onChange={handleChange}
-            value={user.clinic[0].address.city}
+            value={(isProfessional) ? user.clinic[0].address.city : user.address.city}
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -115,7 +127,7 @@ export function FormAddress() {
             id="state"
             name="state"
             onChange={handleChange}
-            value={user.clinic[0].address.state}
+            value={(isProfessional) ? user.clinic[0].address.state : user.address.state}
           ></input>
         </div>
       </form>

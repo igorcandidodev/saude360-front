@@ -7,6 +7,7 @@ import FilterButton from '../components/FilterButton'
 import ContactIcon from "../Images/Icons/contact.svg"
 
 import PatientsTable from '../components/PatientsTable';
+import { PatientsTableProvider } from '../context/PatientsTableContext';
 
 
 const Patients: React.FC = () => {
@@ -37,7 +38,10 @@ const Patients: React.FC = () => {
         </div>
         <div className='flex w-screen overflow-scroll p-5 justify-center '>
           <div className='w-full lg:mx-0 lg:w-3/4 '>
+          <PatientsTableProvider>
             <PatientsTable />
+          </PatientsTableProvider>
+
           </div>
 
         </div>
