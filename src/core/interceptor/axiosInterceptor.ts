@@ -20,12 +20,14 @@ export class AxiosInterceptor {
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem("token");
 
-    if (config.url.search("/api/authentication/login")) {
-      return config;
+    if (!config.url.includes("/api/authentication/login")) {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        console.warn("Token não encontrado");
+        window.location.href = '/login';
+      }
     }
-    console.log(config)
-    
-    config.headers.Authorization = token
 
     return config;
   }
@@ -39,7 +41,12 @@ export class AxiosInterceptor {
   }
 
   private handleResponseError(error: any) {
-    return error;
+    
+    if (error.response && error.response.status === 401) {
+     
+      // window.location.href = '/login';
+    }
+    return Promise.reject(error);
   }
 
   public getAxiosInstance(): AxiosInstance {
