@@ -1,15 +1,10 @@
-/*
-Our Event Form Model for adding, editing and deleting an event
-AntD Components used
-TimePicker - https://ant.design/components/time-picker
-*/
-
-import { useContext } from 'react'
-import { AiOutlineAlignLeft, AiOutlineBook, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineDelete, AiOutlineMenu } from 'react-icons/ai'
-import GlobalContext from '../../context/GlobalContext'
-import { useState } from 'react'
-import { TimePicker } from 'antd'
-import dayjs from 'dayjs'
+import { useContext, useState, useEffect } from 'react';
+import { AiOutlineAlignLeft, AiOutlineBook, AiOutlineCheck, AiOutlineClockCircle, AiOutlineClose, AiOutlineDelete, AiOutlineMenu } from 'react-icons/ai';
+import GlobalContext from '../../context/GlobalContext';
+import { usePatients } from '../../context/PatientsContext';
+import { useConsultations } from '../../context/ConsultationContext';
+import { TimePicker } from 'antd';
+import dayjs from 'dayjs';
 
 // Color hexCodes
 const hexCodes = {
@@ -21,157 +16,188 @@ const hexCodes = {
     "purple": "#800080",
 };
 
-const lableClasses = ["indigo", "gray", "green", "blue", "red", "purple"]
-// Convert each label to its corresponding hex code using the map function
-const labelHexCodes = lableClasses.map(label => hexCodes[label]);
+const labelClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
+const labelHexCodes = labelClasses.map(label => hexCodes[label]);
 
 const EventModal = () => {
-    const { setShowEventModal, daySelected, dispatchCalEvent, selectedEvent, setSelectedEvent } = useContext(GlobalContext)
-    const [title, setTitle] = useState(selectedEvent ? selectedEvent.title : "")
-    const [description, setDescription] = useState(selectedEvent != null ? selectedEvent.description : "");
-    const [selectedLabel, setSelectedLabel] = useState(
-        selectedEvent != null ? labelHexCodes.find((lbl) => lbl === selectedEvent.label) :
-            labelHexCodes[0]
-    );
+    const { setShowEventModal, daySelected, selectedEvent, setSelectedEvent } = useContext(GlobalContext);
+    const { patients } = usePatients();
+    const { createConsultation, updateConsultation, deleteConsultation } = useConsultations();
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [startTime, setStartTime] = useState(daySelected);
+    const [endTime, setEndTime] = useState(daySelected);
+    const [selectedLabel, setSelectedLabel] = useState(labelHexCodes[0]);
+    const [selectedPatient, setSelectedPatient] = useState("");
 
-    const [selectedTime, setSelectedTime] = useState(selectedEvent ? selectedEvent.time : daySelected); // Initial state
+    useEffect(() => {
+        if (selectedEvent) {
+            setTitle(selectedEvent.title);
+            setDescription(selectedEvent.description);
+            setStartTime(dayjs(selectedEvent.startServiceDateAndTime));
+            setEndTime(dayjs(selectedEvent.endServiceDateAndTime));
+            setSelectedLabel(selectedEvent.color);
+            setSelectedPatient(selectedEvent.patientId);
+        }
+    }, [selectedEvent]);
 
-    // Sets the time from the TimePicker
-    const handleChange = (time) => {
-        setSelectedTime(time);
+    console.log("Selected Event:", selectedEvent); 
+
+    const handleStartTimeChange = (time) => {
+        setStartTime(time);
     };
 
-    // Handles out form input and dispatches the event information into our context
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        const calenderEvent = {
+    const handleEndTimeChange = (time) => {
+        setEndTime(time);
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        const consultationData = {
+            date: daySelected.format(),
+            startServiceDateAndTime: startTime.format(),
+            endServiceDateAndTime: endTime.format(),
             title,
             description,
-            label: selectedLabel,
-            day: daySelected.valueOf(),
-            time: selectedTime,
-            id: selectedEvent ? selectedEvent.id : Date.now()
-        }
-        if (selectedEvent) {
-            dispatchCalEvent({ type: 'update', payload: calenderEvent })
-        }
-        else {
-            dispatchCalEvent({ type: 'push', payload: calenderEvent })
-        }
-        setSelectedEvent("")
-        setShowEventModal(false)
-    }
+            color: selectedLabel
+        };
 
-    return (
-        <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-10'>
-            <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
-                {/* Header Top Part Of the Event Model(form) */}
-                <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
-                    <span className='text-gray-400'>
-                        <AiOutlineMenu />
+        try {
+            if (selectedEvent) {
+                await updateConsultation(selectedEvent.id, consultationData);
+            } else {
+                await createConsultation(selectedPatient, consultationData);
+            }
+            setShowEventModal(false);
+        } catch (error) {
+            console.error("Error creating/updating consultation:", error);
+        }
+    };
+
+    const handleDelete = async () => {
+        try {
+            await deleteConsultation(selectedEvent.id);
+            setShowEventModal(false);
+        } catch (error) {
+            console.error("Error deleting consultation:", error);
+        }
+    };
+return (
+    <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-10'>
+        <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
+            <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
+                <span className='text-gray-400'>
+                    <AiOutlineMenu />
+                </span>
+                <div className='flex gap-2'>
+                    {selectedEvent && (
+                        <span
+                            className='text-gray-400 cursor-pointer'
+                            onClick={() => {
+                                handleDelete();
+                                setSelectedEvent(null);
+                            }}
+                            title='Delete'
+                        >
+                            <AiOutlineDelete />
+                        </span>
+                    )}
+                    <button title='Close' onClick={() => {
+                        setShowEventModal(false)
+                        setSelectedEvent(null)
+                    }}>
+                        <span className='text-gray-400'>
+                            <AiOutlineClose />
+                        </span>
+                    </button>
+                </div>
+            </header>
+            <div className="p-3">
+                <p>{daySelected.format("dddd, MMMM, DD")}</p>
+                <div className="grid grid-cols-1/5 items-end gap-y-7">
+                    <div></div>
+                    <input type="text"
+                        name="title"
+                        placeholder='Adicione um Titulo'
+                        required
+                        className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
+                        value={title} onChange={(e) => setTitle(e.target.value)
+                        } />
+                    <span className='text-gray-400 flex'>
+                        <AiOutlineClockCircle /> Horario de inicio
                     </span>
-                    <div className='flex gap-2'>
-                        {selectedEvent && (
-                            <span
-                                className='text-gray-400 cursor-pointer'
-                                onClick={() => {
-                                    dispatchCalEvent({
-                                        type: "delete", payload: selectedEvent
-                                    })
-                                    setSelectedEvent("")
-                                    setShowEventModal(false)
-                                }}
-                                title='Delete'
-                            >
-                                <AiOutlineDelete />
-                            </span>
-                        )}
-                        <button title='Close' onClick={() => setShowEventModal(false)}>
-                            <span className='text-gray-400'>
-                                <AiOutlineClose />
-                            </span>
-                        </button>
+                    <div className='flex flex-col gap-3'>
+                        <TimePicker
+                            format="HH:mm"
+                            minuteStep={15}
+                            value={startTime}
+                            onChange={handleStartTimeChange}
+                            okButtonProps={{
+                                className: 'my-custom-ok-button',
+                            }}
+                            style={{ width: '100%' }}
+                        />
                     </div>
-                </header>
-                {/* Content Part of our form */}
-                <div className="p-3">
-                    {/* Items Container grid set to 1/5 */}
-                    <div className="grid grid-cols-1/5 items-end gap-y-7">
-                        <div></div>
-                        {/* First Input Titke */}
-                        <input type="text"
-                            name="title"
-                            placeholder='Adicione um Titulo'
-                            required
-                            className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
-                            value={title} onChange={(e) => setTitle(e.target.value)
-                            } />
-                        {/* Left Clock */}
-                        <span className='text-gray-400'>
-                            <AiOutlineClockCircle />
-                        </span>
-                        {/* Date Selected + Time Picker */}
-                        <div className='flex flex-col gap-3'>
-                            <p>{daySelected.format("dddd, MMMM, DD")}</p>
-                            <TimePicker
-                                format="HH:mm"
-                                minuteStep={15}
-                                value={dayjs(selectedTime)}
-                                onSelect={handleChange}
-                                okButtonProps={{
-                                    className: 'my-custom-ok-button',
-                                }}
-                                style={{ width: '100%' }}
-                            />
-                        </div>
-                        <span className='text-gray-400'>
-                            <AiOutlineAlignLeft />
-                        </span>
-                        <select name="select">
-                            <option value="" disabled selected>Selecione o paciente</option>
-                            <option value="valor1">Valor 1</option>
-                            <option value="valor2">Valor 2</option>
-                            <option value="valor3">Valor 3</option>
-                        </select>
-                        <span className='text-gray-400'>
-                            <AiOutlineAlignLeft />
-                        </span>
-                        {/* Second Input Description */}
-                        <input type="text"
-                            name="description"
-                            placeholder='Adicione uma descrição'
-                            className='pt-3 border-0 text-gray-600  pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200 flex items-center justify-center'
-                            value={description} onChange={(e) => setDescription(e.target.value)
-                            } />
-                        {/* Left Book Icon */}
-                        <span className='text-gray-400'>
-                            <AiOutlineBook />
-                        </span>
-                        {/* Labels Container */}
-                        <div className="flex gap-x-2">
-                            {labelHexCodes.map((lblClass, i) => (
-                                <div key={i}
-                                    className=" w-4  h-4  flex items-center justify-center cursor-pointer rounded-xl"
-                                    style={{ backgroundColor: `${lblClass}` }}
-                                    onClick={() => setSelectedLabel(lblClass)}
-                                >
-                                    <span className='text-white text-xs'>
-                                        {selectedLabel === lblClass && < AiOutlineCheck />}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
+                    <span className='text-gray-400 flex'>
+                        <AiOutlineClockCircle /> Horario de termino
+                    </span>
+                    <div className='flex flex-col gap-3'>
+                        <TimePicker
+                            format="HH:mm"
+                            minuteStep={15}
+                            value={endTime}
+                            onChange={handleEndTimeChange}
+                            okButtonProps={{
+                                className: 'my-custom-ok-button',
+                            }}
+                            style={{ width: '100%' }}
+                        />
+                    </div>
+                    <span className='text-gray-400'>
+                        <AiOutlineAlignLeft />
+                    </span>
+                    <select name="patient" value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)}>
+                        <option value="">Selecione o paciente</option>
+                        {patients.map(patient => (
+                            <option key={patient.id} value={patient.id}>{patient.fullName}</option>
+                        ))}
+                    </select>
+                    <span className='text-gray-400'>
+                        <AiOutlineAlignLeft />
+                    </span>
+                    <input type="text"
+                        name="description"
+                        placeholder='Adicione uma descrição'
+                        className='pt-3 border-0 text-gray-600  pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200 flex items-center justify-center'
+                        value={description} onChange={(e) => setDescription(e.target.value)
+                        } />
+                    <span className='text-gray-400'>
+                        <AiOutlineBook />
+                    </span>
+                    <div className="flex gap-x-2">
+                        {labelHexCodes.map((lblClass, i) => (
+                            <div key={i}
+                                className=" w-4  h-4  flex items-center justify-center cursor-pointer rounded-xl"
+                                style={{ backgroundColor: `${lblClass}` }}
+                                onClick={() => setSelectedLabel(lblClass)}
+                            >
+                                <span className='text-white text-xs'>
+                                    {selectedLabel === lblClass && < AiOutlineCheck />}
+                                </span>
+                            </div>
+                        ))}
                     </div>
                 </div>
-                {/* The bottom part of our Event Model(form) */}
-                <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
-                    <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} onClick={(e) => handleSubmit(e)}>
-                        Salvar
-                    </button>
-                </footer>
-            </form>
-        </div>
-    )
-}
+            </div>
+            <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
+                <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} onClick={(e) => handleSubmit(e)}>
+                    Salvar
+                </button>
+            </footer>
+        </form>
+    </div>
+);
 
-export default EventModal
+};
+
+export default EventModal;
