@@ -1,3 +1,4 @@
+import { Address } from "./AddressType";
 import { Clinic } from "./ClinicType";
 
 export type User = {
@@ -10,4 +11,5 @@ export type User = {
     healthSectorsNames: string[];
     cnsNumber: string;
     clinic: Clinic[];
+    address: Address;
 };
