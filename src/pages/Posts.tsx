@@ -1,84 +1,62 @@
 import { IonPage } from "@ionic/react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import NewPost from "../Images/Icons/new-post.svg";
 import Menu from "../components/Menu";
-
 import { LeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card, Collapse, Input, Modal } from "antd";
-import { useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Posts.css";
 const { Panel } = Collapse;
 import { useHistory } from "react-router-dom";      
+import PostsService  from "../core/services/PostsService";
+import { UserContext } from "../context/userContext";
 
-const mockPosts = [
-  {
-    id: 1,
-    title: "Tire suas dúvidas aqui",
-    content: "This is the content of the first post.",
-    responses: [
-      {
-        id: 1,
-        name: "Julia Rocha Coelho",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris aliquam nulla in euismod facilisis. Mauris finibus feugiat nibh, ac ultrices risus venenatis eget.",
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: "Atividade da sessão do dia xx/xx/xxxx",
-    content: "This is the content of the second post.",
-    responses: [
-      {
-        id: 1,
-        name: "John Doe",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris aliquam nulla in euismod facilisis. Mauris finibus feugiat nibh, ac ultrices risus venenatis eget.",
-      },
-    ],
-  },
-  {
-    id: 3,
-    title: "Atividade da sessão do dia xx/xx/xxxx",
-    content: "This is the content of the second post.",
-    responses: [
-      {
-        id: 1,
-        name: "John Doe",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris aliquam nulla in euismod facilisis. Mauris finibus feugiat nibh, ac ultrices risus venenatis eget.",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "Atividade da sessão do dia xx/xx/xxxx",
-    content: "This is the content of the second post.",
-    responses: [
-      {
-        id: 1,
-        name: "John Doe",
-        content:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris aliquam nulla in euismod facilisis. Mauris finibus feugiat nibh, ac ultrices risus venenatis eget.",
-      },
-    ],
-  },
-];
 
 const Posts: React.FC = () => {
-    const [showResponseInput, setShowResponseInput] = useState(false);
+    const { userId } = useParams<{ userId: string }>(); 
+    const [showResponseInput, setShowResponseInput] = useState<number | null>(null); // Change to hold post ID
     const [responseContent, setResponseContent] = useState("");
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [newPostData, setNewPostData] = useState({ title: "", content: "" });
+    const [newPostData, setNewPostData] = useState({ title: "", description: "" });
     const history = useHistory();
+    const [posts, setPosts] = useState<any[]>([]);
+    const { user, setUser } = useContext(UserContext);
+
+    
+    const postsService = new PostsService(); 
+
+    const fetchPosts = async () => {
+      try {
+        const response = await postsService.getPosts(userId);
+        // const sortedPosts = response.sort(
+        //   (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        // );
+        // setPosts(sortedPosts);
+        setPosts(response)
+      } catch (error) {
+        console.error("Erro ao buscar posts:", error);
+      }
+    };
+
+    useEffect(() => {
+      fetchPosts();
+    }, [userId]);
   
     const showModal = () => {
         setIsModalVisible(true);
     };
 
-    const handleOk = () => {
-        console.log("Novo post:", newPostData);
-        setIsModalVisible(false);
+    const handleOk = async () => {
+      console.log("Novo post:", newPostData);
+      try {
+          const response = await postsService.createPost(newPostData, userId);
+          console.log("Resposta da API:", response);
+          await fetchPosts();
+      } catch (error) {
+          console.error("Erro ao criar o post:", error);
+      }
+      
+      setIsModalVisible(false);
     };
 
     const handleCancel = () => {
@@ -90,15 +68,15 @@ const Posts: React.FC = () => {
     };
 
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-        setNewPostData({ ...newPostData, content: e.target.value });
+        setNewPostData({ ...newPostData, description: e.target.value });
     };
 
-    const handleShowInput = () => {
-      setShowResponseInput(true);
+    const handleShowInput = (postId: number) => {
+      setShowResponseInput(postId);
     };
   
     const handleCancelResponse = () => {
-      setShowResponseInput(false);
+      setShowResponseInput(null);
       setResponseContent("");
     };
   
@@ -106,9 +84,23 @@ const Posts: React.FC = () => {
       setResponseContent(e.target.value);
     };
   
-    const handlePostResponse = () => {
+    const handlePostResponse = async (postId: number) => {
+    
       console.log("Resposta postada:", responseContent);
-      setShowResponseInput(false);
+      try {
+        const responseDto = {
+          content: responseContent,
+          userId: 1,
+        };
+        console.log("responseDto", responseDto)
+        console.log("postId", postId)
+        const response = await postsService.createResponse(responseDto, postId.toString());
+        console.log("Resposta criada:", response);
+        await fetchPosts();
+      } catch (error) {
+        console.error("Erro ao postar resposta:", error);
+      }
+      setShowResponseInput(null);
       setResponseContent("");
     };
 
@@ -146,52 +138,54 @@ const Posts: React.FC = () => {
           </div>
           <div className="flex justify-center">
             <div className="w-full lg:w-3/4">
-              {mockPosts.map((post) => (
-                <Card title={post.title} key={post.id} className="mb-4">
-                  <p>{post.content}</p>
+              {posts?.map((post) => (
+                <Card title={post?.title} key={post?.id} className="mb-4">
+                  <p>{post?.description}</p>
 
-                  <Collapse ghost>
-                    <Panel
-                      header={
-                        <span style={{ color: "#0443BE" }}>Respostas</span>
-                      }
-                      key="1"
-                      className="custom-collapse-panel"
+                {post?.responses.length > 0 && (  
+                    <Collapse ghost>
+                      <Panel
+                        header={
+                          <span style={{ color: "#0443BE" }}>Respostas</span>
+                        }
+                        key="1"
+                        className="custom-collapse-panel"
 
-                    >
-                      {post.responses.map((response) => (
-                        <Card key={response.id} className="response-card">
-                          <Card.Meta
-                            avatar={<Avatar icon={<UserOutlined />} />}
-                            title={response.name}
-                            description={response.content}
-                          />
-                        </Card>
-                      ))}
+                      >
+                        {post?.responses.map((response) => (
+                          <div key={response.id} className="response-container">
+                            <Avatar icon={<UserOutlined />} />
+                            <div className="response-content">
+                              <div className="response-author">{response.user.fullName}</div>
+                              <div className="response-text">{response.content}</div>
+                            </div>
+                          </div>
+                        ))}
 
-                    <div className="response-input">
-                        {showResponseInput ? (
+          
+                      </Panel>
+                    </Collapse>)}
+
+                  <div className="response-input">
+                        {showResponseInput === post.id ? (
                           <>
                             <Input
                               value={responseContent}
                               onChange={handleResponseChange}
                               placeholder="Escreva sua resposta..."
                             />
-                            <Button onClick={handlePostResponse} type="primary" style={{ marginTop: "8px" }}>
+                            <Button onClick={() => handlePostResponse(post.id)} type="primary" style={{ marginTop: "8px" }}>
                               Enviar
                             </Button>
                             <Button onClick={handleCancelResponse} style={{ marginTop: "8px" }}>Cancelar</Button>
                           </>
                         ) : (
                         <div>
-                            <Avatar icon={<UserOutlined />} />
-                            <Button type="link" onClick={handleShowInput} style={{ marginTop: "8px", color: "#0443BE" }}>Responder</Button>
+                            {/* <Avatar icon={<UserOutlined />} /> */}
+                            <Button type="link" onClick={() => handleShowInput(post.id)} style={{ marginTop: "8px", color: "#0443BE" }}>Responder</Button>
                         </div>
-
                         )}
                       </div>
-                    </Panel>
-                  </Collapse>
                 </Card>
               ))}
             </div>
@@ -213,7 +207,7 @@ const Posts: React.FC = () => {
         />
         <Input.TextArea
           placeholder="Conteúdo"
-          value={newPostData.content}
+          value={newPostData.description}
           onChange={handleContentChange}
           rows={4}
         />
