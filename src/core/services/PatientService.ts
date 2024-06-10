@@ -21,6 +21,11 @@ class PatientService {
     return response.data;
   }
 
+  public async getPatientById(patientId: number) {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/user/patient/${patientId}`);
+    return response.data;
+  }
+
 }
 
 export default PatientService;

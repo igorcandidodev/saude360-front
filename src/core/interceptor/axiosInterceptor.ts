@@ -25,6 +25,7 @@ export class AxiosInterceptor {
         config.headers.Authorization = `Bearer ${token}`;
       } else {
         console.warn("Token não encontrado");
+        window.location.href = '/login';
       }
     }
 
@@ -43,7 +44,7 @@ export class AxiosInterceptor {
     
     if (error.response && error.response.status === 401) {
      
-      window.location.href = '/login';
+      // window.location.href = '/login';
     }
     return Promise.reject(error);
   }

@@ -1,5 +1,5 @@
 import React, { createContext, useState, useEffect, useContext } from "react";
-import ConsultationService from "../core/services/ConsultationService";
+import {ConsultationService} from "../core/services/ConsultationService";
 
 interface Consultation {
   id: string;
