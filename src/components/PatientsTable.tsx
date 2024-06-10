@@ -3,6 +3,8 @@ import { useHistory } from 'react-router-dom';
 import MessageIcon from "../Images/Icons/Message.svg";
 import NoteIcon from "../Images/Icons/note.svg";
 import { usePatientsTable } from '../context/PatientsTableContext';
+import { formatDate } from "../utils/formatDate";
+import { formatDateTime } from "../utils/formatDateAndTime";
 
 const Table = () => {
   const { patients } = usePatientsTable();
@@ -14,7 +16,7 @@ const Table = () => {
 
   const handlePostsClick = (patientId: number) => {
     history.push(`/posts/${patientId}`);
-  }
+  };
 
   return (
     <div className="rounded-lg overflow-hidden border max-h-[500px]">
@@ -44,9 +46,9 @@ const Table = () => {
               patients.map((item, index) => (
                 <tr key={index} className="bg-white hover:bg-gray-100 focus:bg-gray-200">
                   <td className="w-2/6 border-t px-4 py-2">{item.paciente}</td>
-                  <td className="border-t px-4 py-2">{item.dataConsulta}</td>
-                  <td className="border-t px-4 py-2">{item.ultimoEnvio}</td>
-                  <td className="border-t px-4 py-2">{item.ultimoFeedback}</td>
+                  <td className="border-t px-4 py-2">{formatDateTime(item.dataConsulta)}</td>
+                  <td className="border-t px-4 py-2">{formatDateTime(item.ultimoEnvio)}</td>
+                  <td className="border-t px-4 py-2">{formatDateTime(item.ultimoFeedback)}</td>
                   <td className="border-t px-4 py-2 flex justify-center gap-3">
                     <img src={MessageIcon} alt="Ícone de mensagem" onClick={() => handlePostsClick(item.id)} className="cursor-pointer" />
                     <img 

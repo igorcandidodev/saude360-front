@@ -105,7 +105,7 @@ const Posts: React.FC = () => {
     };
 
     const backToPatientRecord = () => {
-        history.push("/ficha-pacientes");
+        history.push("/pacientes");
     }
   
   return (
