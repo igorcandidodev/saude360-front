@@ -53,6 +53,7 @@ const EventModal = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+
         const consultationData = {
             date: daySelected.format(),
             startServiceDateAndTime: startTime.format(),
@@ -78,131 +79,132 @@ const EventModal = () => {
         try {
             await deleteConsultation(selectedEvent.id);
             setShowEventModal(false);
+            setSelectedEvent(null);
         } catch (error) {
             console.error("Error deleting consultation:", error);
         }
     };
-return (
-    <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-10'>
-        <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
-            <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
-                <span className='text-gray-400'>
-                    <AiOutlineMenu />
-                </span>
-                <div className='flex gap-2'>
-                    {selectedEvent && (
-                        <span
-                            className='text-gray-400 cursor-pointer'
-                            onClick={() => {
-                                handleDelete();
-                                setSelectedEvent(null);
-                            }}
-                            title='Delete'
-                        >
-                            <AiOutlineDelete />
-                        </span>
-                    )}
-                    <button title='Close' onClick={() => {
-                        setShowEventModal(false)
-                        setSelectedEvent(null)
-                    }}>
-                        <span className='text-gray-400'>
-                            <AiOutlineClose />
-                        </span>
-                    </button>
-                </div>
-            </header>
-            <div className="p-3">
-                <p>{daySelected.format("dddd, MMMM, DD")}</p>
-                <div className="grid grid-cols-1/5 items-end gap-y-7">
-                    <div></div>
-                    <input type="text"
-                        name="title"
-                        placeholder='Adicione um Titulo'
-                        required
-                        className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
-                        value={title} onChange={(e) => setTitle(e.target.value)
-                        } />
-                    <span className='text-gray-400 flex'>
-                        <AiOutlineClockCircle /> Horario de inicio
-                    </span>
-                    <div className='flex flex-col gap-3'>
-                        <TimePicker
-                            format="HH:mm"
-                            minuteStep={15}
-                            value={startTime}
-                            onChange={handleStartTimeChange}
-                            okButtonProps={{
-                                className: 'my-custom-ok-button',
-                            }}
-                            style={{ width: '100%' }}
-                        />
-                    </div>
-                    <span className='text-gray-400 flex'>
-                        <AiOutlineClockCircle /> Horario de termino
-                    </span>
-                    <div className='flex flex-col gap-3'>
-                        <TimePicker
-                            format="HH:mm"
-                            minuteStep={15}
-                            value={endTime}
-                            onChange={handleEndTimeChange}
-                            okButtonProps={{
-                                className: 'my-custom-ok-button',
-                            }}
-                            style={{ width: '100%' }}
-                        />
-                    </div>
-                    <span className='text-gray-400'>
-                        <AiOutlineAlignLeft />
-                    </span>
-                    <select name="patient" value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)}>
-                        <option value="">Selecione o paciente</option>
-                        {patients.map(patient => (
-                            <option key={patient.id} value={patient.id}>{patient.fullName}</option>
-                        ))}
-                    </select>
-                    <span className='text-gray-400'>
-                        <AiOutlineAlignLeft />
-                    </span>
-                    <input type="text"
-                        name="description"
-                        placeholder='Adicione uma descrição'
-                        className='pt-3 border-0 text-gray-600  pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200 flex items-center justify-center'
-                        value={description} onChange={(e) => setDescription(e.target.value)
-                        } />
-                    <span className='text-gray-400'>
-                        <AiOutlineBook />
-                    </span>
-                    <div className="flex gap-x-2">
-                        {labelHexCodes.map((lblClass, i) => (
-                            <div key={i}
-                                className=" w-4  h-4  flex items-center justify-center cursor-pointer rounded-xl"
-                                style={{ backgroundColor: `${lblClass}` }}
-                                onClick={() => setSelectedLabel(lblClass)}
-                            >
-                                <span className='text-white text-xs'>
-                                    {selectedLabel === lblClass && < AiOutlineCheck />}
-                                </span>
-                            </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
-            <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
-                <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} 
-                onClick={(e) => {
-                    handleSubmit(e);
-                    setSelectedEvent(null);
-                }}
-                >
-                    Salvar
-                </button>
-            </footer>
-        </form>
-    </div>
-);
 
+    return (
+        <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-10'>
+            <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
+                <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
+                    <span className='text-gray-400'>
+                        <AiOutlineMenu />
+                    </span>
+                    <div className='flex gap-2'>
+                        {selectedEvent && (
+                            <span
+                                className='text-gray-400 cursor-pointer'
+                                onClick={() => {
+                                    handleDelete();
+                                    setSelectedEvent(null);
+                                }}
+                                title='Delete'
+                            >
+                                <AiOutlineDelete />
+                            </span>
+                        )}
+                        <button title='Close' onClick={() => {
+                            setShowEventModal(false);
+                            setSelectedEvent(null);
+                        }}>
+                            <span className='text-gray-400'>
+                                <AiOutlineClose />
+                            </span>
+                        </button>
+                    </div>
+                </header>
+                <div className="p-3">
+                    <p>{daySelected.format("dddd, MMMM, DD")}</p>
+                    <div className="grid grid-cols-1/5 items-end gap-y-7">
+                        <div></div>
+                        <input type="text"
+                            name="title"
+                            placeholder='Adicione um Titulo'
+                            required
+                            className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
+                            value={title} onChange={(e) => setTitle(e.target.value)}
+                        />
+                        <span className='text-gray-400 flex'>
+                            <AiOutlineClockCircle /> Horario de inicio
+                        </span>
+                        <div className='flex flex-col gap-3'>
+                            <TimePicker
+                                format="HH:mm"
+                                minuteStep={15}
+                                value={startTime}
+                                onChange={handleStartTimeChange}
+                                okButtonProps={{
+                                    className: 'my-custom-ok-button',
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                        <span className='text-gray-400 flex'>
+                            <AiOutlineClockCircle /> Horario de termino
+                        </span>
+                        <div className='flex flex-col gap-3'>
+                            <TimePicker
+                                format="HH:mm"
+                                minuteStep={15}
+                                value={endTime}
+                                onChange={handleEndTimeChange}
+                                okButtonProps={{
+                                    className: 'my-custom-ok-button',
+                                }}
+                                style={{ width: '100%' }}
+                            />
+                        </div>
+                        <span className='text-gray-400'>
+                            <AiOutlineAlignLeft />
+                        </span>
+                        <select name="patient" required value={selectedPatient} onChange={(e) => setSelectedPatient(e.target.value)}>
+                            <option value="" disabled>Selecione o paciente</option>
+                            {patients.map(patient => (
+                                <option key={patient.id} value={patient.id}>{patient.fullName}</option>
+                            ))}
+                        </select>
+                        <span className='text-gray-400'>
+                            <AiOutlineAlignLeft />
+                        </span>
+                        <input type="text"
+                            name="description"
+                            placeholder='Adicione uma descrição'
+                            className='pt-3 border-0 text-gray-600  pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200 flex items-center justify-center'
+                            value={description} onChange={(e) => setDescription(e.target.value)}
+                        />
+                        <span className='text-gray-400'>
+                            <AiOutlineBook />
+                        </span>
+                        <div className="flex gap-x-2">
+                            {labelHexCodes.map((lblClass, i) => (
+                                <div key={i}
+                                    className=" w-4  h-4  flex items-center justify-center cursor-pointer rounded-xl"
+                                    style={{ backgroundColor: `${lblClass}` }}
+                                    onClick={() => setSelectedLabel(lblClass)}
+                                >
+                                    <span className='text-white text-xs'>
+                                        {selectedLabel === lblClass && < AiOutlineCheck />}
+                                    </span>
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+                <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
+                    <button type='submit' className={`${title && description && selectedPatient ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={!title || !description || !selectedPatient} 
+                    onClick={(e) => {
+                        handleSubmit(e);
+                        setSelectedEvent(null);
+                    }}
+                    >
+                        Salvar
+                    </button>
+                </footer>
+            </form>
+        </div>
+    );
 };
 
 export default EventModal;
