@@ -12,6 +12,10 @@ const Table = () => {
     history.push(`/ficha-pacientes/${patientId}`);
   };
 
+  const handlePostsClick = (patientId: number) => {
+    history.push(`/posts/${patientId}`);
+  }
+
   return (
     <div className="rounded-lg overflow-hidden border max-h-[500px]">
       <div className="overflow-x-auto">
@@ -44,7 +48,7 @@ const Table = () => {
                   <td className="border-t px-4 py-2">{item.ultimoEnvio}</td>
                   <td className="border-t px-4 py-2">{item.ultimoFeedback}</td>
                   <td className="border-t px-4 py-2 flex justify-center gap-3">
-                    <img src={MessageIcon} alt="Ícone de mensagem" />
+                    <img src={MessageIcon} alt="Ícone de mensagem" onClick={() => handlePostsClick(item.id)} className="cursor-pointer" />
                     <img 
                       src={NoteIcon} 
                       alt="Ícone de nota" 
