@@ -10,6 +10,7 @@ const { Panel } = Collapse;
 import { useHistory } from "react-router-dom";      
 import PostsService  from "../core/services/PostsService";
 import { UserContext } from "../context/userContext";
+import PatientService from "../core/services/PatientService";
 
 
 const Posts: React.FC = () => {
@@ -21,9 +22,9 @@ const Posts: React.FC = () => {
     const history = useHistory();
     const [posts, setPosts] = useState<any[]>([]);
     const { user, setUser } = useContext(UserContext);
-
-    
+    const [patient, setPatient] = useState({cpf: null, birthDate: null, email: null, phoneNumber: null, fullName: null});
     const postsService = new PostsService(); 
+    const patientService = new PatientService();
 
     const fetchPosts = async () => {
       try {
@@ -38,8 +39,20 @@ const Posts: React.FC = () => {
       }
     };
 
+    const fetchPatient = async () => {
+      try {
+        const responsePatient = await patientService.getPatientById(Number(userId));
+        console.log('response patient', responsePatient)
+        setPatient(responsePatient);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
     useEffect(() => {
       fetchPosts();
+      fetchPatient();
+
     }, [userId]);
   
     const showModal = () => {
@@ -123,7 +136,7 @@ const Posts: React.FC = () => {
                       onClick={backToPatientRecord}
                   />
                   <h2 className="text-zinc-600 text-xl font-semibold text-center mt-3 mb-3">
-                    Júlia Rocha Coelho
+                    {patient?.fullName}
                   </h2>
                 </div>
                 <Link
