@@ -51,7 +51,7 @@ const App = () => (
               <Route exact path="/financeiro">
                 <Finances />
               </Route>
-              <Route exact path="/ficha-pacientes">
+              <Route path="/ficha-pacientes/:id">
                 <PatientRecord />
               </Route>
               <Route exact path="/cadastro-profissional">
