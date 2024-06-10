@@ -64,7 +64,7 @@ const EventModal = () => {
 
         try {
             if (selectedEvent) {
-                await updateConsultation(selectedEvent.id, consultationData);
+                await updateConsultation(selectedEvent.id, consultationData); // Aqui estamos chamando updateConsultation
             } else {
                 await createConsultation(selectedPatient, consultationData);
             }
@@ -190,7 +190,12 @@ return (
                 </div>
             </div>
             <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
-                <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} onClick={(e) => handleSubmit(e)}>
+                <button type='submit' className={`${title && description ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={title && description ? false : true} 
+                onClick={(e) => {
+                    handleSubmit(e);
+                    setSelectedEvent(null);
+                }}
+                >
                     Salvar
                 </button>
             </footer>
