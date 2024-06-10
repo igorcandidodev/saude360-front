@@ -69,7 +69,7 @@ const App = () => (
               </Route>
               <Route exact path="/">
                 <Login />
-              </Route> 
+              </Route>
               <Route exact path="/login">
                 <Login />
               </Route>

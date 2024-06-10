@@ -16,6 +16,9 @@ import MobileMenu from './Header/MobileMenu'
 import Menu from '../Menu'
 import { IonPage } from '@ionic/react'
 
+import { PatientsProvider } from '../../context/PatientsContext';
+import { ConsultationProvider } from '../../context/ConsultationContext';
+
 // Lazy Loaded Components
 const Appointments = lazy(() => import('./Appointments/Appointments'))
 const DayCalender = lazy(() => import('./Day/DayCalender'))
@@ -41,6 +44,8 @@ const MainEntry = () => {
 
 
     return (
+        <ConsultationProvider>
+        <PatientsProvider>
         <IonPage>
             <Menu/>
             {/* Event Modal For handling our appointments  */}
@@ -65,6 +70,8 @@ const MainEntry = () => {
                 <AddButton />
             </div>
         </IonPage>
+        </PatientsProvider>
+        </ConsultationProvider>
     )
 }
 

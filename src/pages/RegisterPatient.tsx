@@ -54,7 +54,7 @@ const RegisterPatient: React.FC = () => {
   };
 
   const handleRegister = async () => {
-/*     setLoading(true); */
+    setLoading(true);
     setUser({
       ...user,
       clinic: null,

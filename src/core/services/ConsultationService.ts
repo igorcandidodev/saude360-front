@@ -6,9 +6,33 @@ export class ConsultationService {
 
   constructor() {}
 
+  public async createConsultation(patientId: string, consultation: any) {
+    const response = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/consultation/${patientId}`, consultation);
+    return response.data;
+  }
+
+  public async updateConsultation(Id: string, consultation: any) {
+    const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/consultation/${Id}`, consultation);
+    return response.data;
+  }
+
+  public async getAllConsultation() {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/`);
+    return response.data;
+  }
+
+  public async deleteConsultation(id: string) {
+    const response = await this.axiosInstance.delete(`${import.meta.env.VITE_API_URL}/consultation/${id}`);
+    return response.data;
+  }
+
   public async findAllByPatientId(patientId: number) {
     const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/${patientId}`);
     return response.data;
   }
-
 }
+
+
+
+
+
