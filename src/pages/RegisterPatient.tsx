@@ -21,6 +21,9 @@ const RegisterPatient: React.FC = () => {
   
   const { user, setUser }: any = useContext(UserContext);
 
+  const [patients, setPatients] = useState<any[]>([]);
+
+
   const calculateAge = (date: string) => {
     const birthDate = new Date(date);
     const today = new Date();
@@ -31,6 +34,16 @@ const RegisterPatient: React.FC = () => {
     }
     return age;
   };
+
+  const fetchPatients = async () => {
+    try {
+      const patientsData = await patientService.getPatientsTable();
+      setPatients(patientsData);
+    } catch (error) {
+      console.error("Error fetching patients:", error);
+    }
+  };
+
 
   const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const date = e.target.value;
@@ -59,16 +72,17 @@ const RegisterPatient: React.FC = () => {
       ...user,
       clinic: null,
       healthSectorsNames: null,
-      cnsNumber:null,
-      password:null
+      cnsNumber: null,
+      password: null
     });
-    console.log(user)
+    console.log(user);
     await patientService
       .createPatient(user)
       .then((response) => {
         setLoading(false);
         ToastService.showSuccess("Cadastro efetuado com sucesso");
         history.push("/pacientes");
+        window.location.reload(); 
       })
       .catch((error) => {
         setLoading(false);
@@ -76,6 +90,7 @@ const RegisterPatient: React.FC = () => {
         console.error("Erro ao registrar paciente:", error);
       });
   };
+  
 
   const renderForm = () => {
     switch (indexForm) {
