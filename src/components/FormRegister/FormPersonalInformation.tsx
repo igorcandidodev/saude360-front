@@ -10,6 +10,8 @@ import { IonItem, IonLabel } from '@ionic/react';
 import { cpfMask } from "../../utils/cpfMask";
 import { cellPhoneMask} from "../../utils/cellPhoneMask";
 
+import { cpf } from 'cpf-cnpj-validator'; 
+
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -22,15 +24,32 @@ export default function FormPersonalInformation({
 
   const [ healthSectors, setHealthSectors ] = useState<string[]>(["Medicina", "Nutrição", "Terapia Ocupacional", "Fisioterapia"]);
   const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
+  const [cpfError, setCpfError] = useState<string | null>(null);
 
   const handleChange = (event: any) => {
     if (event.target.name === "cpf") {
+      const formattedCpf = cpfMask(event.target.value);
       setUser({
         ...user,
-        [event.target.name]: cpfMask(event.target.value),
+        [event.target.name]: formattedCpf,
       });
+
+      // Remove todos os caracteres não numéricos
+      const unmaskedCpf = formattedCpf.replace(/\D/g, '');
+      
+      // Valida CPF apenas se tiver 11 dígitos
+      if (unmaskedCpf.length === 11) {
+        if (cpf.isValid(unmaskedCpf)) {
+          setCpfError(null);
+        } else {
+          setCpfError("CPF inválido");
+        }
+      } else {
+        setCpfError(null);
+      }
       return;
     }
+
     if (event.target.name === "phoneNumber") {
       setUser({
         ...user,
@@ -38,6 +57,7 @@ export default function FormPersonalInformation({
       });
       return;
     }
+
     setUser({
       ...user,
       [event.target.name]: event.target.value,
@@ -82,6 +102,7 @@ export default function FormPersonalInformation({
             onChange={handleChange}
             value={user.cpf}
           ></input>
+          {cpfError && <p className="text-red-500 text-xs">{cpfError}</p>}
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="dateBirthday">
@@ -212,7 +233,7 @@ export default function FormPersonalInformation({
                 className="border border-zinc-400 p-2 rounded"
                 type="passwordConfirm"
                 id="password"
-                name="passwordConfirm "
+                name="passwordConfirm"
               ></input>
               <p className="text-xs text-zinc-400 pt-2">
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
