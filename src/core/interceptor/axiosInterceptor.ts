@@ -20,14 +20,20 @@ export class AxiosInterceptor {
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem("token");
 
-    if (!config.url.includes("/api/authentication/login")) {
-      if (token) {
-        config.headers.Authorization = `Bearer ${token}`;
-      } else {
-        console.warn("Token não encontrado");
-        window.location.href = '/login';
-      }
+    // if (!config.url.includes("/api/authentication/login")) {
+    //   if (token) {
+    //     config.headers.Authorization = `Bearer ${token}`;
+    //   } else {
+    //     console.warn("Token não encontrado");
+    //     window.location.href = '/login';
+    //   }
+    // }
+    if (config.url.search("/api/authentication/login")) {
+      return config;
     }
+    console.log(config)
+    
+    config.headers.Authorization = `Bearer ${token}`;
 
     return config;
   }
@@ -42,7 +48,7 @@ export class AxiosInterceptor {
 
   private handleResponseError(error: any) {
     
-    if (error.response && error.response.status === 401) {
+    if (error.response && error.response.status === 403) {
      
       // window.location.href = '/login';
     }

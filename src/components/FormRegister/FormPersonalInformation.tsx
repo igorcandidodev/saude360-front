@@ -225,7 +225,7 @@ export default function FormPersonalInformation({
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
               </p>
             </div>
-            <div className="flex flex-col pt-6">
+            {/* <div className="flex flex-col pt-6">
               <label className="pb-2" htmlFor="passwordConfirm">
                 CONFIRMAR SENHA
               </label>
@@ -238,7 +238,7 @@ export default function FormPersonalInformation({
               <p className="text-xs text-zinc-400 pt-2">
                 No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
               </p>
-            </div>
+            </div> */}
           </>
         )}
 

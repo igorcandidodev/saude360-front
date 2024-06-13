@@ -6,6 +6,8 @@ import { Address } from '../types/AddressType';
 interface UserContextType {
     user: User;
     setUser: Dispatch<SetStateAction<User>>;
+
+    resetUser: () => void;
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
@@ -51,9 +53,10 @@ const [initialUser, setInitialUser] = useState({
   } as User);
 
 const [user, setUser] = useState<User>(initialUser);
+const resetUser = () => setUser(initialUser);
 
     return (
-        <UserContext.Provider value={{user, setUser}}
+        <UserContext.Provider value={{user, setUser, resetUser}}
         >
             {children}
         </UserContext.Provider>

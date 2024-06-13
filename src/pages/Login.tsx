@@ -34,7 +34,7 @@ const LoginPage: React.FC = () => {
       })
       .catch((error) => {
         setLoading(false);
-        if (error.response.status === 401) {
+        if (error.response.status === 403) {
           return ToastService.showError("CPF ou senha inválidos");
         }
         if (error.response.status === 404) {
