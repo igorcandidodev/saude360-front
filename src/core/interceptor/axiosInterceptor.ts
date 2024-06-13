@@ -20,20 +20,20 @@ export class AxiosInterceptor {
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem("token");
 
-    // if (!config.url.includes("/api/authentication/login")) {
-    //   if (token) {
-    //     config.headers.Authorization = `Bearer ${token}`;
-    //   } else {
-    //     console.warn("Token não encontrado");
-    //     window.location.href = '/login';
-    //   }
-    // }
-    if (config.url.search("/api/authentication/login")) {
-      return config;
+    if (!config.url.includes("/api/authentication/login")) {
+      if (token) {
+        config.headers.Authorization = `Bearer ${token}`;
+      } else {
+        console.warn("Token não encontrado");
+        window.location.href = '/login';
+      }
     }
-    console.log(config)
+    // if (config.url.search("/api/authentication/login")) {
+    //   return config;
+    // }
+    // console.log(config)
     
-    config.headers.Authorization = `Bearer ${token}`;
+    // config.headers.Authorization = `Bearer ${token}`;
 
     return config;
   }
