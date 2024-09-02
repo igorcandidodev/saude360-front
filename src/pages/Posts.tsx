@@ -11,16 +11,26 @@ import { useHistory } from "react-router-dom";
 import PostsService  from "../core/services/PostsService";
 import { UserContext } from "../context/userContext";
 import PatientService from "../core/services/PatientService";
+import { IonIcon } from '@ionic/react';
+import AttachIcon from '../Images/Icons/attach-outline.svg'
+
+interface Posts {
+    id: number;
+    title: string;
+    description: string;
+    responses: any[];
+}
 
 
 const Posts: React.FC = () => {
     const { userId } = useParams<{ userId: string }>(); 
     const [showResponseInput, setShowResponseInput] = useState<number | null>(null); // Change to hold post ID
     const [responseContent, setResponseContent] = useState("");
+    const [image, setImage] = useState(null);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newPostData, setNewPostData] = useState({ title: "", description: "" });
     const history = useHistory();
-    const [posts, setPosts] = useState<any[]>([]);
+    const [posts, setPosts] = useState<Posts[]>([]);
     const { user, setUser } = useContext(UserContext);
     const [patient, setPatient] = useState({cpf: null, birthDate: null, email: null, phoneNumber: null, fullName: null});
     const postsService = new PostsService(); 
@@ -29,11 +39,13 @@ const Posts: React.FC = () => {
     const fetchPosts = async () => {
       try {
         const response = await postsService.getPosts(userId);
+
+        console.log(response);
         // const sortedPosts = response.sort(
         //   (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
         // );
         // setPosts(sortedPosts);
-        setPosts(response)
+        setPosts(response);
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
       }
@@ -101,13 +113,11 @@ const Posts: React.FC = () => {
     
       console.log("Resposta postada:", responseContent);
       try {
-        const responseDto = {
-          content: responseContent,
-          userId: 1,
-        };
-        console.log("responseDto", responseDto)
-        console.log("postId", postId)
-        const response = await postsService.createResponse(responseDto, postId.toString());
+        const formData = new FormData();
+        formData.append('image', image);
+        formData.append('content', responseContent);
+
+        const response = await postsService.createResponse(formData, postId.toString());
         console.log("Resposta criada:", response);
         await fetchPosts();
       } catch (error) {
@@ -120,6 +130,17 @@ const Posts: React.FC = () => {
     const backToPatientRecord = () => {
         history.push("/pacientes");
     }
+
+    const handleAttachIconClick = () => {
+      const inputFile = document.getElementById("inputFile") as HTMLInputElement;
+      inputFile.click();
+    };
+
+    const handleFileChange = () => {
+        const inputFile = document.getElementById("inputFile") as HTMLInputElement;
+        document.getElementById('nameFile').textContent = inputFile.files[0].name;
+        setImage(inputFile.files[0]);
+    };
   
   return (
     <IonPage className="justify-start " style={{ overflowY: "auto" }} >
@@ -171,6 +192,11 @@ const Posts: React.FC = () => {
                             <div className="response-content">
                               <div className="response-author">{response.user.fullName}</div>
                               <div className="response-text">{response.content}</div>
+                              <div>
+                                {response.imageBase64 && (
+                                  <img src={`data:image/jpeg;base64,${response.imageBase64}`} alt="Post" />
+                                )}
+                              </div>
                             </div>
                           </div>
                         ))}
@@ -179,18 +205,26 @@ const Posts: React.FC = () => {
                       </Panel>
                     </Collapse>)}
 
-                  <div className="response-input">
+                  <div className="response-input mt-4">
                         {showResponseInput === post.id ? (
                           <>
-                            <Input
-                              value={responseContent}
-                              onChange={handleResponseChange}
-                              placeholder="Escreva sua resposta..."
-                            />
-                            <Button onClick={() => handlePostResponse(post.id)} type="primary" style={{ marginTop: "8px" }}>
-                              Enviar
-                            </Button>
-                            <Button onClick={handleCancelResponse} style={{ marginTop: "8px" }}>Cancelar</Button>
+                          <div className="flex">
+                            <IonIcon icon={AttachIcon} size="large" className="cursor-pointer" onClick={handleAttachIconClick}/>
+                            <Input id="inputFile" type="file" className="hidden" accept=".jpeg, .png, .jpg" onChange={handleFileChange} />
+                              <Input
+                                value={responseContent}
+                                onChange={handleResponseChange}
+                                placeholder="Escreva sua resposta..."
+                              />
+                          </div>
+                            <span id="nameFile" className="mt-4" />
+                            <div>
+                              <Button onClick={() => handlePostResponse(post.id)} type="primary" style={{ marginTop: "8px" }}>
+                                Enviar
+                              </Button>
+                              <Button onClick={handleCancelResponse} style={{ marginTop: "8px" }}>Cancelar</Button>
+                            </div>
+                           
                           </>
                         ) : (
                         <div>

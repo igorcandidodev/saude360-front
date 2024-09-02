@@ -12,12 +12,16 @@ class PostsService {
   }
 
   public async getPosts(userId: string) {
-    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/orientation/patient/${userId}`);
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/orientation-responses/${userId}`);
     return response.data;
   }
 
   public async createResponse(response: any, orientationId: string) {
-    const responseResult = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/orientation-responses/${orientationId}`, response);
+    const responseResult = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/orientation-responses/${orientationId}`, response, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
     return responseResult.data;
   }
 
