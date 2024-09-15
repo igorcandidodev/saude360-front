@@ -26,7 +26,7 @@ const Posts: React.FC = () => {
     const { userId } = useParams<{ userId: string }>(); 
     const [showResponseInput, setShowResponseInput] = useState<number | null>(null); // Change to hold post ID
     const [responseContent, setResponseContent] = useState("");
-    const [image, setImage] = useState(null);
+    const [images, setImages] = useState([null]);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [newPostData, setNewPostData] = useState({ title: "", description: "" });
     const history = useHistory();
@@ -114,7 +114,13 @@ const Posts: React.FC = () => {
       console.log("Resposta postada:", responseContent);
       try {
         const formData = new FormData();
-        formData.append('image', image);
+
+        if (images && images.length > 0) {
+          images.forEach((img) => {
+            formData.append('images', img); // Adicionar cada imagem com o nome de campo 'images'
+          });
+        }
+       
         formData.append('content', responseContent);
 
         const response = await postsService.createResponse(formData, postId.toString());
@@ -138,8 +144,10 @@ const Posts: React.FC = () => {
 
     const handleFileChange = () => {
         const inputFile = document.getElementById("inputFile") as HTMLInputElement;
-        document.getElementById('nameFile').textContent = inputFile.files[0].name;
-        setImage(inputFile.files[0]);
+        if (inputFile.files && inputFile.files[0]) {
+          document.getElementById('nameFile').textContent = inputFile.files[0].name;
+          setImages(prevImages => [...prevImages, inputFile.files[0]]);
+        }
     };
   
   return (
@@ -192,9 +200,11 @@ const Posts: React.FC = () => {
                             <div className="response-content">
                               <div className="response-author">{response.user.fullName}</div>
                               <div className="response-text">{response.content}</div>
-                              <div>
-                                {response.imageBase64 && (
-                                  <img src={`data:image/jpeg;base64,${response.imageBase64}`} alt="Post" />
+                              <div className="grid grid-cols-3 gap-2">
+                                {response.images && (
+                                  response.images.map((image) => {
+                                    return <img src={image} alt="Post" />
+                                  })
                                 )}
                               </div>
                             </div>
