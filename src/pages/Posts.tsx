@@ -46,6 +46,7 @@ const Posts: React.FC = () => {
         // );
         // setPosts(sortedPosts);
         setPosts(response);
+        console.log('posts', posts);
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
       }
@@ -130,6 +131,7 @@ const Posts: React.FC = () => {
         console.error("Erro ao postar resposta:", error);
       }
       setShowResponseInput(null);
+      setImages([null]);
       setResponseContent("");
     };
 
@@ -201,11 +203,16 @@ const Posts: React.FC = () => {
                               <div className="response-author">{response.user.fullName}</div>
                               <div className="response-text">{response.content}</div>
                               <div className="grid grid-cols-3 gap-2">
-                                {response.images && (
-                                  response.images.map((image) => {
-                                    return <img src={image} alt="Post" />
-                                  })
-                                )}
+                                {response.files && (
+                                  response.files.map((file) => {
+                                    console.log('file', file)
+                                    return (
+                                      <div key={file.id}>
+                                        {(file.type === 'image/jpeg' || file.type === 'image/png') ? <img src={`data:image/jpeg;base64,${file.fileBase64}`} alt="Post" /> : <video src={`data:video/mp4;base64,${file.fileBase64}`} controls />}
+                                      </div>
+                                    )
+                                  }
+                                  ))}
                               </div>
                             </div>
                           </div>
