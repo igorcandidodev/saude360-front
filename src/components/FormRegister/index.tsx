@@ -3,6 +3,7 @@ import FormActionButtonOutline from "./FormActionButtonOutline";
 import { FormActions } from "./FormActions";
 import { FormAddress } from "./FormAddress";
 import FormDataClinic from "./FormDataClinic";
+import FormFinance from "./FormFinance";
 import FormHeader from "./FormHeader";
 import FormLogin from "./FormLogin";
 import { FormMinorPatient } from "./FormMinorPatient";
@@ -19,5 +20,6 @@ export const Form = {
     Address: FormAddress,
     ActionButtonOutline: FormActionButtonOutline,
     DataClinic: FormDataClinic,
-    MinorPatient: FormMinorPatient
+    MinorPatient: FormMinorPatient,
+    Finance: FormFinance
 }

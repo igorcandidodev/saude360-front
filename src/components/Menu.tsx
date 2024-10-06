@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Logo from '../Images/Logo Saude360.svg';
 import { IonIcon } from '@ionic/react';
-
-
 import CalendarIcon from '../Images/Icons/calendar.svg';
+import DollarSignIcon from '../Images/Icons/dollarSign.svg';
+
 import { menuOutline, closeOutline } from 'ionicons/icons';
 
 const SideMenu = () => {
@@ -17,7 +17,7 @@ const SideMenu = () => {
     appPages: [
       { title: 'Agendamentos', path: '/home', icon: CalendarIcon },
       { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
-      { title: 'Financeiro', path: '/financeiro', icon: CalendarIcon },
+      { title: 'Financeiro', path: '/financeiro', icon: DollarSignIcon },
       { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },
       { title: 'Configurações', path: '/configuracoes', icon: CalendarIcon },
     ],

@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef, useImperativeHandle } from 'react';
 import FormSelectButton from './FormSelectButton';
 import { Form } from ".";
 
-const FormFinance: React.FC = () => {
+const FormFinance = forwardRef((props: any, ref) => {
   const [financeName, setFinanceName] = useState("");
   const [amount, setAmount] = useState<number | null>(null);
   const [date, setDate] = useState("");
@@ -10,24 +10,29 @@ const FormFinance: React.FC = () => {
   const [paymentType, setPaymentType] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Adicionar lógica para salvar a nova finança
-    console.log("Finance Name:", financeName);
-    console.log("Amount:", amount);
-    console.log("Date:", date);
-    console.log("Category:", category);
-    console.log("Payment Type:", paymentType);
-    console.log("Payment Status:", paymentStatus);
-  };
+  useImperativeHandle(ref, () => ({
+    submit: () => {
+      const formData = {
+        name: financeName,
+        value: amount,
+        date: `${date}T00:00:00Z`,
+        transactionType: category,
+        paymentMethod: paymentType,
+        paymentStatus: paymentStatus,
+      };
+      props.onSubmit(formData);
+    },
+  }));
+
+  
 
   return (
     <>
-      <Form.Header text="Informacões Pessoais" />
-      <form className="w-full max-w-4xl mx-auto" onSubmit={handleSubmit}>
+      <Form.Header text="Informacões" />
+      <form className="w-full max-w-4xl mx-auto" >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="flex flex-col pt-6">
-            <label className="pb-2" htmlFor="financeName">Nome da Finança</label>
+            <label className="pb-2" htmlFor="financeName">Nome</label>
             <input
               className="w-full border border-zinc-400 p-2 rounded"
               type="text"
@@ -73,8 +78,8 @@ const FormFinance: React.FC = () => {
               value={category}
               onChange={(e) => setCategory(e.target.value)}
               options={[
-                { value: "entrada", label: "Entrada" },
-                { value: "saida", label: "Saída" },
+                { value: "INCOME", label: "Entrada" },
+                { value: "EXPENSE", label: "Saída" },
               ]}
               required
             />
@@ -87,12 +92,10 @@ const FormFinance: React.FC = () => {
               value={paymentType}
               onChange={(e) => setPaymentType(e.target.value)}
               options={[
-                { value: "pix", label: "PIX" },
-                { value: "credito", label: "Cartão de Crédito" },
-                { value: "debito", label: "Cartão de Débito" },
-                { value: "boleto", label: "Boleto" },
-                { value: "transferencia", label: "Transferência" },
-                { value: "dinheiro", label: "Dinheiro" },
+                { value: "PIX", label: "PIX" },
+                { value: "CREDIT_CARD", label: "Cartão de Crédito" },
+                { value: "DEBIT_CARD", label: "Cartão de Débito" },
+                { value: "CASH", label: "Dinheiro" },
               ]}
               required
             />
@@ -105,9 +108,9 @@ const FormFinance: React.FC = () => {
               value={paymentStatus}
               onChange={(e) => setPaymentStatus(e.target.value)}
               options={[
-                { value: "pendente", label: "Pendente" },
-                { value: "concluido", label: "Concluído" },
-                { value: "atrasado", label: "Atrasado" },
+                { value: "PENDING", label: "Pendente" },
+                { value: "CONCLUDED", label: "Concluído" },
+                { value: "LATE", label: "Atrasado" },
               ]}
               required
             />
@@ -116,6 +119,6 @@ const FormFinance: React.FC = () => {
       </form>
     </>
   );
-};
+});
 
 export default FormFinance;

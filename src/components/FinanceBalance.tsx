@@ -1,30 +1,43 @@
 import React from 'react';
 import { data } from './FinanceTable';
+import ArrowUpIcon from '../Images/Icons/arrowUp.svg';
+import ArrowDownIcon from '../Images/Icons/arrowDown.svg';
+import DollarSignArrowIcon from '../Images/Icons/dollarSignArrow.svg';
+import { IonIcon } from '@ionic/react';
 
-const FinanceBalance: React.FC = () => {
-  const entrada = data
-    .filter(item => item.financeType === 'Entrada')
-    .reduce((total, item) => total + item.financeValue, 0);
+const FinanceBalance = ({ transactions }) => {
+  const entrada = transactions
+    .filter(item => item.transactionType === 'INCOME')
+    .reduce((total, item) => total + item.value, 0);
 
-  const saida = data
-    .filter(item => item.financeType === 'Saída')
-    .reduce((total, item) => total + item.financeValue, 0);
+  const saida = transactions
+    .filter(item => item.transactionType === 'EXPENSE')
+    .reduce((total, item) => total + item.value, 0);
 
   const balanco = entrada - saida;
 
   return (
     <div className="p-5  lg:p-10 bg-white w-screen rounded-lg">
       <div className="flex justify-center  lg:justify-around gap-4">
-        <div className="text-center w-1/3">
-          <h2 className="text-lg font-semibold">Entrada</h2>
+        <div className="text-center w-1/3 " >
+          <div className="flex items-center justify-center">
+            <IonIcon icon={ArrowUpIcon} className="w-6 h-6 fill-gray2"></IonIcon>
+            <h2 className="text-lg font-semibold text-[#27AE60] ml-2">ENTRADAS</h2>
+          </div>
           <p className="text-lg lg:text-3xl">R$ {entrada.toFixed(2).replace('.', ',')}</p>
         </div>
         <div className="text-center w-1/3 lg:border-x-2 lg:border-gray-300">
-          <h2 className="text-lg font-semibold">Saída</h2>
+          <div className="flex items-center justify-center">
+            <IonIcon icon={ArrowDownIcon} className="w-6 h-6 fill-gray2"></IonIcon>
+            <h2 className="text-lg font-semibold text-[#EB5757] ml-2">SAÍDAS</h2>
+          </div>
           <p className="text-lg lg:text-3xl">R$ {saida.toFixed(2).replace('.', ',')}</p>
         </div>
         <div className="text-center w-1/3">
-          <h2 className="text-lg font-semibold">Balanço</h2>
+          <div className="flex items-center justify-center">
+            <IonIcon icon={DollarSignArrowIcon} className="w-6 h-6 fill-gray2"></IonIcon>
+            <h2 className="text-lg font-semibold">BALANÇO</h2>
+          </div> 
           <p className="text-lg lg:text-3xl">R$ {balanco.toFixed(2).replace('.', ',')}</p>
         </div>
       </div>
