@@ -37,6 +37,7 @@ const RegisterProfessional: React.FC = () => {
         setLoading(false);
         resetUser();
         ToastService.showSuccess("Cadastro efetuado com sucesso");
+        history.push("/login");
       })
       .catch((error) => {
         setLoading(false);

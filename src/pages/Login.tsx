@@ -29,7 +29,6 @@ const LoginPage: React.FC = () => {
       .login(authInitial)
       .then((response) => {
         ToastService.showSuccess("Login efetuado com sucesso");
-        console.log(response.token);
         localStorage.setItem("token", response.token);
         localStorage.setItem("roles", JSON.stringify(response.roles));
   
