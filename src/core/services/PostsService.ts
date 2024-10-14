@@ -16,6 +16,11 @@ class PostsService {
     return response.data;
   }
 
+  public async getPostsToPatient() {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/orientation-responses/`);
+    return response.data;
+  }
+
   public async createResponse(response: any, orientationId: string) {
     const responseResult = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/orientation-responses/${orientationId}`, response, {
       headers: {

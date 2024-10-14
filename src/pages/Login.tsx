@@ -16,6 +16,7 @@ import { MoonLoader } from "react-spinners";
 const LoginPage: React.FC = () => {
   const { authInitial } = useContext(UserAuthContext);
   const [loading, setLoading] = useState(false);
+  const [roles, setRoles] = useState([]);
   const authenticationService = new AuthenticationService();
   const history = useHistory();
 
@@ -28,9 +29,19 @@ const LoginPage: React.FC = () => {
       .login(authInitial)
       .then((response) => {
         ToastService.showSuccess("Login efetuado com sucesso");
+        console.log(response.token);
         localStorage.setItem("token", response.token);
+        localStorage.setItem("roles", JSON.stringify(response.roles));
+  
         setLoading(false);
-        history.push("/home");
+
+        let path = "/home";
+
+        response.roles.forEach(role => {
+          if (role.authority === "ROLE_PATIENT") {
+            path = `/posts/${response.cpf}`;
+        }});
+        history.push(path);
       })
       .catch((error) => {
         setLoading(false);
