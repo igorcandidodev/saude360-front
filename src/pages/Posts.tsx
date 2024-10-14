@@ -35,16 +35,34 @@ const Posts: React.FC = () => {
     const [patient, setPatient] = useState({cpf: null, birthDate: null, email: null, phoneNumber: null, fullName: null});
     const postsService = new PostsService(); 
     const patientService = new PatientService();
+    const [isPatient, setIsPatient] = useState(false);
 
     const fetchPosts = async () => {
       try {
-        const response = await postsService.getPosts(userId);
+        const role = localStorage.getItem("roles");
+        let isPatientTemp = false;
 
-        console.log(response);
-        // const sortedPosts = response.sort(
-        //   (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
-        // );
-        // setPosts(sortedPosts);
+        role && JSON.parse(role).forEach((r: any) => {
+          if(r.authority === "ROLE_PATIENT") {
+            setIsPatient(true);
+            isPatientTemp = true;
+          }
+        });
+
+        console.log('isPatient', isPatient);
+
+        let response = [];
+
+        if(isPatientTemp) {
+          response = await postsService.getPostsToPatient();
+        } else {
+          response = await postsService.getPosts(userId);
+        }
+
+        const sortedPosts = response.sort(
+          (a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+        );
+        setPosts(sortedPosts);
         setPosts(response);
         console.log('posts', posts);
       } catch (error) {
@@ -53,6 +71,19 @@ const Posts: React.FC = () => {
     };
 
     const fetchPatient = async () => {
+      const role = localStorage.getItem("roles");
+
+      let isPatientTemp = false;
+
+      role && JSON.parse(role).forEach((r: any) => {
+        if(r.authority === "ROLE_PATIENT") {
+          setIsPatient(true);
+          isPatientTemp = true;
+        }
+      });
+      if(isPatientTemp) {
+        return;
+      }
       try {
         const responsePatient = await patientService.getPatientById(Number(userId));
         console.log('response patient', responsePatient)
@@ -159,30 +190,40 @@ const Posts: React.FC = () => {
         <div className=" flex flex-col lg:justify-center w-full">
           <div className="flex justify-center">
             <div className="flex-col lg:w-3/4 ">
-              <div className="flex justify-between">
-                <div className="w-full flex items-center">
-                  <LeftOutlined
-                    className="w-10"
-                    style={{ color: "#0443BE", fontSize: "24px" }}
-                      onClick={backToPatientRecord}
-                  />
-                  <h2 className="text-zinc-600 text-xl font-semibold text-center mt-3 mb-3">
-                    {patient?.fullName}
-                  </h2>
+
+              {isPatient === false && (
+                <div className="flex justify-between">
+                  <div className="w-full flex items-center">
+                    <LeftOutlined
+                      className="w-10"
+                      style={{ color: "#0443BE", fontSize: "24px" }}
+                        onClick={backToPatientRecord}
+                    />
+                    <h2 className="text-zinc-600 text-xl font-semibold text-center mt-3 mb-3">
+                      {patient?.fullName}
+                    </h2>
+                  </div>
+
+                  <Link
+                    className="flex justify-center items-center bg-blue1 text-white px-4 rounded-md w-80 my-1"
+                    onClick={showModal}
+                  >
+                    <img src={NewPost} alt="Add" className="mr-2 w-6 h-6" />
+                    Adicionar novo post
+                  </Link>
                 </div>
-                <Link
-                  className="flex justify-center items-center bg-blue1 text-white px-4 rounded-md w-80 my-1"
-                  onClick={showModal}
-                >
-                  <img src={NewPost} alt="Add" className="mr-2 w-6 h-6" />
-                  Adicionar novo post
-                </Link>
-              </div>
+              )} 
             </div>
           </div>
           <div className="flex justify-center">
             <div className="w-full lg:w-3/4">
-              {posts?.map((post) => (
+              {posts?.length === 0 ? (
+                <div className="flex justify-center items-center h-64">
+                  <h2 className="text-zinc-600 text-xl font-semibold text-center">
+                    Nenhuma orientação encontrada.
+                  </h2>
+                </div>
+              ) : posts?.map((post) => (
                 <Card title={post?.title} key={post?.id} className="mb-4">
                   <p>{post?.description}</p>
 
