@@ -49,8 +49,6 @@ const Posts: React.FC = () => {
           }
         });
 
-        console.log('isPatient', isPatient);
-
         let response = [];
 
         if(isPatientTemp) {
@@ -64,7 +62,6 @@ const Posts: React.FC = () => {
         );
         setPosts(sortedPosts);
         setPosts(response);
-        console.log('posts', posts);
       } catch (error) {
         console.error("Erro ao buscar posts:", error);
       }
