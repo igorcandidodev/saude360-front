@@ -1,27 +1,48 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Logo from '../Images/Logo Saude360.svg';
 import { IonIcon } from '@ionic/react';
 import CalendarIcon from '../Images/Icons/calendar.svg';
 import DollarSignIcon from '../Images/Icons/dollarSign.svg';
+import CommunicationIcon from '../Images/Icons/communication.svg';
+import ConfigIcon from '../Images/Icons/config.svg';
+import GroupIcon from '../Images/Icons/Group.svg';
 
 import { menuOutline, closeOutline } from 'ionicons/icons';
 
 const SideMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPatient, setIsPatient] = useState(false);
 
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
 
-  const routes = {
+  const role = localStorage.getItem("roles");
+
+  useEffect(() => {
+    role && JSON.parse(role).forEach((r: any) => {
+      if(r.authority === "ROLE_PATIENT") {
+        setIsPatient(true);
+      }
+    });
+  } ,[role]);
+
+  const routesProfissional = {
     appPages: [
       { title: 'Agendamentos', path: '/home', icon: CalendarIcon },
-      { title: 'Pacientes', path: '/pacientes', icon: CalendarIcon },
+      { title: 'Pacientes', path: '/pacientes', icon: CommunicationIcon },
       { title: 'Financeiro', path: '/financeiro', icon: DollarSignIcon },
-      { title: 'Notificações', path: '/notificacoes', icon: CalendarIcon },
-      { title: 'Configurações', path: '/configuracoes', icon: CalendarIcon },
+      { title: 'Configurações', path: '/configuracoes', icon: ConfigIcon },
     ],
   };
+
+  const routesPatient = {
+    appPages: [
+      { title: 'Agendamentos', path: '/agendamentos', icon: CalendarIcon },
+      { title: 'Comunicação', path: '/posts/patient', icon: CommunicationIcon },
+      { title: 'Configurações', path: '/configuracoes', icon: ConfigIcon },
+    ]
+  }
 
   return (
     <div className=" z-50">
@@ -54,14 +75,14 @@ const SideMenu = () => {
               </div>
               <nav className="mt-8">
                 <ul>
-                  {routes.appPages.map((route, index) => (
+                  {(isPatient ? routesPatient : routesProfissional).appPages.map((route, index) => (
                     <li key={index}>
                       <a
                         href={route.path}
                         className="flex items-center px-4 py-2 text-gray-800 bg-menu-color hover:rounded-md hover:text-white"
                       >
-                        <IonIcon icon={route.icon} className="w-6 h-6 mr-2 fill-gray2"></IonIcon>
-                        {route.title}
+                         <IonIcon icon={route.icon} className="w-6 h-6 mr-2 fill-current hover:fill-white"></IonIcon>
+                         {route.title}
                       </a>
                     </li>
                   ))}
