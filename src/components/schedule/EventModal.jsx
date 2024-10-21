@@ -90,7 +90,6 @@ const EventModal = () => {
             <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
                 <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
                     <span className='text-gray-400'>
-                        <AiOutlineMenu />
                     </span>
                     <div className='flex gap-2'>
                         {selectedEvent && (
@@ -121,14 +120,15 @@ const EventModal = () => {
                         <div></div>
                         <input type="text"
                             name="title"
-                            placeholder='Adicione um Titulo'
+                            placeholder='Adicione um Título'
                             required
                             className='pt-3 border-0 text-gray-600 text-xl font-semibold pb-2 w-full border-b-2 border-gray-200 focus:outline-none focus:ring-0 focus:border-blue-200'
                             value={title} onChange={(e) => setTitle(e.target.value)}
                         />
-                        <span className='text-gray-400 flex'>
-                            <AiOutlineClockCircle /> Horario de inicio
-                        </span>
+                        <span className='text-gray-400 flex items-center'>
+                            <AiOutlineClockCircle size={15} /> 
+                            <span style={{ marginLeft: '8px' }}>Horário de início</span>
+                            </span>
                         <div className='flex flex-col gap-3'>
                             <TimePicker
                                 format="HH:mm"
@@ -141,8 +141,9 @@ const EventModal = () => {
                                 style={{ width: '100%' }}
                             />
                         </div>
-                        <span className='text-gray-400 flex'>
-                            <AiOutlineClockCircle /> Horario de termino
+                        <span className='text-gray-400 flex items-center'>
+                            <AiOutlineClockCircle /> 
+                            <span style={{ marginLeft: '8px' }}>Horário de término</span>
                         </span>
                         <div className='flex flex-col gap-3'>
                             <TimePicker

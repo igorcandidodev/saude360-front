@@ -15,7 +15,7 @@ const Appointments = () => {
         <div className="animate__backOutLeft animate__backInRight animate__delay-2s flex flex-col w-full">
             {!savedEvents?.length && (
                 <Typography.Text className="flex justify-center  h-screen text-gray-600 ">
-                    Sorry, there are no appointments.
+                    Desculpe, não há compromissos.
                 </Typography.Text>
             )}
             {!!savedEvents?.length && (
