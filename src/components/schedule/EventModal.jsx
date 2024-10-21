@@ -4,7 +4,7 @@ import GlobalContext from '../../context/GlobalContext';
 import { usePatients } from '../../context/PatientsContext';
 import { useConsultations } from '../../context/ConsultationContext';
 import { TimePicker } from 'antd';
-import dayjs from 'dayjs';
+import dayjs from '../../../dayjsConfig';
 
 // Color hexCodes
 const hexCodes = {

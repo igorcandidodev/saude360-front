@@ -1,7 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState, useEffect, useReducer } from "react"
 import GlobalContext from "./GlobalContext"
-import dayjs from "dayjs";
+import dayjs from '../../../saude360-front/dayjsConfig';
 
 // Context Reducer
 const savedEventsReducer = (state, { type, payload }) => {

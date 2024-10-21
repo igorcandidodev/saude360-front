@@ -42,7 +42,7 @@ const Week = () => {
           <div className="grid grid-cols-7 grid-rows-1 py-4 border border-l-0 border-b-0 shadow-md pl-16">
             {currentMonth.map((day, i) => (
               <span key={i} className={`week text-sm text-center flex items-center justify-center h-4 ${day === selDay && 'text-blue-800'}`}>
-                {todayDate.format('ddd D') === day && 'Today'}
+                {todayDate.format('ddd D') === day && 'Hoje'}
                 <br />
                 {day}
               </span>

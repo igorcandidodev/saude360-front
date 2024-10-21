@@ -1,4 +1,4 @@
-import dayjs from 'dayjs';
+import dayjs from '../../../../dayjsConfig';
 import PropTypes from 'prop-types';
 import { useContext, useState, useEffect } from 'react';
 import GlobalContext from '../../../context/GlobalContext';
