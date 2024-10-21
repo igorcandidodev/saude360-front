@@ -5,7 +5,7 @@ Appointments page
 import { List, Typography } from "antd";
 import { useContext } from "react";
 import GlobalContext from "../../../context/GlobalContext";
-import dayjs from "dayjs";
+import dayjs from '../../../../dayjsConfig';
 
 const Appointments = () => {
     const { savedEvents, setShowEventModal, setSelectedEvent } = useContext(GlobalContext);
@@ -15,7 +15,7 @@ const Appointments = () => {
         <div className="animate__backOutLeft animate__backInRight animate__delay-2s flex flex-col w-full">
             {!savedEvents?.length && (
                 <Typography.Text className="flex justify-center  h-screen text-gray-600 ">
-                    Desculpe, não há compromissos.
+                    Desculpe, não há agendamentos.
                 </Typography.Text>
             )}
             {!!savedEvents?.length && (
