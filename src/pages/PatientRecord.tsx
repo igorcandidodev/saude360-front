@@ -51,7 +51,7 @@ const PatientRecord: React.FC = () => {
               onClick={backToPatientsPage}
             />
             <h2 className="text-zinc-600 text-xl font-semibold text-center ">
-              Ficha médica
+              Dados do Paciente
             </h2>
           </div>
 
@@ -73,7 +73,7 @@ const PatientRecord: React.FC = () => {
               <span>{patient?.birthDate != null ? formatDate(patient?.birthDate) : null}</span>
             </div>
             <div className="flex flex-col mb-2 lg:w-1/1 ">
-              <span className="pb-2 font-semibold">EMAIL</span>
+              <span className="pb-2 font-semibold">Email</span>
               <span>{patient?.email}</span>
             </div>
             <div className="flex flex-col mb-2 lg:w-1/1 ">
