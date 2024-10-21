@@ -26,8 +26,8 @@ export class ConsultationService {
     return response.data;
   }
 
-  public async findAllByPatientId(patientId: number) {
-    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/${patientId}`);
+  public async findAllByPatient() {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/`);
     return response.data;
   }
 }

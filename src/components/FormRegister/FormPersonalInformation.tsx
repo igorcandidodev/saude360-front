@@ -242,38 +242,6 @@ export default function FormPersonalInformation({
           </>
         )}
 
-        {!isProfessional && (
-          <>
-            <div className="flex flex-col pt-6">
-              <div className="flex items-center">
-                <label className="pb-2" htmlFor="helthSector">
-                  FREQUÊNCIA DE ATENDIMENTO
-                </label>
-                <IonImg
-                  src={IconInterrogacao}
-                  className="pb-2 pl-1 cursor-pointer"
-                  alt="Icone de interrogação"
-                />
-              </div>
-
-              <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
-                <input
-                  className="w-full bg-transparent"
-                  type="text"
-                  id="serviceFrequency"
-                  name="serviceFrequency"
-                  placeholder="Selecione a frequência"
-                  disabled
-                />
-                <IonImg
-                  src={IconDown}
-                  className="absolute cursor-pointer"
-                  alt="Icone de seta para baixo"
-                />
-              </div>
-            </div>
-          </>
-        )}
       </form>
     </>
   );

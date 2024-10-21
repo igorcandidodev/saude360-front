@@ -36,6 +36,7 @@ import "./theme/variables.css";
 
 /* Tailwind styles */
 import "./theme/tailwind.css";
+import Appointments from "./pages/Appointments";
 
 setupIonicReact();
 
@@ -76,6 +77,9 @@ const App = () => (
 {/*               <Route exact path="/configuracoes">
                 <Configuration />
               </Route> */}
+              <Route exact path="/agendamentos">
+                <Appointments />
+              </Route>
             </IonRouterOutlet>
           </IonReactRouter>
         </UserContextProvider>
