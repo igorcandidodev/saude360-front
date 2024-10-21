@@ -30,6 +30,11 @@ export class ConsultationService {
     const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/${patientId}`);
     return response.data;
   }
+
+  public async findAllByPatient() {
+    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/`);
+    return response.data;
+  }
 }
 
 

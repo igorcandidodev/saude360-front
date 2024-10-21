@@ -1,6 +1,6 @@
 import { IonContent, IonPage, IonImg } from "@ionic/react";
 import { useHistory } from "react-router-dom";
-import { useContext, useState } from "react";
+import { useContext, useState, useEffect } from "react";
 
 /* logo */
 import Logo from "../Images/Logo Saude360.svg";
@@ -22,6 +22,8 @@ const RegisterPatient: React.FC = () => {
   const { user, setUser }: any = useContext(UserContext);
 
   const [patients, setPatients] = useState<any[]>([]);
+  const [isNextDisabled, setIsNextDisabled] = useState(true); 
+
 
 
   const calculateAge = (date: string) => {
@@ -90,6 +92,18 @@ const RegisterPatient: React.FC = () => {
         console.error("Erro ao registrar paciente:", error);
       });
   };
+
+  useEffect(() => {
+
+    const isFormValid = 
+      user.fullName?.trim() !== "" && 
+      user.email?.trim() !== "" && 
+      user.cpf?.trim() !== "" && 
+      user.phoneNumber?.trim() !== "" && 
+      user.birthDate?.trim() !== "";
+
+    setIsNextDisabled(!isFormValid);
+}, [user.fullName, user.email, user.cpf, user.phoneNumber, user.birthDate]);
   
 
   const renderForm = () => {
@@ -108,6 +122,7 @@ const RegisterPatient: React.FC = () => {
                 <Form.ActionButton
                   text="PRÓXIMO"
                   onClick={() => setIndexForm(3)}
+                  disabled={isNextDisabled}
 /*                   text="CADASTRAR"
                   onClick={handleRegister} */
                 />
