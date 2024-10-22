@@ -13,6 +13,7 @@ import { UserContext } from "../context/userContext";
 import PatientService from "../core/services/PatientService";
 import { IonIcon } from '@ionic/react';
 import AttachIcon from '../Images/Icons/attach-outline.svg'
+import { MoonLoader } from "react-spinners";
 
 interface Posts {
     id: number;
@@ -36,6 +37,7 @@ const Posts: React.FC = () => {
     const postsService = new PostsService(); 
     const patientService = new PatientService();
     const [isPatient, setIsPatient] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const fetchPosts = async () => {
       try {
@@ -89,7 +91,7 @@ const Posts: React.FC = () => {
         console.error(error);
       }
     };
-
+    
     useEffect(() => {
       fetchPosts();
       fetchPatient();
@@ -103,10 +105,16 @@ const Posts: React.FC = () => {
     const handleOk = async () => {
       console.log("Novo post:", newPostData);
       try {
+          setLoading(true);
+          handleCancel();
+          setNewPostData({ title: "", description: "" });
           const response = await postsService.createPost(newPostData, userId);
           console.log("Resposta da API:", response);
           await fetchPosts();
+          setLoading(false);
+          
       } catch (error) {
+          setLoading(false);
           console.error("Erro ao criar o post:", error);
       }
       
@@ -140,7 +148,6 @@ const Posts: React.FC = () => {
   
     const handlePostResponse = async (postId: number) => {
     
-      console.log("Resposta postada:", responseContent);
       try {
         const formData = new FormData();
 
@@ -152,10 +159,14 @@ const Posts: React.FC = () => {
        
         formData.append('content', responseContent);
 
+        setLoading(true);
+
         const response = await postsService.createResponse(formData, postId.toString());
-        console.log("Resposta criada:", response);
+
         await fetchPosts();
+        setLoading(false);
       } catch (error) {
+        setLoading(false);
         console.error("Erro ao postar resposta:", error);
       }
       setShowResponseInput(null);
@@ -183,6 +194,16 @@ const Posts: React.FC = () => {
   return (
     <IonPage className="justify-start " style={{ overflowY: "auto" }} >
       <Menu />
+      {loading && (
+        <div className="fixed w-screen h-screen flex justify-center items-center bg-white bg-opacity-75 z-50">
+          <MoonLoader
+            color="#0443BE"
+            loading
+            size={50}
+            speedMultiplier={0.5}
+          />
+        </div>
+      )}
       <div className="flex items-center mt-5">
         <div className=" flex flex-col lg:justify-center w-full">
           <div className="flex justify-center">
@@ -291,6 +312,7 @@ const Posts: React.FC = () => {
                 </Card>
               ))}
             </div>
+            
           </div>
         </div>
       </div>
@@ -300,6 +322,7 @@ const Posts: React.FC = () => {
         open={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
+        className="z-20"
       >
         <Input
           placeholder="Título"
