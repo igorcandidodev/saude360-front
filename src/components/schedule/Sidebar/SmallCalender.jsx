@@ -11,7 +11,6 @@ import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 dayjs.extend(customParseFormat);
 dayjs.extend(relativeTime);
 dayjs.extend(updateLocale);
-
 dayjs.locale('pt-br');
 
 const SmallCalender = () => {
@@ -52,8 +51,15 @@ const SmallCalender = () => {
     }
   }
 
+  const handleDayClick = (day) => {
+    if (day.month() !== currentMonthIdx) {
+      setMonthIndex(day.month());
+    }
+    setDaySelected(day);
+  }
+
   return (
-    <div className='py-4'>
+    <div className='py-4 w-80'> {/* Adiciona largura fixa ao contêiner */}
       <header className="flex justify-between items-center">
         <p className="text-black text-sm font-medium">
           {dayjs(new Date(dayjs().year(), currentMonthIdx)).format('MMMM YYYY')}
@@ -73,17 +79,14 @@ const SmallCalender = () => {
       </header>
       <div className="grid grid-cols-7 grid-rows-6 mt-5">
         {currentMonth[0].map((day, i) => (
-          <span key={i} className='text-xs py-1 mx-2.5 text-center text-gray-400 font-semibold'>
+          <span key={i} className='text-xs py-1 mx-2 text-center text-gray-400 font-semibold'>
             {day.format('ddd')}
           </span>
         ))}
         {currentMonth.map((row, i) => (
           <React.Fragment key={i}>
             {row.map((day, idx) => (
-              <button onClick={() => {
-                setSmallCalendarMonth(currentMonthIdx);
-                setDaySelected(day);
-              }} key={idx} className={`${getDayClass(day)} ${getMonthClass(day)}`}>
+              <button onClick={() => handleDayClick(day)} key={idx} className={`${getDayClass(day)} ${getMonthClass(day)}`}>
                 <span className='text-sm'>
                   {day.format('D')}
                 </span>
