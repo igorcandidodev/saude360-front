@@ -38,7 +38,7 @@ const LoginPage: React.FC = () => {
 
         response.roles.forEach(role => {
           if (role.authority === "ROLE_PATIENT") {
-            path = `/posts/${response.cpf}`;
+            path = `/agendamentos`;
         }});
         history.push(path);
       })
