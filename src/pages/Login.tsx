@@ -3,6 +3,7 @@ import { useState } from "react";
 import { IonImg } from "@ionic/react";
 import BackgroundImage from "../Images/BackgroundImage.png";
 import Saude360 from "../Images/Saude360.svg";
+import Saude360Hero from "../Images/saude360-hero.svg"
 import { Form } from "../components/FormRegister";
 import FormLogin from "../components/FormRegister/FormLogin";
 import { Link } from "react-router-dom";
@@ -51,7 +52,7 @@ const LoginPage: React.FC = () => {
       <IonContent>
         <div className="grid grid-cols-2 h-screen w-full">
           {/* Coluna da imagem */}
-          <div className="h-full hidden lg:block">
+          <div className="h-screen hidden lg:block">
             <IonImg
               className="h-full w-full object-cover"
               src={BackgroundImage}
@@ -61,20 +62,22 @@ const LoginPage: React.FC = () => {
 
           {/* Coluna do formulário */}
           <div className="flex flex-col justify-center items-center p-8 w-screen lg:w-full">
-            <div className="flex justify-center">
+            <div className="flex justify-center flex-col items-center">
+              <IonImg className="w-24 mb-8 md:hidden" src={Saude360Hero} alt="Logo" />
               <IonImg className="w-60 mb-8" src={Saude360} alt="Logo" />
             </div>
 
-            <Form.Root>
-              <FormLogin /> {/* Campos de entrada */}
-              <Form.Actions>
+            <Form.Root >
+              <FormLogin  /> {/* Campos de entrada */}
+              <p className="text-gray-400 italic text-sm">8 dígitos, com pelo menos 1 letra maiúscula.</p>
+              <Form.Actions >
                 <Form.ActionButton
                   id="Entrar"
                   text="Entrar"
                   onClick={handleLogin}
                   disabled={loading}
                 />
-                <div className="flex items-center justify-center mt-2">
+                <div className="flex items-center justify-center my-2">
                   <span className="text-gray-500 mx-2">ou</span>
                 </div>
                 <Link to="/cadastro-profissional">

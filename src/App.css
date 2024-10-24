@@ -27,3 +27,7 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin-right: 30px;
 }
+
+button#Entrar {
+  margin-bottom: 10px!important;
+}

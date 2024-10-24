@@ -12,7 +12,7 @@ export default function FormActionButtonOutline({
   return (
     <button
       {...rest}
-      className="w-80 border border-blue-600 rounded mt-10 mb-1 pr-5 pl-5 pt-3 pb-3 font-semibold text-lg text-blue-600"
+      className="w-80 border border-blue-600 rounded mt-1 mb-1 pr-5 pl-5 pt-3 pb-3 font-semibold text-lg text-blue-600"
     >
       {text}
     </button>
