@@ -14,10 +14,10 @@ const Finances: React.FC = () => {
   return (
     <IonPage className='justify-start px-5 bg-gray3'>
       <Menu />
-      <div className='h-screen flex items-start mt-20 lg:mt-10 '>
+      <div className='h-screen flex items-start mt-20 lg:mt-10  '>
         
 
-      <div className=' flex flex-col w-full lg:justify-center'>
+      <div className=' flex flex-col w-full lg:justify-center '>
 
         <div className='flex justify-center '>
           <div className='flex-col  lg:w-3/4 '>

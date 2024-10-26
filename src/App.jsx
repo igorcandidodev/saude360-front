@@ -8,6 +8,7 @@ import RegisterPatient from "./pages/RegisterPatient";
 import MainEntry from "./components/schedule/MainEntry";
 import PatientRecord from "./pages/PatientRecord";
 import Login from "./pages/Login";
+import Configuration from "./pages/Configuration"
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
@@ -73,9 +74,9 @@ const App = () => (
               <Route exact path="/login">
                 <Login />
               </Route>
-{/*               <Route exact path="/configuracoes">
+              <Route exact path="/configuracoes">
                 <Configuration />
-              </Route> */}
+              </Route>
             </IonRouterOutlet>
           </IonReactRouter>
         </UserContextProvider>
