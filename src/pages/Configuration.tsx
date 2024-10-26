@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonContent, IonPage, IonInput, IonSelect, IonSelectOption, IonButton, IonTextarea, IonIcon } from '@ionic/react';
+import { IonContent, IonPage, IonInput, IonSelect, IonSelectOption, IonButton, IonTextarea, IonIcon, IonAvatar } from '@ionic/react';
 import Menu from '../components/Menu';
 
 function Configuration() {
@@ -20,9 +20,18 @@ function Configuration() {
                                         </IonButton>
                                     </div>
                                     <div className='bg-white p-10 rounded-md mt-5'>
+                                        {/* Area da imagem */}
+                                        <div className='flex my-4 items-center gap-2'>
+                                        <IonAvatar className='border-4 border-slate-300 '>
+                                            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
+                                        </IonAvatar>
+                                        <h2 className="text-2xl">Julia Rocha</h2>
+                                        </div>
+
                                         {/* Informações Pessoais */}
                                         <div className="space-y-4">
                                             <h2 className="text-2xl">Informações Pessoais</h2>
+                                            <hr />
                                             <div className="flex flex-wrap -mx-2">
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
                                                     <IonTextarea
@@ -89,6 +98,7 @@ function Configuration() {
                                         {/* Endereço Consultório */}
                                         <div className="mt-8 space-y-4">
                                             <h2 className="text-2xl">Endereço Consultório</h2>
+                                            <hr />
                                             <div className="flex flex-wrap -mx-2">
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
                                                     <IonInput
@@ -156,6 +166,7 @@ function Configuration() {
                                         {/* Dados do Consultório */}
                                         <div className="mt-8 space-y-4">
                                             <h2 className="text-2xl">Dados do Consultório</h2>
+                                            <hr />
                                             <div className="flex flex-wrap -mx-2">
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
                                                     <IonInput
