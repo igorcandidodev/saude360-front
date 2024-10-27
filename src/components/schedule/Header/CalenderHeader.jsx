@@ -100,13 +100,13 @@ const CalenderHeader = () => {
                     :
                     (viewCalender === 'Week' ?
                         // Week
-                        <div className="flex items-center justify-center border rounded w-48  px-3 py-2">
-                            <h2 className=' text-base text-black font-base'>{WeekDates.firstDayOfWeek + " - " + WeekDates.lastDayOfWeek}</h2>
+                        <div className="flex items-center justify-center border rounded w-48 px-3 py-2">
+                            <h2 className='text-base text-black font-base'>{WeekDates.firstDayOfWeek + " - " + WeekDates.lastDayOfWeek}</h2>
                         </div>
                         :
                         // Day
-                        <div className="flex items-center justify-center border rounded w-48  px-3 py-2">
-                            <h2 className=' text-base text-black font-base'>{daySelected.format('D MMMM, YYYY')}</h2>
+                        <div className="flex items-center justify-center border rounded w-48 px-2 py-2">
+                            <h2 className='text-base text-black font-base'>{daySelected.format('D [de] MMMM [de] YYYY')}</h2>
                         </div>
                     )
                 }
