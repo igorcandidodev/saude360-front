@@ -79,7 +79,7 @@ export function getQuartoHourBlocks(selectedDate = dayjs().startOf('day')) {
         // Loop through 4 intervals per hour (60 minutes / 15 minutes)
         for (let j = 0; j < 4; j++) {
             const currentInterval = currentHour.add(j * 15, 'minutes');
-            const formattedInterval = currentInterval.format('h A');
+            const formattedInterval = currentInterval.format('HH:mm');
             hourArray.push(formattedInterval);
         }
 
@@ -104,7 +104,7 @@ export function getHourBlocks(selectedDate = dayjs().startOf('day')) {
         // Loop through 4 intervals per hour (60 minutes / 15 minutes)
         for (let j = 0; j < 4; j++) {
             const currentInterval = currentHour.add(j * 15, 'minutes');
-            const formattedInterval = currentInterval.format('DD-MM-YYYY HH:mm ');
+            const formattedInterval = currentInterval.format('DD-MM-YYYY HH:mm');
             hourArray.push(formattedInterval);
         }
 
