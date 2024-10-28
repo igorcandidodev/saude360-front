@@ -68,13 +68,13 @@ export default function FormDataClinic() {
       <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cnpj">
-            CNPJ
+            CNPJ <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="cnpj"
-            placeholder="XX.XXX.XXX/XXXX-XX"
+            placeholder="Digite o CNPJ"
             name="cnpj"
             onChange={handleChange}
             value={user.clinic[0].cnpj}
@@ -83,7 +83,7 @@ export default function FormDataClinic() {
         <div className="flex flex-col pt-6">
           <div className="flex items-center">
             <label className="pb-2" htmlFor="cnes">
-              NÚMERO CNES
+              NÚMERO CNES <span className="text-red-500">*</span>
             </label>
             <IonImg
               src={IconInterrogacao}
@@ -102,14 +102,14 @@ export default function FormDataClinic() {
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cellphone">
-            CELULAR
+            CELULAR <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            placeholder="(00)90000-0000"
+            placeholder="Digite o número de celular"
             onChange={handleChange}
             value={user.clinic[0].phoneNumber}
           ></input>
@@ -123,7 +123,7 @@ export default function FormDataClinic() {
             type="text"
             id="telephoneNumber"
             name="telephoneNumber"
-            placeholder="(00)0000-0000"
+            placeholder="Digite o número de telefone"
             onChange={handleChange}
             value={user.clinic[0].telephoneNumber}
           ></input>

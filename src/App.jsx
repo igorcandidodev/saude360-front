@@ -8,6 +8,7 @@ import RegisterPatient from "./pages/RegisterPatient";
 import MainEntry from "./components/schedule/MainEntry";
 import PatientRecord from "./pages/PatientRecord";
 import Login from "./pages/Login";
+import NotFound from './components/ErrorPages/NotFound';
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
@@ -80,6 +81,7 @@ const App = () => (
               <Route exact path="/agendamentos">
                 <Appointments />
               </Route>
+              <Route component={NotFound} />
             </IonRouterOutlet>
           </IonReactRouter>
         </UserContextProvider>

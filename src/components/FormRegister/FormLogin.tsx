@@ -32,7 +32,7 @@ export default function FormLogin() {
             className="w-full border border-zinc-400 p-2 rounded"
             type="text"
             id="cpf"
-            placeholder="000.000.000-00"
+            placeholder="Digite seu CPF"
             name="cpf"
             onChange={handleChange}
             value={authInitial.cpf}
@@ -46,6 +46,7 @@ export default function FormLogin() {
             className="w-full border border-zinc-400 p-2 rounded"
             type="password"
             id="password"
+            placeholder="Digite sua senha"
             name="password"
             onChange={handleChange}
             value={authInitial.password}
