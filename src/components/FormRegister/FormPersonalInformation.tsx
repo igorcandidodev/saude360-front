@@ -78,12 +78,13 @@ export default function FormPersonalInformation({
       <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="fullName">
-            NOME COMPLETO
+            NOME COMPLETO <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="fullName"
+            placeholder="Digite o nome completo"
             name="fullName"
             onChange={handleChange}
             value={user.fullName}
@@ -91,14 +92,14 @@ export default function FormPersonalInformation({
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cpf">
-            CPF
+            CPF <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="cpf"
             name="cpf"
-            placeholder="000.000.000-00"
+            placeholder="Digite o CPF"
             onChange={handleChange}
             value={user.cpf}
           ></input>
@@ -106,7 +107,7 @@ export default function FormPersonalInformation({
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="dateBirthday">
-            DATA DE NASCIMENTO
+            DATA DE NASCIMENTO <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
@@ -119,12 +120,13 @@ export default function FormPersonalInformation({
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="email">
-            E-MAIL
+            E-MAIL <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="email"
             id="email"
+            placeholder="Digite o e-mail"
             name="email"
             onChange={handleChange}
             value={user.email}
@@ -133,14 +135,14 @@ export default function FormPersonalInformation({
 
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="phoneNumber">
-            NÚMERO DE CELULAR
+            NÚMERO DE CELULAR <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             type="text"
             id="phoneNumber"
             name="phoneNumber"
-            placeholder="(00) 90000-0000"
+            placeholder="Digite o número de celular"
             onChange={handleChange}
             value={user.phoneNumber}
           ></input>
@@ -152,7 +154,7 @@ export default function FormPersonalInformation({
             <div className="flex flex-col pt-6">
               <div className="flex items-center">
                 <label className="pb-2" htmlFor="helthSector">
-                  ÁREA DE TRABALHO
+                  ÁREA DE TRABALHO <span className="text-red-500">*</span>
                 </label>
                 <IonImg
                   src={IconInterrogacao}
@@ -192,7 +194,7 @@ export default function FormPersonalInformation({
             <div className="flex flex-col pt-6">
               <div className="flex items-center">
                 <label className="pb-2" htmlFor="cns">
-                  NÚMERO CNS
+                  NÚMERO CNS <span className="text-red-500">*</span>
                 </label>
                 <IonImg
                   src={IconInterrogacao}
@@ -204,6 +206,7 @@ export default function FormPersonalInformation({
                 className="border border-zinc-400 p-2 rounded"
                 type="text"
                 id="cnsNumber"
+                placeholder="Digite o número CNS"
                 name="cnsNumber"
                 onChange={handleChange}
                 value={user.cnsNumber}
@@ -211,12 +214,13 @@ export default function FormPersonalInformation({
             </div>
             <div className="flex flex-col pt-6">
               <label className="pb-2" htmlFor="password">
-                SENHA
+                SENHA <span className="text-red-500">*</span>
               </label>
               <input
                 className="border border-zinc-400 p-2 rounded"
                 type="password"
                 id="password"
+                placeholder="Digite sua senha"
                 name="password"
                 onChange={handleChange}
                 value={user.password}
