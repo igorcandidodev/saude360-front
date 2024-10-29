@@ -32,6 +32,7 @@ const LoginPage: React.FC = () => {
         ToastService.showSuccess("Login efetuado com sucesso");
         localStorage.setItem("token", response.token);
         localStorage.setItem("roles", JSON.stringify(response.roles));
+        localStorage.setItem("cpf", response.cpf);
         setUserCpf(response.cpf);
   
         setLoading(false);
