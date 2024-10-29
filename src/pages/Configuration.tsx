@@ -1,18 +1,35 @@
-import React from 'react';
+import React, { useEffect, useContext } from 'react';
 import { IonContent, IonPage, IonInput, IonSelect, IonSelectOption, IonButton, IonTextarea, IonIcon, IonAvatar } from '@ionic/react';
 import Menu from '../components/Menu';
+import UserService from '../core/services/UserService'; // Importar seu UserService
+import { UserContext } from '../context/userContext';
 
 function Configuration() {
+    const { user, setUser } = useContext(UserContext);
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+            const userService = new UserService();
+            const userCpf = localStorage.getItem("cpf"); // Recupere o CPF armazenado
+            if (userCpf) {
+                const userData = await userService.getUserByCpf(userCpf);
+                setUser(userData);
+            }
+        };
+
+        fetchUserData();
+    }, [setUser]);
+
     return (
-        <IonPage className=''>
+        <IonPage>
             <Menu />
-            <IonContent class=''>
-                <div className=" mt-20 bg-gray3">
-                    <div className='h-full flex items-center lg:justify-center '>
-                        <div className=' flex flex-col lg:justify-center'>
+            <IonContent>
+                <div className="mt-20 bg-gray3">
+                    <div className='h-full flex items-center lg:justify-center'>
+                        <div className='flex flex-col lg:justify-center'>
                             <div className='flex justify-center'>
-                                <div className='flex-col  w-full mx-5 lg:w-3/4 mt-10 lg:mt-0'>
-                                    <div className='flex w-2/5  lg:w-full items-center justify-between'>
+                                <div className='flex-col w-full mx-5 lg:w-3/4 mt-10 lg:mt-0'>
+                                    <div className='flex w-2/5 lg:w-full items-center justify-between'>
                                         <h1 className='text-3xl'>Configurações</h1>
                                         <IonButton>
                                             <IonIcon slot="start"></IonIcon>
@@ -20,12 +37,12 @@ function Configuration() {
                                         </IonButton>
                                     </div>
                                     <div className='bg-white p-10 rounded-md mt-5'>
-                                        {/* Area da imagem */}
+                                        {/* Área da imagem */}
                                         <div className='flex my-4 items-center gap-2'>
-                                        <IonAvatar className='border-4 border-slate-300 '>
-                                            <img alt="Silhouette of a person's head" src="https://ionicframework.com/docs/img/demos/avatar.svg" />
-                                        </IonAvatar>
-                                        <h2 className="text-2xl">Julia Rocha</h2>
+                                            <IonAvatar className='border-4 border-slate-300'>
+                                                <img alt="Silhouette of a person's head" src={`https://ionicframework.com/docs/img/demos/avatar.svg`} />
+                                            </IonAvatar>
+                                            <h2 className="text-2xl">{user.fullName}</h2>
                                         </div>
 
                                         {/* Informações Pessoais */}
@@ -39,7 +56,8 @@ function Configuration() {
                                                         labelPlacement="floating"
                                                         fill="outline"
                                                         placeholder="Nome Completo"
-                                                        value="julia Rocha"
+                                                        value={user.fullName}
+                                                        readonly // Para evitar edição, se necessário
                                                     ></IonTextarea>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -48,7 +66,8 @@ function Configuration() {
                                                         labelPlacement="floating"
                                                         fill="outline"
                                                         placeholder="000.000.000-00"
-                                                        value=""
+                                                        value={user.cpf}
+                                                        readonly
                                                     ></IonTextarea>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -58,6 +77,8 @@ function Configuration() {
                                                         fill="outline"
                                                         type="email"
                                                         placeholder="seuemail@exemplo.com"
+                                                        value={user.email}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -75,6 +96,8 @@ function Configuration() {
                                                         labelPlacement="floating"
                                                         fill="outline"
                                                         type="date"
+                                                        value={user.birthDate}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -84,10 +107,12 @@ function Configuration() {
                                                         fill="outline"
                                                         type="tel"
                                                         placeholder="(00) 00000-0000"
+                                                        value={user.phoneNumber}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonSelect label="Área de Trabalho" labelPlacement="floating" fill="outline" placeholder="Selecione">
+                                                    <IonSelect label="Área de Trabalho" labelPlacement="floating" fill="outline" placeholder="Selecione" >
                                                         <IonSelectOption value="Pediatria">Pediatria</IonSelectOption>
                                                         <IonSelectOption value="Cardiologia">Cardiologia</IonSelectOption>
                                                     </IonSelect>
@@ -95,8 +120,8 @@ function Configuration() {
                                             </div>
                                         </div>
 
-                                        {/* Endereço Consultório */}
-                                        <div className="mt-8 space-y-4">
+                                                                                {/* Endereço Consultório */}
+                                                                                <div className="mt-8 space-y-4">
                                             <h2 className="text-2xl">Endereço Consultório</h2>
                                             <hr />
                                             <div className="flex flex-wrap -mx-2">
