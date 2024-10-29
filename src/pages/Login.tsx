@@ -15,7 +15,7 @@ import { useHistory } from "react-router-dom";
 import { MoonLoader } from "react-spinners";
 
 const LoginPage: React.FC = () => {
-  const { authInitial } = useContext(UserAuthContext);
+  const { authInitial, setUserCpf } = useContext(UserAuthContext);
   const [loading, setLoading] = useState(false);
   const [roles, setRoles] = useState([]);
   const authenticationService = new AuthenticationService();
@@ -32,6 +32,7 @@ const LoginPage: React.FC = () => {
         ToastService.showSuccess("Login efetuado com sucesso");
         localStorage.setItem("token", response.token);
         localStorage.setItem("roles", JSON.stringify(response.roles));
+        setUserCpf(response.cpf);
   
         setLoading(false);
 
@@ -107,6 +108,7 @@ const LoginPage: React.FC = () => {
               </div>
             )}
           </div>
+          
         </div>
       </IonContent>
     </IonPage>
