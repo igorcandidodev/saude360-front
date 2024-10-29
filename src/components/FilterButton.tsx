@@ -12,13 +12,10 @@ function FilterButton() {
         <IonContent>
           <IonList>
             <IonItem button={true} detail={false}>
-              Option 1
+              Ordenar A-Z
             </IonItem>
             <IonItem button={true} detail={false}>
-              Option 2
-            </IonItem>
-            <IonItem button={true} id="nested-trigger">
-              More options...
+              Ordernar proxima consulta
             </IonItem>
 
             <IonPopover trigger="nested-trigger" dismissOnSelect={true} side="end">
