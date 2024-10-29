@@ -29,6 +29,10 @@
     background-color: #0443BE;
 }
 
+.bg-blue-disabled{
+  background-color: #CEDFFF;
+}
+
 
 .bg-menu-color:hover{
     background-color: #0443BE;
