@@ -50,53 +50,50 @@
  
   const FinanceTable = ({ transactions }) => {
 
-    return (
-      <div className="rounded-lg overflow-hidden border">
-        <div className="overflow-x-auto">
-          <table className="w-full table-fixed">
-            <thead className="bg-gray1 text-white">
-              <tr>
-                <th className="px-4 py-2 text-left">NOME</th>
-                <th className="px-4 py-2 text-left">TIPO</th>
-                <th className="px-4 py-2 text-left">VALOR</th>
-                <th className="px-4 py-2 text-left">DATA</th>
-                <th className="px-4 py-2 text-left">TIPO DE PAGAMENTO</th>
-                <th className="px-4 py-2 text-left">STATUS</th>
-              </tr>
-            </thead>
-          </table>
-        </div>
-        <div className="overflow-x-auto max-h-[400px]">
-          <table className="w-full table-fixed">
+     return (
+    <div className="rounded-lg overflow-hidden border">
+      <div className="overflow-x-auto">
+        <table className="w-full min-w-[800px] table-fixed">
+          <thead className="bg-gray1 text-white">
+            <tr>
+              <th className="px-4 py-2 text-left">NOME</th>
+              <th className="px-4 py-2 text-left">TIPO</th>
+              <th className="px-4 py-2 text-left">VALOR</th>
+              <th className="px-4 py-2 text-left">DATA</th>
+              <th className="px-4 py-2 text-left">TIPO DE PAGAMENTO</th>
+              <th className="px-4 py-2 text-left">STATUS</th>
+            </tr>
+          </thead>
           <tbody>
             {transactions.length === 0 ? (
-                <tr>
-                  <td colSpan={6} className="text-center py-4 text-gray-500">
-                    Nenhuma transação encontrada.
+              <tr>
+                <td colSpan={6} className="text-center py-4 text-gray-500">
+                  Nenhuma transação encontrada.
+                </td>
+              </tr>
+            ) : (
+              transactions.map((transaction, index) => (
+                <tr key={index}>
+                  <td className="px-4 py-2 text-left">{transaction.name}</td>
+                  <td className="px-4 py-2 text-left">{getTransactionTypeLabel(transaction.transactionType)}</td>
+                  <td className="px-4 py-2 text-left">{transaction.value.toFixed(2)}</td>
+                  <td className="px-4 py-2 text-left">{transaction.date}</td>
+                  <td className="px-4 py-2 text-left">{getPaymentMethodLabel(transaction.paymentMethod)}</td>
+                  <td className="px-4 py-2 text-left">
+                    <span className={getStatusClass(transaction.paymentStatus)}>
+                      {getPaymentStatusLabel(transaction.paymentStatus)}
+                    </span>
                   </td>
                 </tr>
-              ) : (
-                transactions.map((transaction, index) => (
-                  <tr key={index}>
-                    <td className="px-4 py-2 text-left">{transaction.name}</td>
-                    <td className="px-4 py-2 text-left">{getTransactionTypeLabel(transaction.transactionType)}</td>
-                    <td className="px-4 py-2 text-left">{transaction.value.toFixed(2)}</td>
-                    <td className="px-4 py-2 text-left">{transaction.date}</td>
-                    <td className="px-4 py-2 text-left">{getPaymentMethodLabel(transaction.paymentMethod)}</td>
-                    <td className="px-4 py-2 text-left">
-                      <span className={getStatusClass(transaction.paymentStatus)}>
-                        {getPaymentStatusLabel(transaction.paymentStatus)}
-                      </span>
-                    </td>
-                  </tr>
-                ))
-              )}
+              ))
+            )}
           </tbody>
-          </table>
-        </div>
+        </table>
       </div>
-    );
-  };
+    </div>
+  );
+};
+
 
 
 export { FinanceTable };

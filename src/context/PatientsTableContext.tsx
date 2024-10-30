@@ -6,7 +6,7 @@ import React, {
   Dispatch,
   SetStateAction,
 } from "react";
-import PatientService from "../core/services/PatientService"
+import PatientService from "../core/services/PatientService";
 
 interface PatientData {
   paciente: string;
@@ -19,6 +19,7 @@ interface PatientsTableContextType {
   patients: PatientData[];
   setPatients: Dispatch<SetStateAction<PatientData[]>>;
   fetchPatients: () => Promise<void>;
+  filterPatients: (order: 'asc' | 'desc') => void; // Atualizando a função para não precisar da chave
 }
 
 const PatientsTableContext = createContext<PatientsTableContextType | undefined>(
@@ -38,12 +39,27 @@ const PatientsTableProvider = ({ children }) => {
     }
   };
 
+  // Função para filtrar os pacientes
+  const filterPatients = (order: 'asc' | 'desc', key: keyof PatientData = 'paciente') => {
+    const sortedPatients = [...patients].sort((a, b) => {
+      if (key === 'dataConsulta') {
+        const dateA = a.dataConsulta ? new Date(a.dataConsulta) : new Date(0);
+        const dateB = b.dataConsulta ? new Date(b.dataConsulta) : new Date(0);
+        return order === 'asc' ? dateA.getTime() - dateB.getTime() : dateB.getTime() - dateA.getTime();
+      } else {
+        return order === 'asc' ? a.paciente.localeCompare(b.paciente) : b.paciente.localeCompare(a.paciente);
+      }
+    });
+    setPatients(sortedPatients);
+  };
+  
+
   useEffect(() => {
     fetchPatients();
   }, []);
 
   return (
-    <PatientsTableContext.Provider value={{ patients, setPatients, fetchPatients }}>
+    <PatientsTableContext.Provider value={{ patients, setPatients, fetchPatients, filterPatients }}>
       {children}
     </PatientsTableContext.Provider>
   );
@@ -57,4 +73,4 @@ const usePatientsTable = () => {
   return context;
 };
 
-export { PatientsTableProvider, usePatientsTable }; 
+export { PatientsTableProvider, usePatientsTable };

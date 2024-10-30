@@ -6,11 +6,8 @@ export class AuthenticationService {
 
   constructor() {}
 
-
   public async login(auth: any) {
     const response = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/api/authentication/login`, auth);
-
-    return response.data;
+    return response.data; // Retorne os dados, incluindo o ID do usuário
   }
-
 }
