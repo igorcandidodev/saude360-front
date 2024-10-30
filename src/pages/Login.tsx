@@ -85,7 +85,7 @@ const LoginPage: React.FC = () => {
               <Form.Actions >
                 <Form.ActionButton
                   id="Entrar"
-                  text="Entrar"
+                  text="ENTRAR"
                   onClick={handleLogin}
                   disabled={loading}
                 />
@@ -93,7 +93,7 @@ const LoginPage: React.FC = () => {
                   <span className="text-gray-500 mx-2">ou</span>
                 </div>
                 <Link to="/cadastro-profissional">
-                  <Form.ActionButtonOutline text="Cadastre-se" />
+                  <Form.ActionButtonOutline text="CADASTRE-SE" />
                 </Link>
               </Form.Actions>
             </Form.Root>

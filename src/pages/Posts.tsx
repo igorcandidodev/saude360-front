@@ -227,7 +227,7 @@ const Posts: React.FC = () => {
                     onClick={showModal}
                   >
                     <img src={NewPost} alt="Add" className="mr-2 w-6 h-6" />
-                    Adicionar novo post
+                    ADICIONAR NOVO POST
                   </Link>
                 </div>
               )} 
