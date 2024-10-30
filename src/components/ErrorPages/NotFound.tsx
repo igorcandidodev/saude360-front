@@ -7,11 +7,16 @@ import { Form } from '../FormRegister';
 const NotFound: React.FC = () => {
   const history = useHistory();
 
-  const handleGoHome = () => {
-    history.push('/home');
+  const referrer = document.referrer;
+
+  const backToPage = () => {
+    if (referrer) {
+      window.location.href = referrer;
+    } else {
+      history.push('/login');
+    }
   };
-
-
+  
    return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-center p-4">
       <img
@@ -23,7 +28,7 @@ const NotFound: React.FC = () => {
 
       <Form.ActionButton
         text="RETORNAR AO INÍCIO"
-        onClick={handleGoHome}
+        onClick={backToPage}
       /> 
     </div>
   );
