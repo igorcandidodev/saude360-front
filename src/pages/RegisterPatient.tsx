@@ -23,6 +23,7 @@ const RegisterPatient: React.FC = () => {
 
   const [patients, setPatients] = useState<any[]>([]);
   const [isNextDisabled, setIsNextDisabled] = useState(true); 
+  const [isAddressValid, setIsAddressValid] = useState(false);
 
 
 
@@ -78,13 +79,14 @@ const RegisterPatient: React.FC = () => {
       password: null
     });
     console.log(user);
+    
     await patientService
       .createPatient(user)
       .then((response) => {
         setLoading(false);
         ToastService.showSuccess("Cadastro efetuado com sucesso");
         history.push("/pacientes");
-        window.location.reload(); 
+        window.location.reload();  
       })
       .catch((error) => {
         setLoading(false);
@@ -94,16 +96,25 @@ const RegisterPatient: React.FC = () => {
   };
 
   useEffect(() => {
-
     const isFormValid = 
       user.fullName?.trim() !== "" && 
       user.email?.trim() !== "" && 
       user.cpf?.trim() !== "" && 
       user.phoneNumber?.trim() !== "" && 
       user.birthDate?.trim() !== "";
-
+  
+    const isAddressFilled = 
+      user.address?.cep?.trim() !== "" && 
+      user.address?.street?.trim() !== "" && 
+      user.address?.number?.trim() !== "" && 
+      user.address?.neighborhood?.trim() !== "" && 
+      user.address?.city?.trim() !== "" && 
+      user.address?.state?.trim() !== "";
+  
     setIsNextDisabled(!isFormValid);
-}, [user.fullName, user.email, user.cpf, user.phoneNumber, user.birthDate]);
+    setIsAddressValid(isAddressFilled);
+  }, [user.fullName, user.email, user.cpf, user.phoneNumber, user.birthDate, user.address]);
+  
   
 
   const renderForm = () => {
@@ -162,7 +173,7 @@ const RegisterPatient: React.FC = () => {
                 <Form.ActionButton
                   text="CADASTRAR"
                   onClick={handleRegister}
-                  disabled={loading}
+                  disabled={loading || !isAddressValid}
                 />
               </div>
               {loading && (

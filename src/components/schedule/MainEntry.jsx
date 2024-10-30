@@ -47,13 +47,16 @@ const MainEntry = () => {
         <ConsultationProvider>
         <PatientsProvider>
         <IonPage>
+            <div>
             <Menu/>
+            </div>
+
             {/* Event Modal For handling our appointments  */}
             {showEventModal && <EventModal />}
             {/* Calender Headers */}
-            <div className="h-screen flex flex-col relative">
-                <div className="mobileScreenView ">
-                <MobileMenu />
+            <div className="h-screen flex flex-col relative mt-3 md:mt-0">
+                <div className="mobileScreenView  ">
+{/*                 <MobileMenu /> */}
                 </div>
                 <div className="flex flex-1 monthCalender">
                     <div className="hiddenItemsSmallScreen flex">
