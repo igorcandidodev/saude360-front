@@ -85,7 +85,7 @@ const CalenderHeader = () => {
                 </div>
 
                 <div className=' controls flex items-center justify-center gap-4 mt-2 lg:mt-0'>
-                <Button className=" py-2 px-4 mr-5" size="large" onClick={handleReset}>Hoje</Button>
+                <Button className=" py-2 px-4" size="large" onClick={handleReset}>Hoje</Button>
                 {/* Left Control */}
                 <Button size='large' onClick={() => handleNextPrevMonth(-1)} className='flex items-center justify-center border rounded p-3'>
                     <span className='cursor-pointer text-black '>
