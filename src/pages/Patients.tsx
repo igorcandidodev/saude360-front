@@ -29,7 +29,7 @@ const Patients: React.FC = () => {
               </div>
               <Link className="flex items-center bg-blue1 text-white px-4 rounded-md w-80 my-1" to={'/cadastro-paciente'}>
                 <img src={ContactIcon} alt="Add" className="mr-2 w-6 h-6" />
-                Adicionar novo paciente
+                ADICIONAR NOVO PACIENTE
               </Link>
             </div>
           </div>

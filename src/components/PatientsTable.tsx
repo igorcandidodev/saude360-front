@@ -38,10 +38,10 @@ const Table = () => {
             <table className="w-full min-w-[800px] table-fixed">
               <thead className="bg-gray1 text-white">
                 <tr>
-                  <th className="w-2/6 px-4 py-2 rounded-tl-lg text-left">Paciente</th>
-                  <th className="px-4 py-2 text-left">Próxima Consulta</th>
-                  <th className="px-4 py-2 text-left">Último Envio de Tarefa</th>
-                  <th className="px-4 py-2 text-left">Último Feedback</th>
+                  <th className="w-2/6 px-4 py-2 rounded-tl-lg text-left">PACIENTE</th>
+                  <th className="px-4 py-2 text-left">PRÓXIMA CONSULTA</th>
+                  <th className="px-4 py-2 text-left">ÚLTIMO ENVIO DE TAREFA</th>
+                  <th className="px-4 py-2 text-left">ÚLTIMO FEEDBACK</th>
                   <th className="rounded-tr-lg"></th>
                 </tr>
               </thead>
