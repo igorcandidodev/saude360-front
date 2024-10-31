@@ -1,16 +1,21 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useState } from 'react';
 import { IonContent, IonPage, IonInput, IonSelect, IonSelectOption, IonButton, IonTextarea, IonIcon, IonAvatar } from '@ionic/react';
 import Menu from '../components/Menu';
-import UserService from '../core/services/UserService'; // Importar seu UserService
+import UserService from '../core/services/UserService';
 import { UserContext } from '../context/userContext';
 
 function Configuration() {
     const { user, setUser } = useContext(UserContext);
+    const [isProfessional, setIsProfessional] = useState(false);
 
     useEffect(() => {
+        const roles = JSON.parse(localStorage.getItem("roles") || "[]");
+        const professionalRole = roles.some(role => role.authority === "ROLE_PROFESSIONAL");
+        setIsProfessional(professionalRole);
+        
         const fetchUserData = async () => {
             const userService = new UserService();
-            const userCpf = localStorage.getItem("cpf"); // Recupere o CPF armazenado
+            const userCpf = localStorage.getItem("cpf");
             if (userCpf) {
                 const userData = await userService.getUserByCpf(userCpf);
                 setUser(userData);
@@ -19,6 +24,9 @@ function Configuration() {
 
         fetchUserData();
     }, [setUser]);
+
+    const clinic = user.clinics?.[0]; // Primeiro elemento das clínicas
+    const address = clinic?.address; // Endereço da clínica
 
     return (
         <IonPage>
@@ -55,9 +63,8 @@ function Configuration() {
                                                         label="Nome Completo"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        placeholder="Nome Completo"
                                                         value={user.fullName}
-                                                        readonly // Para evitar edição, se necessário
+                                                        readonly
                                                     ></IonTextarea>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -65,7 +72,6 @@ function Configuration() {
                                                         label="CPF"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        placeholder="000.000.000-00"
                                                         value={user.cpf}
                                                         readonly
                                                     ></IonTextarea>
@@ -75,19 +81,8 @@ function Configuration() {
                                                         label="E-mail"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="email"
-                                                        placeholder="seuemail@exemplo.com"
                                                         value={user.email}
                                                         readonly
-                                                    ></IonInput>
-                                                </div>
-                                                <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonInput
-                                                        label="Número do CRM"
-                                                        labelPlacement="floating"
-                                                        fill="outline"
-                                                        type="text"
-                                                        placeholder="Número CRM"
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -95,7 +90,6 @@ function Configuration() {
                                                         label="Data de Nascimento"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="date"
                                                         value={user.birthDate}
                                                         readonly
                                                     ></IonInput>
@@ -105,23 +99,25 @@ function Configuration() {
                                                         label="Número do Celular"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="tel"
-                                                        placeholder="(00) 00000-0000"
                                                         value={user.phoneNumber}
                                                         readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonSelect label="Área de Trabalho" labelPlacement="floating" fill="outline" placeholder="Selecione" >
-                                                        <IonSelectOption value="Pediatria">Pediatria</IonSelectOption>
-                                                        <IonSelectOption value="Cardiologia">Cardiologia</IonSelectOption>
-                                                    </IonSelect>
+                                                    <IonInput
+                                                        label="Número CNS"
+                                                        labelPlacement="floating"
+                                                        fill="outline"
+                                                        value={user.cnsNumber}
+                                                        readonly
+                                                    ></IonInput>
                                                 </div>
                                             </div>
                                         </div>
-
-                                                                                {/* Endereço Consultório */}
-                                                                                <div className="mt-8 space-y-4">
+                                        {isProfessional && (
+                                            <>
+                                        {/* Endereço Consultório */}
+                                        <div className="mt-8 space-y-4">
                                             <h2 className="text-2xl">Endereço Consultório</h2>
                                             <hr />
                                             <div className="flex flex-wrap -mx-2">
@@ -130,8 +126,8 @@ function Configuration() {
                                                         label="Rua"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="Rua"
+                                                        value={address?.street}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -139,8 +135,8 @@ function Configuration() {
                                                         label="Número"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="number"
-                                                        placeholder="Número"
+                                                        value={address?.number}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -148,8 +144,8 @@ function Configuration() {
                                                         label="Bairro"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="Bairro"
+                                                        value={address?.neighborhood}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -157,23 +153,19 @@ function Configuration() {
                                                         label="Cidade"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="Cidade"
+                                                        value={address?.city}
+                                                        
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonInput
-                                                        label="Complemento (Opcional)"
+                                                    <IonSelect
+                                                        label="Estado"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="Complemento"
-                                                    ></IonInput>
-                                                </div>
-                                                <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonSelect label="Estado" labelPlacement="floating" fill="outline" placeholder="Selecione">
-                                                        <IonSelectOption value="SP">São Paulo</IonSelectOption>
+                                                        value={address?.state}
+                                                    >
                                                         <IonSelectOption value="RJ">Rio de Janeiro</IonSelectOption>
+                                                        <IonSelectOption value="SP">São Paulo</IonSelectOption>
                                                     </IonSelect>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -181,8 +173,8 @@ function Configuration() {
                                                         label="CEP"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="00000-000"
+                                                        value={address?.cep}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                             </div>
@@ -195,11 +187,11 @@ function Configuration() {
                                             <div className="flex flex-wrap -mx-2">
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
                                                     <IonInput
-                                                        label="CPF"
+                                                        label="CNPJ"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="000.000.000-00"
+                                                        value={clinic?.cnpj}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -207,8 +199,17 @@ function Configuration() {
                                                         label="Número CNS"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="text"
-                                                        placeholder="Número CNS"
+                                                        value={clinic?.cnesNumber}
+                                                        readonly
+                                                    ></IonInput>
+                                                </div>
+                                                <div className="w-full md:w-1/2 px-2 mt-2">
+                                                    <IonInput
+                                                        label="Telefone"
+                                                        labelPlacement="floating"
+                                                        fill="outline"
+                                                        value={clinic?.telephoneNumber}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                                 <div className="w-full md:w-1/2 px-2 mt-2">
@@ -216,21 +217,15 @@ function Configuration() {
                                                         label="Celular"
                                                         labelPlacement="floating"
                                                         fill="outline"
-                                                        type="tel"
-                                                        placeholder="(00) 00000-0000"
-                                                    ></IonInput>
-                                                </div>
-                                                <div className="w-full md:w-1/2 px-2 mt-2">
-                                                    <IonInput
-                                                        label="Telefone (Opcional)"
-                                                        labelPlacement="floating"
-                                                        fill="outline"
-                                                        type="tel"
-                                                        placeholder="(00) 0000-0000"
+                                                        value={clinic?.phoneNumber}
+                                                        readonly
                                                     ></IonInput>
                                                 </div>
                                             </div>
+                                            
                                         </div>
+                                        </>
+                                        )}
                                     </div>
                                 </div>
                             </div>
