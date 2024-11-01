@@ -24,6 +24,7 @@ const RegisterPatient: React.FC = () => {
   const [patients, setPatients] = useState<any[]>([]);
   const [isNextDisabled, setIsNextDisabled] = useState(true); 
   const [isAddressValid, setIsAddressValid] = useState(false);
+  const [cpfError, setCpfError] = useState<string | null>(null); 
 
 
 
@@ -99,7 +100,8 @@ const RegisterPatient: React.FC = () => {
     const isFormValid = 
       user.fullName?.trim() !== "" && 
       user.email?.trim() !== "" && 
-      user.cpf?.trim() !== "" && 
+      user.cpf?.trim() !== "" && user.cpf?.trim().length === 14  &&
+      !cpfError && // Adiciona a validação de CPF válido
       user.phoneNumber?.trim() !== "" && 
       user.birthDate?.trim() !== "";
   
@@ -113,8 +115,11 @@ const RegisterPatient: React.FC = () => {
   
     setIsNextDisabled(!isFormValid);
     setIsAddressValid(isAddressFilled);
-  }, [user.fullName, user.email, user.cpf, user.phoneNumber, user.birthDate, user.address]);
+  }, [user.fullName, user.email, user.cpf, user.phoneNumber, user.birthDate, user.address, cpfError]);
   
+  const handleCpfValidation = (error: string | null) => {
+    setCpfError(error); // Atualiza o erro de CPF se houver
+  };
   
 
   const renderForm = () => {
@@ -122,7 +127,7 @@ const RegisterPatient: React.FC = () => {
       case 1:
         return (
           <>
-            <Form.PersonalInformation isProfessional={false} onDateChange={handleDateChange} />
+            <Form.PersonalInformation isProfessional={false} onDateChange={handleDateChange} onCpfValidation={handleCpfValidation}/>
             <Form.Actions>
               {age !== null && age < 18 ? (
                 <Form.ActionButton

@@ -15,10 +15,12 @@ import { cpf } from 'cpf-cnpj-validator';
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onCpfValidation?: (error: string | null) => void; // Nova prop
 }
 export default function FormPersonalInformation({
   isProfessional,
   onDateChange,
+  onCpfValidation, 
 }: FormPersonalInformationProps) {
   const { user, setUser } = useContext(UserContext);
 
@@ -41,11 +43,14 @@ export default function FormPersonalInformation({
       if (unmaskedCpf.length === 11) {
         if (cpf.isValid(unmaskedCpf)) {
           setCpfError(null);
+          onCpfValidation?.(null);
         } else {
           setCpfError("CPF inválido");
+          onCpfValidation?.("CPF inválido");
         }
-      } else {
-        setCpfError(null);
+      } else if (unmaskedCpf.length >= 0) {
+        setCpfError("CPF inválido");
+        onCpfValidation?.("CPF inválido");
       }
       return;
     }
