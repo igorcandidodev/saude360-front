@@ -1,3 +1,5 @@
+import { useEffect, useState } from "react";
+import { MoonLoader } from "react-spinners";
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -49,9 +51,21 @@
 
  
   const FinanceTable = ({ transactions }) => {
+    const [loading, setLoading] = useState(true);
+
+    useEffect(() => {
+      if (transactions.length > 0) {
+        setLoading(false);
+      }
+    }, [transactions]);
 
      return (
     <div className="rounded-lg overflow-hidden border">
+      {loading ? (
+        <div className="flex justify-center items-center h-full py-8">
+          <MoonLoader size={50} color={"#123abc"} loading={loading} />
+        </div>
+      ) : (
       <div className="overflow-x-auto">
         <table className="w-full min-w-[800px] table-fixed">
           <thead className="bg-gray1 text-white">
@@ -90,6 +104,7 @@
           </tbody>
         </table>
       </div>
+      )}
     </div>
   );
 };

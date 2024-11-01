@@ -1,5 +1,5 @@
 import { Form } from ".";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { UserContext } from "../../context/userContext";
 
 interface FormPersonalInformationProps {
@@ -7,49 +7,93 @@ interface FormPersonalInformationProps {
 }
 
 export function FormAddress({isProfessional}:FormPersonalInformationProps) {
+  const [cepError, setCepError] = useState<string | null>(null);
+
+  const fetchAddressByCep = async (cep: string) => {
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
+      if (!response.ok) throw new Error("CEP não encontrado");
+      const data = await response.json();
+      if (data.erro) throw new Error("CEP não encontrado");
+      setCepError(null); 
+      return data;
+    } catch (error) {
+      console.error(error);
+      setCepError("CEP não encontrado"); 
+      return null;
+    }
+  };
   
     const { user, setUser } = useContext(UserContext);
 
-    const handleChange = (event: any) => {
-      if (isProfessional){
-        setUser({
-          ...user,
-          address: {
-            ...user.address,
-            [event.target.name]: event.target.value
+    const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+      const { name, value } = event.target;
+  
+      if (name === "cep" && value.length === 8) {
+        const addressData = await fetchAddressByCep(value);
+        if (addressData) {
+          if (isProfessional) {
+            setUser((prevUser) => ({
+              ...prevUser,
+              clinic: [
+                {
+                  ...prevUser.clinic[0],
+                  address: {
+                    ...prevUser.clinic[0].address,
+                    cep: value,
+                    street: addressData.logradouro,
+                    neighborhood: addressData.bairro,
+                    city: addressData.localidade,
+                    state: addressData.uf,
+                  },
+                },
+              ],
+            }));
+          } else {
+            setUser((prevUser) => ({
+              ...prevUser,
+              address: {
+                ...prevUser.address,
+                cep: value,
+                street: addressData.logradouro,
+                neighborhood: addressData.bairro,
+                city: addressData.localidade,
+                state: addressData.uf,
+              },
+            }));
           }
-        });
-        return
-      }
-      setUser({
-        ...user,
-            address: {
-              ...user.address,
-              [event.target.name]: event.target.value,
-            },
+        }
+      } else {
+        setUser((prevUser) => ({
+          ...prevUser,
+          address: {
+            ...prevUser.address,
+            [name]: value,
           },
-      );
-      
-    }
+        }));
+      }
+    };
 
     return (
 <>
       <Form.Header text={isProfessional ? "Endereço do Consultório" : "Endereço do Paciente"} />
       <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
-        <div className="flex flex-col pt-6">
+      <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cep">
             CEP <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.cep : user.address.cep}
+            value={isProfessional ? user.clinic[0].address.cep : user.address.cep}
             type="text"
             id="cep"
             placeholder="Digite o CEP"
             name="cep"
-          ></input>
+          />
+          {cepError && <span className="text-red-500 text-sm mt-1">{cepError}</span>}
         </div>
+
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="road">
             RUA <span className="text-red-500">*</span>

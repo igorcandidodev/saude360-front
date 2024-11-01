@@ -7,13 +7,17 @@ class ProfessionalService {
   constructor() {}
 
   public async getProfessional(id: string) {
-    console.log(`${import.meta.env.URL}`)
     const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/professionals/${id}`);
     return response.data;
   }
 
   public async createProfessional(professional: any) {
     const response = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/user/professional/`, professional);
+    return response.data;
+  }
+
+  public async updateProfessional() {
+    const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/user/professional/`);
     return response.data;
   }
 }
