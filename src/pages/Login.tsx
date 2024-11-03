@@ -95,6 +95,11 @@ const LoginPage: React.FC = () => {
                 <Link to="/cadastro-profissional">
                   <Form.ActionButtonOutline text="CADASTRE-SE" />
                 </Link>
+                <div className="flex justify-center mt-4">
+                  <Link to="/esqueceu-senha" className="text-blue-500 hover:underline">
+                    Esqueceu sua senha?
+                  </Link>
+                </div>
               </Form.Actions>
             </Form.Root>
 

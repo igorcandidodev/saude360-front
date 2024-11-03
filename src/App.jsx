@@ -10,6 +10,7 @@ import PatientRecord from "./pages/PatientRecord";
 import Login from "./pages/Login";
 import Configuration from "./pages/Configuration"
 import NotFound from './components/ErrorPages/NotFound';
+import ForgotPassword from "./pages/ForgotPassword";
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
@@ -83,6 +84,10 @@ const App = () => (
                 <Appointments />
               </Route>
               <Route component={NotFound} />
+              <Route component={NotFound} />
+              <Route exact path="/esqueceu-senha">
+                <ForgotPassword />
+              </Route>
             </IonRouterOutlet>
           </IonReactRouter>
         </UserContextProvider>
