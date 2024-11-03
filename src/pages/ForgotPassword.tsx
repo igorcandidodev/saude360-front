@@ -107,7 +107,7 @@ const ForgotPassword: React.FC = () => {
       <IonContent>
         <div className="flex flex-col justify-center items-center h-screen">
           <IonImg className="mt-10 w-80" src={Logo} alt="Logo"></IonImg>
-          {!isCodeSent ? (
+          {isCodeSent ? (
             <>
               <h2 className="text-2xl font-semibold mb-4 text-gray-600">Confira seu e-mail</h2>
               <p className="mb-6 text-gray-600 text-center">
