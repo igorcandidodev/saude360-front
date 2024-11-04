@@ -1,4 +1,4 @@
-import React, { useState, forwardRef, useImperativeHandle } from 'react';
+import React, { useState, forwardRef, useImperativeHandle, useEffect  } from 'react';
 import FormSelectButton from './FormSelectButton';
 import { Form } from ".";
 
@@ -9,6 +9,15 @@ const FormFinance = forwardRef((props: any, ref) => {
   const [category, setCategory] = useState("");
   const [paymentType, setPaymentType] = useState("");
   const [paymentStatus, setPaymentStatus] = useState("");
+
+  const fillForm = (data) => {
+    setFinanceName(data.name);
+    setAmount(data.value);
+    setDate(data.date.split('T')[0]); 
+    setCategory(data.transactionType);
+    setPaymentType(data.paymentMethod);
+    setPaymentStatus(data.paymentStatus);
+  };
 
   useImperativeHandle(ref, () => ({
     submit: () => {
@@ -22,8 +31,30 @@ const FormFinance = forwardRef((props: any, ref) => {
       };
       props.onSubmit(formData);
     },
+    resetForm: () => {
+      setFinanceName("");
+      setAmount(null);
+      setDate("");
+      setCategory("");
+      setPaymentType("");
+      setPaymentStatus("");
+    },
+    fillForm: (data) => {
+      setFinanceName(data.name);
+      setAmount(data.value);
+      setDate(data.date.split('T')[0]);
+      setCategory(data.transactionType);
+      setPaymentType(data.paymentMethod);
+      setPaymentStatus(data.paymentStatus);
+    }
   }));
 
+  useEffect(() => {
+    if (props.formData) {
+      console.log(props.formData)
+      fillForm(props.formData);
+    }
+  }, [props.formData]);
   
 
   return (
