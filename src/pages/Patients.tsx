@@ -1,12 +1,19 @@
 import { IonButton, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonPage, IonRow, IonSearchbar, IonTitle, IonToolbar } from '@ionic/react';
 import Menu from '../components/Menu';
-import { Link } from 'react-router-dom';
 import FilterButton from '../components/FilterButton';
-import ContactIcon from "../Images/Icons/contact.svg";
 import PatientsTable from '../components/PatientsTable';
 import { PatientsTableProvider } from '../context/PatientsTableContext';
+import { useHistory } from 'react-router-dom';
+import ActionButton from '../components/ButtonComponent/ActionButton';
 
 const Patients: React.FC = () => {
+
+  const history = useHistory();
+
+  const addNewPatient = () => {
+    history.push('/cadastro-paciente');
+  };
+
   return (
     <PatientsTableProvider> {/* Envolvendo toda a página com o Provider */}
       <IonPage className='justify-start'>
@@ -21,10 +28,10 @@ const Patients: React.FC = () => {
                     <IonSearchbar animated={true} placeholder="Pesquise o nome do paciente" className='w-[22rem]'></IonSearchbar>
                     <FilterButton /> {/* Este componente agora tem acesso ao contexto */}
                   </div>
-                  <Link className="flex items-center bg-blue1 text-white px-4 rounded-md w-80 my-1" to={'/cadastro-paciente'}>
-                    <img src={ContactIcon} alt="Add" className="mr-2 w-6 h-6" />
-                    ADICIONAR NOVO PACIENTE
-                  </Link>
+                  <ActionButton
+                    text="ADICIONAR NOVO PACIENTE"
+                    onClick={addNewPatient}
+                  />
                 </div>
               </div>
             </div>
