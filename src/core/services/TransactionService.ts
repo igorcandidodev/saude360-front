@@ -36,6 +36,16 @@ class TransactionService {
     }
   }
 
+  public async updateTransaction(transaction: any, id) {
+    try {
+      const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/transaction/${id}`, transaction);
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao atualizar transação:", error);
+      throw error;
+    }
+  }
+
   public async updateTransactionById(id: string, transaction: any) {
     try {
       const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/transaction/${id}`, transaction);

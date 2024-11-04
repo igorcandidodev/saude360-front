@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { MoonLoader } from "react-spinners";
+import EditIcon from '../Images/Icons/editPencil.svg'; // Importe o ícone de edição
+
 
   const getStatusClass = (status) => {
     switch (status) {
@@ -50,14 +52,7 @@ import { MoonLoader } from "react-spinners";
   };
 
  
-  const FinanceTable = ({ transactions }) => {
-    const [loading, setLoading] = useState(true);
-
-    useEffect(() => {
-      if (transactions.length > 0) {
-        setLoading(false);
-      }
-    }, [transactions]);
+  const FinanceTable = ({ transactions, loading, onEdit }) => {
 
      return (
     <div className="rounded-lg overflow-hidden border">
@@ -76,6 +71,8 @@ import { MoonLoader } from "react-spinners";
               <th className="px-4 py-2 text-left">DATA</th>
               <th className="px-4 py-2 text-left">TIPO DE PAGAMENTO</th>
               <th className="px-4 py-2 text-left">STATUS</th>
+              <th className="px-4 py-2 text-left">AÇÃO</th> {/* Adicione uma coluna para ação */}
+
             </tr>
           </thead>
           <tbody>
@@ -97,6 +94,15 @@ import { MoonLoader } from "react-spinners";
                     <span className={getStatusClass(transaction.paymentStatus)}>
                       {getPaymentStatusLabel(transaction.paymentStatus)}
                     </span>
+                  </td>
+
+                  <td className="px-4 py-2 text-left">
+                    <img
+                      src={EditIcon}
+                      alt="Editar"
+                      className="w-6 h-6 cursor-pointer"
+                      onClick={() => onEdit(transaction)} 
+                    />
                   </td>
                 </tr>
               ))
