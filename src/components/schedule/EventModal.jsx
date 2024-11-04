@@ -117,9 +117,9 @@ const EventModal = () => {
     };
 
     return (
-        <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-10'>
-            <form className='bg-white rounded-lg shadow-2xl md:w-1/4 w-full'>
-                <header className='bg-gray-100 px-4 py-2 flex justify-between items-center'>
+        <div className='event h-screen w-full fixed md:left-0 top-0 flex justify-center items-center z-[60]'>
+            <form className='bg-white md:h-2/3 rounded-lg shadow-2xl md:w-1/4 w-full overflow-auto'>
+                <header className='sticky top-0 bg-gray-100 px-4 py-2 flex justify-between items-center z-10'>
                     <span className='text-gray-400'>
                     </span>
                     <div className='flex gap-2'>
