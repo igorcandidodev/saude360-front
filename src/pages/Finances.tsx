@@ -100,7 +100,7 @@ const Finances: React.FC = () => {
         <div className=' flex flex-col w-full lg:justify-center'>
           <div className='flex justify-center '>
             <div className='flex-col  lg:w-3/4 '>
-              <div className='flex justify-between mx-5 lg:mx-0 h-14 '>
+              <div className='flex justify-between mx-5 lg:mx-0 '>
               <h1 className='text-3xl'>Financeiro</h1>
               <ActionButton
                 text="ADICIONAR NOVO"
