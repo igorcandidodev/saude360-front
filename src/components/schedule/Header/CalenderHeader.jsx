@@ -78,7 +78,7 @@ const CalenderHeader = () => {
 
     return (
         <header className=" calenderHeaderMenu px-4 py-3 flex  items-center justify-between md:border shadow-md border-b-gray-200">
-            <div className=" flex flex-col lg:flex-row items-center w-full">
+            <div className=" flex flex-col lg:flex-row items-center w-full pt-7 md:pt-0">
                 <div className='flex justify-end md:justify-around w-full'>
                 {/* <Button className=" py-2 px-4 mr-5" size="large" onClick={handleReset}>Hoje</Button> */}
                 <CalenderDropDown />

@@ -14,6 +14,7 @@ import ForgotPassword from "./pages/ForgotPassword";
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
 import { ToastContainer} from 'react-toastify';
+import { ProfessionalProvider } from "./context/ProfessionalContext"; // Importe seu ProfessionalProvider
 
 import Posts from "./pages/Posts";
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,6 +49,7 @@ const App = () => (
     <ToastContainer />
     <UserAuthContextProvider>
         <UserContextProvider>
+        <ProfessionalProvider>
           <IonReactRouter>
             <IonRouterOutlet>
               <Route exact path="/pacientes">
@@ -90,6 +92,7 @@ const App = () => (
               </Route>
             </IonRouterOutlet>
           </IonReactRouter>
+          </ProfessionalProvider>
         </UserContextProvider>
     </UserAuthContextProvider>
   </IonApp>

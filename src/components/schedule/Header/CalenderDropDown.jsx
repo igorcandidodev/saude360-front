@@ -7,7 +7,7 @@ const CalenderButtons = () => {
 
     // Button Items
     const items = [
-        {
+        /* {
             key: 'Day',
             label: 'Dia',
             onClick: () => {
@@ -27,7 +27,7 @@ const CalenderButtons = () => {
             onClick: () => {
                 setViewCalender('Month'); // Update global context
             }
-        }/* ,
+        } *//* ,
         {
             key: 'Appointments',
             label: 'Appointments',

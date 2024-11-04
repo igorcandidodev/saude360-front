@@ -30,6 +30,41 @@ class PatientService {
     const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/user/patient/${patientId}`, patientData);
     return response.data;
   }
+
+  public async updatePatientByToken(updatedData: {
+    fullName?: string;
+    cpf?: string;
+    birthDate?: string;
+    email?: string;
+    phoneNumber?: string;
+    address?: {
+      street?: string;
+      number?: string;
+      complement?: string;
+      cep?: string;
+      neighborhood?: string;
+      city?: string;
+      state?: string;
+    };
+  }) {
+    try {
+      const response = await this.axiosInstance.put(
+        `${import.meta.env.VITE_API_URL}/user/patient/`,
+        updatedData,
+        {
+          headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao atualizar os dados do paciente:", error);
+      throw error;
+    }
+  }
+
 }
 
 export default PatientService;
