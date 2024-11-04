@@ -65,6 +65,7 @@ const PatientRecord: React.FC = () => {
                   Informações
                 </h2>
 
+
                 <div className="grid grid-cols-2 gap-1 pr-10 pt-5 lg:flex lg:flex-wrap lg:gap-4">
                   <div className="flex flex-col mb-2 lg:w-1/1">
                     <span className="pb-2 font-semibold">Nome</span>

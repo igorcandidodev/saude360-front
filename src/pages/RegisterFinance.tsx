@@ -20,7 +20,7 @@ const RegisterFinance: React.FC = () => {
         </div>
         <Form.Actions>
           <div className="flex justify-center">
-            <FormActionButton text="Salvar" type="submit" />
+            <FormActionButton text="SALVAR" type="submit" />
           </div>
         </Form.Actions>
       </IonContent>

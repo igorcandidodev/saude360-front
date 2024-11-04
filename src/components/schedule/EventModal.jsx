@@ -16,6 +16,24 @@ const hexCodes = {
     "purple": "#800080",
 };
 
+const statusToUser = { 
+    "SCHEDULED": "Agendado",
+    "CONCLUDED": "Concluído",
+    "CANCELED": "Cancelada",
+}
+
+const statusToApi = {
+    "Agendado": "SCHEDULED",
+    "Concluído": "CONCLUDED",
+    "Cancelada": "CANCELED",
+}
+
+const statusColor = {
+    "SCHEDULED": "bg-yellow-400",
+    "CONCLUDED": "bg-green-400",
+    "CANCELED": "bg-red-400",
+}
+
 const labelClasses = ["indigo", "gray", "green", "blue", "red", "purple"];
 const labelHexCodes = labelClasses.map(label => hexCodes[label]);
 
@@ -29,6 +47,8 @@ const EventModal = () => {
     const [endTime, setEndTime] = useState(daySelected);
     const [selectedLabel, setSelectedLabel] = useState(labelHexCodes[0]);
     const [selectedPatient, setSelectedPatient] = useState("");
+    const [status, setStatus] = useState("");
+    const [statusList, setStatusList] = useState(["SCHEDULED", "CONCLUDED", "CANCELED"]);
 
     useEffect(() => {
         if (selectedEvent) {
@@ -37,7 +57,8 @@ const EventModal = () => {
             setStartTime(dayjs(selectedEvent.startServiceDateAndTime));
             setEndTime(dayjs(selectedEvent.endServiceDateAndTime));
             setSelectedLabel(selectedEvent.color);
-            setSelectedPatient(selectedEvent.patient.id)
+            setSelectedPatient(selectedEvent.patient.id);
+            setStatus(selectedEvent.statusConsultation);
         }
     }, [selectedEvent]);
 
@@ -63,9 +84,19 @@ const EventModal = () => {
             color: selectedLabel
         };
 
+        const consultationDataUpdate = {
+            date: daySelected.format(),
+            startServiceDateAndTime: startTime.format(),
+            endServiceDateAndTime: endTime.format(),
+            title,
+            description,
+            statusConsultation: status,
+            color: selectedLabel
+        };
+
         try {
             if (selectedEvent) {
-                await updateConsultation(selectedEvent.id, consultationData); // Aqui estamos chamando updateConsultation
+                await updateConsultation(selectedEvent.id, consultationDataUpdate); // Aqui estamos chamando updateConsultation
             } else {
                 await createConsultation(selectedPatient, consultationData);
             }
@@ -169,6 +200,18 @@ const EventModal = () => {
                         <span className='text-gray-400'>
                             <AiOutlineAlignLeft />
                         </span>
+                        {selectedEvent?.id && (
+                            <>
+                            <select className={statusColor[status]} name="status" required value={statusToUser[status]} onChange={(e) => setStatus(statusToApi[e.target.value])}>
+                                {statusList.map(status => (
+                                    <option className={statusColor[status]} key={status} value={statusToUser[status]}>{statusToUser[status]}</option>
+                                ))}
+                            </select>
+                            <span className='text-gray-400'>
+                                <AiOutlineAlignLeft />
+                            </span>
+                            </>
+                        )}
                         <input type="text"
                             name="description"
                             placeholder='Adicione uma descrição'

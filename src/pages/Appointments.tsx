@@ -28,9 +28,9 @@ const Appointments: React.FC = () => {
     switch (status) {
       case "SCHEDULED":
         return { icon: CalendarYellow, text: "Agendada" };
-      case "concluded":
+      case "CONCLUDED":
         return { icon: CalendarGreen, text: "Concluída" };
-      case "canceled":
+      case "CANCELED":
         return { icon: CalendarRed, text: "Cancelada" };
       default:
         return { icon: CalendarYellow, text: "Indefinido" };

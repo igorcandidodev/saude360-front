@@ -85,7 +85,7 @@ const Finances: React.FC = () => {
               <div className='flex justify-between mx-5 lg:mx-0 h-14 '>
               <h1 className='text-3xl'>Financeiro</h1>
                 <Link onClick={() => setShowModal(true)} className="flex items-center justify-center bg-blue1 text-white px-4 rounded-md w-48 my-1" to={'#'}>
-                  Adicionar novo
+                  ADICIONAR NOVO
                 </Link>
 
                 {/* <IonButton onClick={() => setShowModal(true)} className="bg-blue1 text-white px-4 rounded-md w-48 my-1">
@@ -122,7 +122,7 @@ const Finances: React.FC = () => {
           </div>
           <div className="flex justify-center">
             <FormActionButton
-              text="Salvar"
+              text="SALVAR"
               type="submit"
               onClick={handleSubmit} 
             />
