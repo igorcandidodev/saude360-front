@@ -37,7 +37,7 @@ const EventModal = () => {
             setStartTime(dayjs(selectedEvent.startServiceDateAndTime));
             setEndTime(dayjs(selectedEvent.endServiceDateAndTime));
             setSelectedLabel(selectedEvent.color);
-            setSelectedPatient(selectedEvent.patientId);
+            setSelectedPatient(selectedEvent.patient.id)
         }
     }, [selectedEvent]);
 
@@ -194,7 +194,7 @@ const EventModal = () => {
                     </div>
                 </div>
                 <footer className='flex justify-end md:w-full border-t p-3 mt-5'>
-                    <button type='submit' className={`${title && description && selectedPatient ? "bg-blue-100 hover:bg-blue-600" : "bg-blue-500 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={!title || !description || !selectedPatient} 
+                    <button type='submit' className={`${title && description && selectedPatient ? "bg-blue-500 hover:bg-blue-600" : "bg-blue-100 cursor-not-allowed"}  px-6 py-2 rounded text-white`} disabled={!title || !description || !selectedPatient} 
                     onClick={(e) => {
                         handleSubmit(e);
                         setSelectedEvent(null);
