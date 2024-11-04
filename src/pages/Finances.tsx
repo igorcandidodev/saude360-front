@@ -15,6 +15,7 @@ import { FinanceTable } from '../components/FinanceTable';
 import { Form } from '../components/FormRegister';
 import FormActionButton from '../components/FormRegister/FormActionButton';
 import TransactionService from '../core/services/TransactionService';
+import ActionButton from '../components/ButtonComponent/ActionButton';
 
 
 
@@ -101,9 +102,10 @@ const Finances: React.FC = () => {
             <div className='flex-col  lg:w-3/4 '>
               <div className='flex justify-between mx-5 lg:mx-0 h-14 '>
               <h1 className='text-3xl'>Financeiro</h1>
-                <Link onClick={() => setShowModal(true)} className="flex items-center justify-center bg-blue1 text-white px-4 rounded-md w-48 my-1" to={'#'}>
-                  ADICIONAR NOVO
-                </Link>
+              <ActionButton
+                text="ADICIONAR NOVO"
+                onClick={() => setShowModal(true)}
+                />
 
                 {/* <IonButton onClick={() => setShowModal(true)} className="bg-blue1 text-white px-4 rounded-md w-48 my-1">
                   Adicionar novo
