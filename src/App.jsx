@@ -1,4 +1,4 @@
-import { Route } from "react-router-dom";
+import { Route, Redirect } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
 import Patients from "./pages/Patients"; // Importe a página Patients aqui
@@ -12,9 +12,10 @@ import Configuration from "./pages/Configuration"
 import NotFound from './components/ErrorPages/NotFound';
 import ForgotPassword from "./pages/ForgotPassword";
 import { UserContextProvider } from "./context/userContext";
-import { UserAuthContextProvider } from "./context/userAuth";
-import { ToastContainer} from 'react-toastify';
+import { UserAuthContextProvider, UserAuthContext } from "./context/userAuth";
+import { ToastContainer } from 'react-toastify';
 import { ProfessionalProvider } from "./context/ProfessionalContext"; // Importe seu ProfessionalProvider
+import { useContext } from "react";
 
 import Posts from "./pages/Posts";
 import 'react-toastify/dist/ReactToastify.css';
@@ -44,58 +45,63 @@ import Appointments from "./pages/Appointments";
 
 setupIonicReact();
 
-const App = () => (
-  <IonApp>
-    <ToastContainer />
-    <UserAuthContextProvider>
+const App = () => {
+
+  const authContext = useContext(UserAuthContext);
+  const isAuthenticated = authContext?.isAuthenticated;
+
+  return (
+    <IonApp>
+      <ToastContainer />
+      <UserAuthContextProvider>
         <UserContextProvider>
-        <ProfessionalProvider>
-          <IonReactRouter>
-            <IonRouterOutlet>
-              <Route exact path="/pacientes">
-                <Patients />
-              </Route>
-              <Route exact path="/financeiro">
-                <Finances />
-              </Route>
-              <Route path="/ficha-pacientes/:id">
-                <PatientRecord />
-              </Route>
-              <Route exact path="/posts/:userId">
-                <Posts />
-              </Route>
-              <Route exact path="/cadastro-profissional">
-                <RegisterProfessional />
-              </Route>
-              <Route exact path="/cadastro-paciente">
-                <RegisterPatient />
-              </Route>
-              <Route exact path="/home">
-                <MainEntry />
-              </Route>
-              <Route exact path="/">
-                <Login />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/configuracoes">
-                <Configuration />
-              </Route>
-              <Route exact path="/agendamentos">
-                <Appointments />
-              </Route>
-              <Route component={NotFound} />
-              <Route component={NotFound} />
-              <Route exact path="/esqueceu-senha">
-                <ForgotPassword />
-              </Route>
-            </IonRouterOutlet>
-          </IonReactRouter>
+          <ProfessionalProvider>
+            <IonReactRouter>
+              <IonRouterOutlet>
+                <Route exact path="/pacientes">
+                  {isAuthenticated ? <Patients /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/financeiro">
+                  {isAuthenticated ? <Finances /> : <Redirect to="/login" />}
+                </Route>
+                <Route path="/ficha-pacientes/:id">
+                  {isAuthenticated ? <PatientRecord /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/posts/:userId">
+                  {isAuthenticated ? <Posts /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/cadastro-profissional">
+                  {isAuthenticated ? <RegisterProfessional /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/cadastro-paciente">
+                  {isAuthenticated ? <RegisterPatient /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/home">
+                  {isAuthenticated ? <MainEntry /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/">
+                  <Login />
+                </Route>
+                <Route exact path="/login">
+                  <Login />
+                </Route>
+                <Route exact path="/configuracoes">
+                  {isAuthenticated ? <Configuration /> : <Redirect to="/login" />}
+                </Route>
+                <Route exact path="/agendamentos">
+                  {isAuthenticated ? <Appointments /> : <Redirect to="/login" />}
+                </Route>
+                <Route component={NotFound} />
+                <Route exact path="/esqueceu-senha">
+                  <ForgotPassword />
+                </Route>
+              </IonRouterOutlet>
+            </IonReactRouter>
           </ProfessionalProvider>
         </UserContextProvider>
-    </UserAuthContextProvider>
-  </IonApp>
-);
+      </UserAuthContextProvider>
+    </IonApp>
+  );
+};
 
 export default App;
