@@ -7,19 +7,48 @@ class ProfessionalService {
   constructor() {}
 
   public async getProfessional(id: string) {
-    const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/professionals/${id}`);
+    const response = await this.axiosInstance.get(
+      `${import.meta.env.VITE_API_URL}/professionals/${id}`
+    );
     return response.data;
   }
 
   public async createProfessional(professional: any) {
-    const response = await this.axiosInstance.post(`${import.meta.env.VITE_API_URL}/user/professional/`, professional);
+    const response = await this.axiosInstance.post(
+      `${import.meta.env.VITE_API_URL}/user/professional/`,
+      professional
+    );
     return response.data;
   }
 
-  public async updateProfessional() {
-    const response = await this.axiosInstance.put(`${import.meta.env.VITE_API_URL}/user/professional/`);
-    return response.data;
-  }
+  public async updateProfessional(updatedData: {
+    fullName: string;
+    cpf: string;
+    birthDate: string;
+    email: string;
+    phoneNumber: string;
+    healthSectorsNames?: string[];
+    cnsNumber?: string;
+}) {
+    try {
+        const response = await this.axiosInstance.put(
+            `${import.meta.env.VITE_API_URL}/user/professional/`,
+            updatedData,
+            {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${localStorage.getItem("token")}`,
+                },
+            }
+        );
+        return response.data;
+    } catch (error) {
+        console.error("Erro ao atualizar os dados do profissional:", error);
+        throw error;
+    }
+}
+
+
 }
 
 export default ProfessionalService;
