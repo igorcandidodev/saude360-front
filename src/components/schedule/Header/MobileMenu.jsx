@@ -16,7 +16,7 @@ const MobileMenu = () => {
 
     // Items for Our Mobile Menu
     const items = [
-        {
+/*         {
             key: 'Day',
             label: 'Day',
             onClick: () => {
@@ -31,7 +31,7 @@ const MobileMenu = () => {
                 setViewCalender('Week'); // Update global context
                 setSelectedMode('Week'); // Update local state
             }
-        },
+        }, */
         {
             key: 'Month',
             label: 'Month',
