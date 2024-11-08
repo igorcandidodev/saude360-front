@@ -68,7 +68,7 @@ const PatientRecord: React.FC = () => {
 
                 <div className="grid grid-cols-2 gap-1 pr-10 pt-5 lg:flex lg:flex-wrap lg:gap-4">
                   <div className="flex flex-col mb-2 lg:w-1/1">
-                    <span className="pb-2 font-semibold">Nome</span>
+                    <span className="pb-2 font-semibold">NOME</span>
                     <span>{patient?.fullName}</span>
                   </div>
                   <div className="flex flex-col mb-2 lg:w-1/1">
@@ -76,15 +76,15 @@ const PatientRecord: React.FC = () => {
                     <span>{patient?.cpf}</span>
                   </div>
                   <div className="flex flex-col mb-2 lg:w-1/1">
-                    <span className="pb-2 font-semibold">Data de nascimento</span>
+                    <span className="pb-2 font-semibold">DATA DE NASCIMENTO</span>
                     <span>{patient?.birthDate != null ? formatDate(patient?.birthDate) : null}</span>
                   </div>
                   <div className="flex flex-col mb-2 lg:w-1/1">
-                    <span className="pb-2 font-semibold">Email</span>
+                    <span className="pb-2 font-semibold">EMAIL</span>
                     <span>{patient?.email}</span>
                   </div>
                   <div className="flex flex-col mb-2 lg:w-1/1">
-                    <span className="pb-2 font-semibold">Número de celular</span>
+                    <span className="pb-2 font-semibold">NÚMERO DE CELULAR</span>
                     <span>{patient?.phoneNumber}</span>
                   </div>
                 </div>

@@ -4,8 +4,19 @@ import ArrowUpIcon from '../Images/Icons/arrowUp.svg';
 import ArrowDownIcon from '../Images/Icons/arrowDown.svg';
 import DollarSignArrowIcon from '../Images/Icons/dollarSignArrow.svg';
 import { IonIcon } from '@ionic/react';
+import { MoonLoader } from 'react-spinners'; 
 
-const FinanceBalance = ({ transactions }) => {
+
+const FinanceBalance = ({ transactions, loading }) => {
+
+  if (loading) {
+    return (
+      <div className="flex justify-center items-center p-5">
+        <MoonLoader color="#4A90E2" size={40} />
+      </div>
+    );
+  }
+
   const entrada = transactions
     .filter(item => item.transactionType === 'INCOME')
     .reduce((total, item) => total + item.value, 0);

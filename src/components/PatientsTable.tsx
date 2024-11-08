@@ -8,15 +8,8 @@ import { formatDateTime } from "../utils/formatDateAndTime";
 import { MoonLoader } from "react-spinners";
 
 const Table = () => {
-  const { patients } = usePatientsTable();
+  const { patients, loading } = usePatientsTable();
   const history = useHistory();
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    if (patients.length > 0) {
-      setLoading(false);
-    }
-  }, [patients]);
 
   const handleNoteClick = (patientId) => {
     history.push(`/ficha-pacientes/${patientId}`);

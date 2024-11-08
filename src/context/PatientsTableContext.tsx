@@ -20,6 +20,8 @@ interface PatientsTableContextType {
   setPatients: Dispatch<SetStateAction<PatientData[]>>;
   fetchPatients: () => Promise<void>;
   filterPatients: (order: 'asc' | 'desc') => void; // Atualizando a função para não precisar da chave
+  loading: boolean;
+  errorMessage: string;
 }
 
 const PatientsTableContext = createContext<PatientsTableContextType | undefined>(
@@ -28,14 +30,35 @@ const PatientsTableContext = createContext<PatientsTableContextType | undefined>
 
 const PatientsTableProvider = ({ children }) => {
   const [patients, setPatients] = useState<PatientData[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   const patientService = new PatientService();
 
   const fetchPatients = async () => {
+    setLoading(true);
+    setErrorMessage("");
+  
     try {
       const patientsData = await patientService.getPatientsTable();
-      setPatients(patientsData);
-    } catch (error) {
+  
+      if (!patientsData || patientsData.length === 0) {
+        setErrorMessage("Não há pacientes cadastrados para este profissional.");
+        setPatients([]);
+      } else {
+        setPatients(patientsData);
+        setErrorMessage("");
+      }
+
+    } catch (error: any) {
       console.error("Error fetching patients:", error);
+      if (error.response && error.response.status === 404) {
+        setErrorMessage("Não há pacientes cadastrados para este profissional.");
+      } else {
+        setErrorMessage("Erro ao carregar lista de pacientes. Tente novamente mais tarde.");
+      }
+      setPatients([]);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -59,7 +82,7 @@ const PatientsTableProvider = ({ children }) => {
   }, []);
 
   return (
-    <PatientsTableContext.Provider value={{ patients, setPatients, fetchPatients, filterPatients }}>
+    <PatientsTableContext.Provider value={{ patients, setPatients, fetchPatients, filterPatients, loading, errorMessage  }}>
       {children}
     </PatientsTableContext.Provider>
   );

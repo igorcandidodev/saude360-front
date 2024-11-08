@@ -1,6 +1,5 @@
 import { IonPage } from "@ionic/react";
-import { Link, useParams } from "react-router-dom";
-import NewPost from "../Images/Icons/new-post.svg";
+import { useParams } from "react-router-dom";
 import Menu from "../components/Menu";
 import { LeftOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar, Button, Card, Collapse, Input, Modal } from "antd";
@@ -14,6 +13,7 @@ import PatientService from "../core/services/PatientService";
 import { IonIcon } from '@ionic/react';
 import AttachIcon from '../Images/Icons/attach-outline.svg'
 import { MoonLoader } from "react-spinners";
+import ActionButton from '../components/ButtonComponent/ActionButton';
 
 interface Posts {
     id: number;
@@ -222,13 +222,10 @@ const Posts: React.FC = () => {
                     </h2>
                   </div>
 
-                  <Link
-                    className="flex justify-center items-center bg-blue1 text-white px-4 rounded-md w-80 my-1"
+                  <ActionButton
+                    text="ADICIONAR NOVO POST"
                     onClick={showModal}
-                  >
-                    <img src={NewPost} alt="Add" className="mr-2 w-6 h-6" />
-                    ADICIONAR NOVO POST
-                  </Link>
+                  />
                 </div>
               )} 
             </div>
