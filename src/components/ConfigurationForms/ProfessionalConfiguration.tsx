@@ -409,11 +409,6 @@ function ProfessionalConfiguration() {
                                             </>
                                         )}
                                     </div>
-                                    <div className="flex justify-center">
-                                        <IonButton onClick={handleUpdate} disabled={!isEditable} className='mt-4'>
-                                            Atualizar
-                                        </IonButton>
-                                    </div>
                                 </div>
                             </div>
                         </div>
