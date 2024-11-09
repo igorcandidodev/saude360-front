@@ -71,9 +71,8 @@ const App = () => {
             </IonReactRouter>
           </ProfessionalProvider>
         </UserContextProvider>
-      </UserAuthContextProvider>
-    </IonApp>
-  );
-};
+    </UserAuthContextProvider>
+  </IonApp>
+);
 
 export default App;
