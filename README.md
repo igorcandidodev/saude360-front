@@ -14,9 +14,15 @@
 - **React** in combination with **TypeScript**: Provides a robust framework for building the user interface.
 - **Ionic**: Integrated to facilitate the development of a hybrid interface, making the application suitable for both web and mobile devices.
 
+### Requirements
+
+* Node.js 16+
+* NPM 7+
+* Ionic 8+
+
 ## Installation
 
-1. Ensure the Ionic framework is installed on your machine.
+1. Ensure you follow the steps [here](https://ionicframework.com/docs/intro/cli) to install ionic framework
 2. Clone the repository into your local development environment:
 
    ```bash
