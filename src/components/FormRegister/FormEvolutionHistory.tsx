@@ -6,6 +6,11 @@ import FormTextArea from "./FormTextArea"; // Importe o FormTextArea
 import { useState, forwardRef, useImperativeHandle } from 'react';
 import { useParams } from 'react-router-dom';
 import { ConsultationService } from '../../core/services/ConsultationService';
+import FormActionButton from './FormActionButton';
+
+interface FormEvolutionHistoryFormProps {
+  onSubmit: () => void; // Adicionando a tipagem da prop onSubmit
+}
 
 const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
   const { id } = useParams<{ id: string }>();
@@ -36,6 +41,9 @@ const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
       }
     }
   }));
+  const handleSubmitForm = () => {
+    props.onSubmit(); // Chamando a função handleSubmit passada como prop
+  };
 
   return (
     <IonPage>
@@ -44,14 +52,14 @@ const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
           <IonButtons slot="start">
             <IonBackButton defaultHref={`/patient/${id}`} />
           </IonButtons>
-          <IonTitle>Adicionar Histórico de Evolução</IonTitle>
+          <IonTitle>Adicionar Histórico</IonTitle>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <div className="flex flex-col justify-center items-center p-8">
           <Form.Root>
-            <FormHeader text="Adicionar Histórico de Evolução" />
-            <div className="grid grid-cols-1 gap-6">
+            <FormHeader text="Adicionar Histórico" />
+            <div className="grid grid-cols-1 gap-6 w-full">
               <FormItem label="Data">
                 <input
                   className="w-full border border-zinc-400 p-2 rounded h-11"
@@ -64,7 +72,7 @@ const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
                 />
               </FormItem>
               <FormItem label="Resumo da Sessão">
-                <FormTextArea
+                <FormTextArea 
                   name="sessionResume"
                   rows={5}
                   value={sessionResume}
@@ -80,6 +88,9 @@ const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
                 />
               </FormItem>
             </div>
+            <div className="flex justify-center">
+          <FormActionButton text="SALVAR" type="submit" onClick={handleSubmitForm} /> {/* Chamando a função handleSubmitForm */}
+        </div>
           </Form.Root>
         </div>
       </IonContent>
