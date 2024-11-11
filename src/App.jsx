@@ -1,7 +1,7 @@
-import { Route } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import { IonApp, IonRouterOutlet, setupIonicReact } from "@ionic/react";
 import { IonReactRouter } from "@ionic/react-router";
-import Patients from "./pages/Patients"; // Importe a página Patients aqui
+import Patients from "./pages/Patients"; 
 import Finances from "./pages/Finances"
 import RegisterProfessional from "./pages/RegisterProfessional";
 import RegisterPatient from "./pages/RegisterPatient";
@@ -13,8 +13,9 @@ import NotFound from './components/ErrorPages/NotFound';
 import ForgotPassword from "./pages/ForgotPassword";
 import { UserContextProvider } from "./context/userContext";
 import { UserAuthContextProvider } from "./context/userAuth";
-import { ToastContainer} from 'react-toastify';
-import { ProfessionalProvider } from "./context/ProfessionalContext"; // Importe seu ProfessionalProvider
+import { ToastContainer } from 'react-toastify';
+import { ProfessionalProvider } from "./context/ProfessionalContext"; 
+import PrivateRoute from "./components/PrivateRoute";
 
 import Posts from "./pages/Posts";
 import 'react-toastify/dist/ReactToastify.css';
@@ -48,52 +49,35 @@ const App = () => (
   <IonApp>
     <ToastContainer />
     <UserAuthContextProvider>
-        <UserContextProvider>
+      <UserContextProvider>
         <ProfessionalProvider>
           <IonReactRouter>
             <IonRouterOutlet>
-              <Route exact path="/pacientes">
-                <Patients />
-              </Route>
-              <Route exact path="/financeiro">
-                <Finances />
-              </Route>
-              <Route path="/ficha-pacientes/:id">
-                <PatientRecord />
-              </Route>
-              <Route exact path="/posts/:userId">
-                <Posts />
-              </Route>
-              <Route exact path="/cadastro-profissional">
-                <RegisterProfessional />
-              </Route>
-              <Route exact path="/cadastro-paciente">
-                <RegisterPatient />
-              </Route>
-              <Route exact path="/home">
-                <MainEntry />
-              </Route>
-              <Route exact path="/">
-                <Login />
-              </Route>
-              <Route exact path="/login">
-                <Login />
-              </Route>
-              <Route exact path="/configuracoes">
-                <Configuration />
-              </Route>
-              <Route exact path="/agendamentos">
-                <Appointments />
-              </Route>
-              <Route component={NotFound} />
-              <Route component={NotFound} />
-              <Route exact path="/esqueceu-senha">
-                <ForgotPassword />
-              </Route>
+
+              <Routes>
+                <Route path="/" element={<Login />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/esqueceu-senha" element={<ForgotPassword />} />
+
+                <Route element={<PrivateRoute />}> {/* Rotas protegidas */}
+                  <Route path="/pacientes" element={<Patients />} />
+                  <Route path="/financeiro" element={<Finances />} />
+                  <Route path="/ficha-pacientes/:id" element={<PatientRecord />} />
+                  <Route path="/posts/:userId" element={<Posts />} />
+                  <Route path="/cadastro-profissional" element={<RegisterProfessional />} />
+                  <Route path="/cadastro-paciente" element={<RegisterPatient />} />
+                  <Route path="/home" element={<MainEntry />} />
+                  <Route path="/configuracoes" element={<Configuration />} />
+                  <Route path="/agendamentos" element={<Appointments />} />
+                </Route>
+
+                <Route component={NotFound} /> {/* Rota para NotFound */}
+              </Routes>
+
             </IonRouterOutlet>
           </IonReactRouter>
-          </ProfessionalProvider>
-        </UserContextProvider>
+        </ProfessionalProvider>
+      </UserContextProvider>
     </UserAuthContextProvider>
   </IonApp>
 );
