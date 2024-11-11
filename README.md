@@ -1,78 +1,82 @@
-# Saude360 
-This is a system for autonomous healthcare professionals, with the aim of facilitating the management of patients and their costs.  
+# Saude360
 
+**Saude360** is a system developed for autonomous healthcare professionals, aimed at simplifying patient management, organizing financial information, and facilitating communication with patients. The platform offers a suite of tools to help professionals schedule appointments, store and manage patient records, and handle their operational costs and revenue.
 
-### Requirements
+## Features
 
-* Node.js 16+
-* NPM 7+
-* Ionic 8+
+- **Patient Management**: Easily store and access patient records.
+- **Financial Control**: Organize expenses and income, making it easier to track operational costs.
+- **Direct Communication**: A communication channel between professionals and patients for updates.
+- **Appointment Tools**: Schedule appointments.
 
-### Installation
-- Ensure you follow the steps [here](https://ionicframework.com/docs/intro/cli) to install ionic framework
-- Clone this repository to local development environment
+## Requirements
 
-1. Clone this repository:
+- **Node.js** 16+
+- **NPM** 7+
+- **Ionic** 8+
+
+## Installation
+
+1. Ensure the Ionic framework is installed on your machine.
+2. Clone the repository into your local development environment:
+
+   ```bash
+   git clone https://github.com/igorcandidodev/saude360-front.git
+   ```
+
+3. Move into the project directory:
+
+   ```bash
+   cd saude360-front
+   ```
+
+4. Install the necessary dependencies:
+
+   ```bash
+   npm install
+   ```
+
+   or
+
+   ```bash
+   yarn install
+   ```
+
+## Development
+
+To start the development server, run:
 
 ```bash
-
-git clone https://github.com/layan2k/calender-main.git
-
-```
-
-2. Move into the project directory:
-
-```bash
-cd calendar-main
-```
-
-3. Install dependencies:
-
-~~~bash  
-`npm install` or `yarn install`
-~~~
-
-
-### Development
-
-1. Start the development server:
-
-```bash
-npm run dev 
+npm run dev
 ```
 
 or
 
-For run the app
+To run the app:
 
-~~~bash 
-- Run `npm run start:dev` 
-~~~
+```bash
+npm run start:dev
+```
 
+## Build for Production
 
-
-### Build for Production
-
-1. Build the application for production:
+To build the application for production:
 
 ```bash
 npm run build
 ```
 
-2. The production build will be generated in the `build` directory.
+The production build will be generated in the `build` directory.
 
-### Deployment
+## Contributors
 
-You can deploy the application to any static hosting platform like Netlify, Vercel, or Heroku.
-
-## Authors  
-- [@igorcandidodev](https://www.github.com/igorcandidodev)  
-- [@SidneyLimaDev](https://www.github.com/sidneyLimaDev)  
-- [@hamiltonGomes](https://www.github.com/hamiltonGomes) 
-- [@Rayhene](https://www.github.com/Rayhene)  
-- [@juliarcoelho](https://www.github.com/juliarcoelho) 
-- [@monica-gomes](https://www.github.com/monica-gomes)  
+- [@igorcandidodev](https://github.com/igorcandidodev)
+- [@SidneyLimaDev](https://github.com/SidneyLimaDev)
+- [@hamiltonGomes](https://github.com/hamiltonGomes)
+- [@Rayhene](https://github.com/Rayhene)
+- [@juliarcoelho](https://github.com/juliarcoelho)
+- [@monica-gomes](https://github.com/monica-gomes)
 
 ## License
 
-This project is licensed under the MIT license. See the LICENSE file for details.
+This project is licensed under the MIT License. See the LICENSE file for details.
