@@ -56,14 +56,14 @@ const PatientRecord: React.FC = () => {
           <div className="max-w-4xl w-full">
             <div className="w-full flex items-center mb-6" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <div className="w-full flex items-center mb-6">
-              <LeftOutlined
-                className="w-10"
-                style={{ color: "#0443BE", fontSize: "24px" }}
-                onClick={backToPatientsPage}
-              />
-              <h2 className="text-zinc-600 text-xl font-semibold text-center">
-                Dados do Paciente
-              </h2>
+                <LeftOutlined
+                  className="w-10"
+                  style={{ color: "#0443BE", fontSize: "24px" }}
+                  onClick={backToPatientsPage}
+                />
+                <h2 className="text-zinc-600 text-xl font-semibold text-center">
+                  Dados do Paciente
+                </h2>
               </div>
               <ActionButton // Botão posicionado à direita
                 text="ADICIONAR HISTÓRICO"
@@ -121,8 +121,11 @@ const PatientRecord: React.FC = () => {
         {/* Modal */}
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
           <IonContent>
-            <FormEvolutionHistoryForm ref={formRef} />
+            <div className="flex flex-col justify-center items-center p-8">
+              <FormEvolutionHistoryForm ref={formRef} />
+            </div>
             <div className="flex justify-center">
+
               <ActionButton
                 text="SALVAR"
                 type="submit"
