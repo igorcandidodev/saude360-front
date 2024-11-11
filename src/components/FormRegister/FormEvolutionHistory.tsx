@@ -51,7 +51,7 @@ const FormEvolutionHistoryForm = forwardRef((props: any, ref) => {
         <div className="flex flex-col justify-center items-center p-8">
           <Form.Root>
             <FormHeader text="Adicionar Histórico de Evolução" />
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="grid grid-cols-1 gap-6">
               <FormItem label="Data">
                 <input
                   className="w-full border border-zinc-400 p-2 rounded h-11"
