@@ -1,6 +1,6 @@
-# Saude360
+# Front-end Saude360
 
-**Saude360** is a system developed for autonomous healthcare professionals, aimed at simplifying patient management, organizing financial information, and facilitating communication with patients. The platform offers a suite of tools to help professionals schedule appointments, store and manage patient records, and handle their operational costs and revenue.
+**Saude360** is a platform designed for healthcare professionals, aimed at streamlining the management of patients, appointments, and finances, while also facilitating communication with patients. The system offers tools to manage appointments, store and organize patient records, and track income and expenses. Saude360 is ideal for both independent healthcare professionals and those working within a team or organization.
 
 ## Features
 
@@ -9,11 +9,10 @@
 - **Direct Communication**: A communication channel between professionals and patients for updates.
 - **Appointment Tools**: Schedule appointments.
 
-## Requirements
+## Technologies Used
 
-- **Node.js** 16+
-- **NPM** 7+
-- **Ionic** 8+
+- **React** in combination with **TypeScript**: Provides a robust framework for building the user interface.
+- **Ionic**: Integrated to facilitate the development of a hybrid interface, making the application suitable for both web and mobile devices.
 
 ## Installation
 
@@ -77,6 +76,6 @@ The production build will be generated in the `build` directory.
 - [@juliarcoelho](https://github.com/juliarcoelho)
 - [@monica-gomes](https://github.com/monica-gomes)
 
-## License
+## Related Projects
 
-This project is licensed under the MIT License. See the LICENSE file for details.
+- [Saúde360 Back-End Repository](https://github.com/hamiltonGomes/backend-saude360): This is the back-end project for the Saúde360 platform.
