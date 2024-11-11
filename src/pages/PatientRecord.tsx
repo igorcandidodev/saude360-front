@@ -121,17 +121,7 @@ const PatientRecord: React.FC = () => {
         {/* Modal */}
         <IonModal isOpen={showModal} onDidDismiss={() => setShowModal(false)}>
           <IonContent>
-            <div className="flex flex-col justify-center items-center p-8">
-              <FormEvolutionHistoryForm ref={formRef} />
-            </div>
-            <div className="flex justify-center">
-
-              <ActionButton
-                text="SALVAR"
-                type="submit"
-                onClick={handleSubmit}
-              />
-            </div>
+            <FormEvolutionHistoryForm ref={formRef} onSubmit={handleSubmit} /> {/* Passando a função handleSubmit */}
           </IonContent>
         </IonModal>
       </IonContent>
