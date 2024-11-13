@@ -35,6 +35,14 @@ export class ConsultationService {
     const response = await this.axiosInstance.get(`${import.meta.env.VITE_API_URL}/consultation/patient/`);
     return response.data;
   }
+
+  public async addEvolutionHistory(consultationId: number, evolutionHistory: any) {
+    const response = await this.axiosInstance.post(
+      `${import.meta.env.VITE_API_URL}/consultation/${consultationId}/evolution-history`, 
+      evolutionHistory
+    );
+    return response.data;
+  }
 }
 
 
