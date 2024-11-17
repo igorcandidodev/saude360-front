@@ -4,12 +4,12 @@ import { IonImg } from "@ionic/react";
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import IconDown from "../../Images/Icons/IconDown.svg";
 
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
 import { IonItem, IonLabel } from '@ionic/react';
 import { cpfMask } from "../../utils/cpfMask";
 import { cellPhoneMask} from "../../utils/cellPhoneMask";
-
+import ProfessionalService from "../../core/services/ProfessionalService";
 import { cpf } from 'cpf-cnpj-validator'; 
 
 interface FormPersonalInformationProps {
@@ -17,6 +17,12 @@ interface FormPersonalInformationProps {
   onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onCpfValidation?: (error: string | null) => void; // Nova prop
 }
+
+interface HealthSector {
+  id: number;
+  name: string;
+}
+
 export default function FormPersonalInformation({
   isProfessional,
   onDateChange,
@@ -24,7 +30,9 @@ export default function FormPersonalInformation({
 }: FormPersonalInformationProps) {
   const { user, setUser } = useContext(UserContext);
 
-  const [ healthSectors, setHealthSectors ] = useState<string[]>(["Medicina", "Nutrição", "Terapia Ocupacional", "Fisioterapia"]);
+  const [healthSectors, setHealthSectors] = useState<HealthSector[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const professionalService = new ProfessionalService();
   const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
   const [cpfError, setCpfError] = useState<string | null>(null);
 
@@ -69,13 +77,29 @@ export default function FormPersonalInformation({
     });
   };
 
-  const handleHealthSector = (healthSector: string) => {
+  const handleHealthSector = (healthSector: HealthSector) => {
     setUser({
       ...user,
-      healthSectorsNames: [healthSector],
+      healthSectorsNames: [healthSector.name],
     });
     setHealthSectorsIsOpen(!healthSectorsIsOpen)
   }
+
+  const fetchHealthSectors = async () => {
+    try {
+      setIsLoading(true);
+      const response = await professionalService.getHealthSectors();
+      setHealthSectors(response);
+    } catch (error) {
+      console.error("Erro ao buscar áreas de saúde:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+      fetchHealthSectors();
+  }, []);
 
   return (
     <>
@@ -189,7 +213,7 @@ export default function FormPersonalInformation({
                     return (
                       <div key={index}>
                         <IonItem button={true}>
-                          <IonLabel onClick={() => handleHealthSector(healthSector)}>{healthSector}</IonLabel>
+                          <IonLabel onClick={() => handleHealthSector(healthSector)}>{healthSector.name}</IonLabel>
                         </IonItem>
                       </div>
                     )
