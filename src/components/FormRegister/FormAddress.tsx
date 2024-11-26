@@ -6,7 +6,7 @@ interface FormPersonalInformationProps {
   isProfessional?: boolean;
 }
 
-export function FormAddress({isProfessional}:FormPersonalInformationProps) {
+export function FormAddress({ isProfessional }: FormPersonalInformationProps) {
   const [cepError, setCepError] = useState<string | null>(null);
 
   const fetchAddressByCep = async (cep: string) => {
@@ -15,54 +15,68 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
       if (!response.ok) throw new Error("CEP não encontrado");
       const data = await response.json();
       if (data.erro) throw new Error("CEP não encontrado");
-      setCepError(null); 
+      setCepError(null);
       return data;
     } catch (error) {
       console.error(error);
-      setCepError("CEP não encontrado"); 
+      setCepError("CEP não encontrado");
       return null;
     }
   };
-  
-    const { user, setUser } = useContext(UserContext);
 
-    const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
-      const { name, value } = event.target;
-  
-      if (name === "cep" && value.length === 8) {
-        const addressData = await fetchAddressByCep(value);
-        if (addressData) {
-          if (isProfessional) {
-            setUser((prevUser) => ({
-              ...prevUser,
-              clinic: [
-                {
-                  ...prevUser.clinic[0],
-                  address: {
-                    ...prevUser.clinic[0].address,
-                    cep: value,
-                    street: addressData.logradouro,
-                    neighborhood: addressData.bairro,
-                    city: addressData.localidade,
-                    state: addressData.uf,
-                  },
+  const { user, setUser } = useContext(UserContext);
+
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+
+    if (name === "cep" && value.length === 8) {
+      const addressData = await fetchAddressByCep(value);
+      if (addressData) {
+        const updatedAddress = {
+          cep: value,
+          street: user.address.street || addressData.logradouro,
+          neighborhood: user.address.neighborhood || addressData.bairro,
+          city: user.address.city || addressData.localidade,
+          state: user.address.state || addressData.uf,
+        };
+
+        if (isProfessional) {
+          setUser((prevUser) => ({
+            ...prevUser,
+            clinic: [
+              {
+                ...prevUser.clinic[0],
+                address: {
+                  ...prevUser.clinic[0].address,
+                  ...updatedAddress,
                 },
-              ],
-            }));
-          } else {
-            setUser((prevUser) => ({
-              ...prevUser,
-              address: {
-                ...prevUser.address,
-                cep: value,
-                street: addressData.logradouro,
-                neighborhood: addressData.bairro,
-                city: addressData.localidade,
-                state: addressData.uf,
               },
-            }));
-          }
+            ],
+          }));
+        } else {
+          setUser((prevUser) => ({
+            ...prevUser,
+            address: {
+              ...prevUser.address,
+              ...updatedAddress,
+            },
+          }));
         }
+      }
+    } else {
+      if (isProfessional) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          clinic: [
+            {
+              ...prevUser.clinic[0],
+              address: {
+                ...prevUser.clinic[0].address,
+                [name]: value,
+              },
+            },
+          ],
+        }));
       } else {
         setUser((prevUser) => ({
           ...prevUser,
@@ -72,26 +86,35 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
           },
         }));
       }
-    };
+    }
+  };
 
-    return (
-<>
-      <Form.Header text={isProfessional ? "Endereço do Consultório" : "Endereço do Paciente"} />
+  return (
+    <>
+      <Form.Header
+        text={
+          isProfessional ? "Endereço do Consultório" : "Endereço do Paciente"
+        }
+      />
       <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
-      <div className="flex flex-col pt-6">
+        <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cep">
             CEP <span className="text-red-500">*</span>
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
             onChange={handleChange}
-            value={isProfessional ? user.clinic[0].address.cep : user.address.cep}
+            value={
+              isProfessional ? user.clinic[0].address.cep : user.address.cep
+            }
             type="text"
             id="cep"
             placeholder="Digite o CEP"
             name="cep"
           />
-          {cepError && <span className="text-red-500 text-sm mt-1">{cepError}</span>}
+          {cepError && (
+            <span className="text-red-500 text-sm mt-1">{cepError}</span>
+          )}
         </div>
 
         <div className="flex flex-col pt-6">
@@ -105,7 +128,11 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite a rua"
             name="street"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.street : user.address.street}
+            value={
+              isProfessional
+                ? user.clinic[0].address.street
+                : user.address.street
+            }
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -119,12 +146,16 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite o número"
             name="number"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.number : user.address.number}
+            value={
+              isProfessional
+                ? user.clinic[0].address.number
+                : user.address.number
+            }
           ></input>
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="email">
-           COMPLEMENTO (OPCIONAL)
+            COMPLEMENTO (OPCIONAL)
           </label>
           <input
             className="border border-zinc-400 p-2 rounded"
@@ -133,7 +164,11 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite o complemento"
             name="complement"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.complement : user.address.complement}
+            value={
+              isProfessional
+                ? user.clinic[0].address.complement
+                : user.address.complement
+            }
           ></input>
         </div>
 
@@ -148,7 +183,11 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite o bairro"
             name="neighborhood"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.neighborhood : user.address.neighborhood}
+            value={
+              isProfessional
+                ? user.clinic[0].address.neighborhood
+                : user.address.neighborhood
+            }
           ></input>
         </div>
 
@@ -163,7 +202,9 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite a cidade"
             name="city"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.city : user.address.city}
+            value={
+              isProfessional ? user.clinic[0].address.city : user.address.city
+            }
           ></input>
         </div>
         <div className="flex flex-col pt-6">
@@ -177,10 +218,12 @@ export function FormAddress({isProfessional}:FormPersonalInformationProps) {
             placeholder="Digite o estado"
             name="state"
             onChange={handleChange}
-            value={(isProfessional) ? user.clinic[0].address.state : user.address.state}
+            value={
+              isProfessional ? user.clinic[0].address.state : user.address.state
+            }
           ></input>
         </div>
       </form>
     </>
-    )
+  );
 }
