@@ -54,7 +54,7 @@ class ProfessionalService {
       throw error;
     }
   }
-}
+
 
 public async getHealthSectors() {
   try {
