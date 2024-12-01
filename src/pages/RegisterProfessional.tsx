@@ -50,64 +50,111 @@ const RegisterProfessional: React.FC = () => {
 
   const validateForm = () => {
     console.log("Validando formulário...");
-    const isValidFullName = !!user.fullName?.trim();
-    console.log("Nome completo válido:", isValidFullName);
 
-    // Validação do CPF
-    const isValidCPF = cpf.isValid(user.cpf?.replace(/\D/g, "")); // Remover qualquer caractere não numérico antes da validação
-    console.log("CPF válido:", isValidCPF);
+    let isValid = false;
 
-    const isValidBirthDate = !!user.birthDate;
-    console.log("Data de nascimento válida:", isValidBirthDate);
+    if (indexForm === 1) {
+      const isValidFullName = !!user.fullName?.trim();
+      console.log("Nome completo válido:", isValidFullName);
 
-    const isValidEmail = !!user.email?.includes("@");
-    console.log("E-mail válido:", isValidEmail);
+      const isValidCPF = cpf.isValid(user.cpf?.replace(/\D/g, ""));
+      console.log("CPF válido:", isValidCPF);
 
-    // Validação do número de telefone
-    const phoneRegex = /^\(\d{2}\)9\d{4}-\d{4}$/;
-    const isValidPhoneNumber = phoneRegex.test(user.phoneNumber || "");
-    console.log("Número de celular válido:", isValidPhoneNumber);
+      const isValidBirthDate = !!user.birthDate;
+      console.log("Data de nascimento válida:", isValidBirthDate);
 
-    const isValidClinic = !hasClinic || !!user.clinic;
-    console.log("Consultório válido:", isValidClinic);
+      const isValidEmail = !!user.email?.includes("@");
+      console.log("E-mail válido:", isValidEmail);
 
-    // Validação dos campos profissionais
-    const isValidProfessionalFields =
-      !user.isProfessional ||
-      (!!user.healthSectorsNames &&
-        !!user.cnsNumber &&
-        user.password?.length >= 6 && // Senha válida
-        /^\d{15}$/.test(user.cnsNumber)); // CNS válido
-    console.log("Campos profissionais válidos:", isValidProfessionalFields);
+      const phoneRegex = /^\(\d{2}\)9\d{4}-\d{4}$/;
+      const isValidPhoneNumber = phoneRegex.test(user.phoneNumber || "");
+      console.log("Número de celular válido:", isValidPhoneNumber);
 
-    // Verificação das validações específicas
-    const isValidCNS = /^\d{15}$/.test(user.cnsNumber || "");
-    const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
-      user.password || ""
-    );
+      const isValidClinic = !hasClinic || !!user.clinic;
+      console.log("Consultório válido:", isValidClinic);
 
-    console.log("Número CNS válido:", isValidCNS);
-    console.log("Senha válida:", isValidPassword);
+      const isValidProfessionalFields =
+        !user.isProfessional ||
+        (!!user.healthSectorsNames &&
+          !!user.cnsNumber &&
+          user.password?.length >= 6 &&
+          /^\d{15}$/.test(user.cnsNumber)); // CNS válido
+      console.log("Campos profissionais válidos:", isValidProfessionalFields);
 
-    const isValid =
-      isValidFullName &&
-      isValidCPF &&
-      isValidBirthDate &&
-      isValidEmail &&
-      isValidPhoneNumber &&
-      isValidClinic &&
-      isValidProfessionalFields &&
-      isValidCNS &&
-      isValidPassword; // Agora verifica também CNS, senha e CPF
+      const isValidCNS = /^\d{15}$/.test(user.cnsNumber || "");
+      console.log("Número CNS válido:", isValidCNS);
+
+      const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+        user.password || ""
+      );
+      console.log("Senha válida:", isValidPassword);
+
+      isValid =
+        isValidFullName &&
+        isValidCPF &&
+        isValidBirthDate &&
+        isValidEmail &&
+        isValidPhoneNumber &&
+        isValidClinic &&
+        isValidProfessionalFields &&
+        isValidCNS &&
+        isValidPassword;
+    } else if (indexForm === 2) {
+      const phoneRegex = /^\(\d{2}\)9\d{4}-\d{4}$/;
+      const isValidCNPJ =
+        !!user.clinic[0]?.cnpj && user.clinic[0].cnpj.length === 18; // CNPJ com máscara
+      console.log("CNPJ válido:", isValidCNPJ);
+
+      const isValidCNES = /^\d{15}$/.test(user.clinic[0]?.cnesNumber || ""); // CNES deve ter 15 dígitos
+      console.log("CNES válido:", isValidCNES);
+
+      const isValidClinicPhoneNumber =
+        phoneRegex.test(user.clinic[0]?.phoneNumber || "") ||
+        /^\(\d{2}\)\d{4}-\d{4}$/.test(user.clinic[0]?.telephoneNumber || "");
+      console.log(
+        "Número de telefone da clínica válido:",
+        isValidClinicPhoneNumber
+      );
+
+      isValid = isValidCNPJ && isValidCNES && isValidClinicPhoneNumber;
+    } else if (indexForm === 3) {
+      const isValidCEP = /^\d{5}-\d{3}$/.test(
+        user.clinic[0]?.address?.cep || ""
+      );
+      console.log("CEP válido:", isValidCEP);
+
+      const isValidStreet = !!user.clinic[0]?.address?.street?.trim();
+      console.log("Rua válida:", isValidStreet);
+
+      const isValidClinicNumber = !!user.clinic[0]?.address?.number;
+      console.log("Número do consultório válido:", isValidClinicNumber);
+
+      const isValidNeighborhood =
+        !!user.clinic[0]?.address?.neighborhood?.trim();
+      console.log("Bairro válido:", isValidNeighborhood);
+
+      const isValidCity = !!user.clinic[0]?.address?.city?.trim();
+      console.log("Cidade válida:", isValidCity);
+
+      const isValidState = !!user.clinic[0]?.address?.state?.trim();
+      console.log("Estado válido:", isValidState);
+
+      isValid =
+        isValidCEP &&
+        isValidStreet &&
+        isValidClinicNumber &&
+        isValidNeighborhood &&
+        isValidCity &&
+        isValidState;
+    }
 
     console.log("Formulário geral válido:", isValid);
-
     setIsFormValid(isValid);
   };
 
   useEffect(() => {
     validateForm();
-  }, [user, hasClinic]);
+  }, [user, hasClinic, indexForm]); // Adicionando indexForm para garantir que a validação seja feita ao mudar de etapa
 
   const renderForm = () => {
     switch (indexForm) {
@@ -125,19 +172,11 @@ const RegisterProfessional: React.FC = () => {
               </IonToggle>
             </div>
             <Form.Actions>
-              {hasClinic ? (
-                <Form.ActionButton
-                  text="PRÓXIMO"
-                  onClick={() => setIndexForm(2)}
-                  disabled={!isFormValid}
-                />
-              ) : (
-                <Form.ActionButton
-                  text="CADASTRAR"
-                  onClick={handleRegister}
-                  disabled={!isFormValid || loading}
-                />
-              )}
+              <Form.ActionButton
+                text="PRÓXIMO"
+                onClick={() => setIndexForm(2)}
+                disabled={!isFormValid}
+              />
               {loading && (
                 <div className="mt-5 flex justify-center">
                   <MoonLoader

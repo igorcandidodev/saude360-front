@@ -9,6 +9,11 @@ interface FormPersonalInformationProps {
 export function FormAddress({ isProfessional }: FormPersonalInformationProps) {
   const [cepError, setCepError] = useState<string | null>(null);
 
+  // Função para formatar o CEP no formato xxxxx-xxx
+  const formatCep = (cep: string) => {
+    return cep.replace(/\D/g, "").replace(/(\d{5})(\d{3})/, "$1-$2");
+  };
+
   const fetchAddressByCep = async (cep: string) => {
     try {
       const response = await fetch(`https://viacep.com.br/ws/${cep}/json/`);
@@ -29,39 +34,70 @@ export function FormAddress({ isProfessional }: FormPersonalInformationProps) {
   const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
-    if (name === "cep" && value.length === 8) {
-      const addressData = await fetchAddressByCep(value);
-      if (addressData) {
-        const updatedAddress = {
-          cep: value,
-          street: user.address.street || addressData.logradouro,
-          neighborhood: user.address.neighborhood || addressData.bairro,
-          city: user.address.city || addressData.localidade,
-          state: user.address.state || addressData.uf,
-        };
+    if (name === "cep") {
+      const rawCep = value.replace(/\D/g, ""); // Remove tudo que não é número
+      const formattedCep = formatCep(rawCep); // Formata o valor com hífen
 
-        if (isProfessional) {
-          setUser((prevUser) => ({
-            ...prevUser,
-            clinic: [
-              {
-                ...prevUser.clinic[0],
-                address: {
-                  ...prevUser.clinic[0].address,
-                  ...updatedAddress,
+      // Atualiza o estado com o valor formatado (para o campo de entrada) e o valor "bruto" (para outras lógicas)
+      if (rawCep.length === 8) {
+        // Quando o CEP tiver 8 números, faz a busca
+        const addressData = await fetchAddressByCep(rawCep);
+        if (addressData) {
+          const updatedAddress = {
+            cep: formattedCep,
+            street: user.address.street || addressData.logradouro,
+            neighborhood: user.address.neighborhood || addressData.bairro,
+            city: user.address.city || addressData.localidade,
+            state: user.address.state || addressData.uf,
+          };
+
+          if (isProfessional) {
+            setUser((prevUser) => ({
+              ...prevUser,
+              clinic: [
+                {
+                  ...prevUser.clinic[0],
+                  address: {
+                    ...prevUser.clinic[0].address,
+                    ...updatedAddress,
+                  },
                 },
+              ],
+            }));
+          } else {
+            setUser((prevUser) => ({
+              ...prevUser,
+              address: {
+                ...prevUser.address,
+                ...updatedAddress,
               },
-            ],
-          }));
-        } else {
-          setUser((prevUser) => ({
-            ...prevUser,
-            address: {
-              ...prevUser.address,
-              ...updatedAddress,
-            },
-          }));
+            }));
+          }
         }
+      }
+
+      // Atualiza o estado do cep formatado
+      if (isProfessional) {
+        setUser((prevUser) => ({
+          ...prevUser,
+          clinic: [
+            {
+              ...prevUser.clinic[0],
+              address: {
+                ...prevUser.clinic[0].address,
+                cep: formattedCep,
+              },
+            },
+          ],
+        }));
+      } else {
+        setUser((prevUser) => ({
+          ...prevUser,
+          address: {
+            ...prevUser.address,
+            cep: formattedCep,
+          },
+        }));
       }
     } else {
       if (isProfessional) {
