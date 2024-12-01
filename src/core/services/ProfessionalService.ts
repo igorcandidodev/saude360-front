@@ -54,21 +54,18 @@ class ProfessionalService {
       throw error;
     }
   }
-}
 
-public async getHealthSectors() {
-  try {
-    const response = await this.axiosInstance.get(
-      `${import.meta.env.VITE_API_URL}/healthSector/`,
-    );
-    return response.data;
-  } catch (error) {
-    console.error("Erro ao buscar áreas de saúde:", error);
-    throw error;
+  public async getHealthSectors() {
+    try {
+      const response = await this.axiosInstance.get(
+        `${import.meta.env.VITE_API_URL}/healthSector/`
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Erro ao buscar áreas de saúde:", error);
+      throw error;
+    }
   }
-}
-
-
 }
 
 export default ProfessionalService;

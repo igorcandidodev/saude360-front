@@ -5,12 +5,13 @@ import Menu from "../components/Menu";
 import Logo from "../Images/Logo Saude360.svg";
 
 import { Form } from "../components/FormRegister";
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../context/userContext";
 import ProfessionalService from "../core/services/ProfessionalService";
 import { useHistory } from "react-router-dom";
 import ToastService from "../core/services/ToastService";
 import { MoonLoader } from "react-spinners";
+import { cpf } from "cpf-cnpj-validator";
 
 const RegisterProfessional: React.FC = () => {
   const [indexForm, setIndexForm] = useState(1);
@@ -20,15 +21,16 @@ const RegisterProfessional: React.FC = () => {
   const [hasClinic, setHasClinic] = useState(false);
 
   const { user, setUser, resetUser }: any = useContext(UserContext);
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleRegister = async () => {
-    if(!hasClinic) {
+    if (!hasClinic) {
       setUser({
         ...user,
-        clinic: null
+        clinic: null,
       });
     }
-    console.log(user)
+    console.log(user);
     setLoading(true);
     await professionalService
       .createProfessional(user)
@@ -45,6 +47,67 @@ const RegisterProfessional: React.FC = () => {
         console.error("Error registering professional:", error);
       });
   };
+
+  const validateForm = () => {
+    console.log("Validando formulário...");
+    const isValidFullName = !!user.fullName?.trim();
+    console.log("Nome completo válido:", isValidFullName);
+
+    // Validação do CPF
+    const isValidCPF = cpf.isValid(user.cpf?.replace(/\D/g, "")); // Remover qualquer caractere não numérico antes da validação
+    console.log("CPF válido:", isValidCPF);
+
+    const isValidBirthDate = !!user.birthDate;
+    console.log("Data de nascimento válida:", isValidBirthDate);
+
+    const isValidEmail = !!user.email?.includes("@");
+    console.log("E-mail válido:", isValidEmail);
+
+    // Validação do número de telefone
+    const phoneRegex = /^\(\d{2}\)9\d{4}-\d{4}$/;
+    const isValidPhoneNumber = phoneRegex.test(user.phoneNumber || "");
+    console.log("Número de celular válido:", isValidPhoneNumber);
+
+    const isValidClinic = !hasClinic || !!user.clinic;
+    console.log("Consultório válido:", isValidClinic);
+
+    // Validação dos campos profissionais
+    const isValidProfessionalFields =
+      !user.isProfessional ||
+      (!!user.healthSectorsNames &&
+        !!user.cnsNumber &&
+        user.password?.length >= 6 && // Senha válida
+        /^\d{15}$/.test(user.cnsNumber)); // CNS válido
+    console.log("Campos profissionais válidos:", isValidProfessionalFields);
+
+    // Verificação das validações específicas
+    const isValidCNS = /^\d{15}$/.test(user.cnsNumber || "");
+    const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+      user.password || ""
+    );
+
+    console.log("Número CNS válido:", isValidCNS);
+    console.log("Senha válida:", isValidPassword);
+
+    const isValid =
+      isValidFullName &&
+      isValidCPF &&
+      isValidBirthDate &&
+      isValidEmail &&
+      isValidPhoneNumber &&
+      isValidClinic &&
+      isValidProfessionalFields &&
+      isValidCNS &&
+      isValidPassword; // Agora verifica também CNS, senha e CPF
+
+    console.log("Formulário geral válido:", isValid);
+
+    setIsFormValid(isValid);
+  };
+
+  useEffect(() => {
+    validateForm();
+  }, [user, hasClinic]);
 
   const renderForm = () => {
     switch (indexForm) {
@@ -66,12 +129,13 @@ const RegisterProfessional: React.FC = () => {
                 <Form.ActionButton
                   text="PRÓXIMO"
                   onClick={() => setIndexForm(2)}
+                  disabled={!isFormValid}
                 />
               ) : (
                 <Form.ActionButton
                   text="CADASTRAR"
                   onClick={handleRegister}
-                  disabled={loading}
+                  disabled={!isFormValid || loading}
                 />
               )}
               {loading && (
@@ -100,6 +164,7 @@ const RegisterProfessional: React.FC = () => {
                 <Form.ActionButton
                   text="PRÓXIMO"
                   onClick={() => setIndexForm(3)}
+                  disabled={!isFormValid}
                 />
               </div>
             </Form.Actions>
@@ -108,7 +173,7 @@ const RegisterProfessional: React.FC = () => {
       case 3:
         return (
           <>
-            <Form.Address isProfessional={true}/>
+            <Form.Address isProfessional={true} />
             <Form.Actions>
               <div className="flex flex-col md:flex md:flex-row md:gap-4">
                 <Form.ActionButtonOutline
@@ -117,7 +182,7 @@ const RegisterProfessional: React.FC = () => {
                 />
                 <Form.ActionButton
                   text="CADASTRAR"
-                  disabled={loading}
+                  disabled={!isFormValid || loading}
                   onClick={handleRegister}
                 />
               </div>
