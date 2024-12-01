@@ -102,6 +102,7 @@ import EditIcon from '../Images/Icons/editPencil.svg'; // Importe o ícone de ed
                       alt="Editar"
                       className="w-6 h-6 cursor-pointer"
                       onClick={() => onEdit(transaction)} 
+                      data-testid="editar"
                     />
                   </td>
                 </tr>

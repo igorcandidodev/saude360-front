@@ -13,7 +13,8 @@
     "build:css": "postcss tailwind.css -o src/theme/tailwind.css",
     "watch:css": "postcss tailwind.css -o src/theme/tailwind.css -w",
     "start:dev": "yarn watch:css & ionic capacitor run ios -l --external",
-    "test": "vitest"
+    "test": "vitest",
+    "test:selenium": "jest src/test/selenium/**/*.test.ts"
   },
   "dependencies": {
     "@ant-design/icons": "^5.2.6",
@@ -52,19 +53,22 @@
     "@types/testing-library__react": "^10.2.0",
     "@vitejs/plugin-react": "^4.2.0",
     "axios-mock-adapter": "^2.1.0",
+    "chromedriver": "^131.0.1",
     "eslint": "^8.53.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.4",
     "jest": "^29.7.0",
     "jsdom": "^25.0.1",
+    "selenium-webdriver": "^4.27.0",
     "typescript": "^5.4.5",
     "vite": "^5.0.0",
     "vitest": "^2.1.6"
   },
   "jest": {
     "setupFilesAfterEnv": [
-      "<rootDir>/jest.setup.js"
+      "src/config/jest.setup.js"
     ]
+   
   }
 }
