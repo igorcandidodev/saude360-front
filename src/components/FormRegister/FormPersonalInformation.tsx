@@ -1,21 +1,18 @@
 import { Form } from ".";
 import { IonImg } from "@ionic/react";
-
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import IconDown from "../../Images/Icons/IconDown.svg";
-
 import { useState, useContext, useEffect } from "react";
 import { UserContext } from "../../context/userContext";
-import { IonItem, IonLabel } from '@ionic/react';
+import { IonItem, IonLabel } from "@ionic/react";
 import { cpfMask } from "../../utils/cpfMask";
-import { cellPhoneMask} from "../../utils/cellPhoneMask";
+import { cellPhoneMask } from "../../utils/cellPhoneMask";
 import ProfessionalService from "../../core/services/ProfessionalService";
-import { cpf } from 'cpf-cnpj-validator'; 
+import { cpf } from "cpf-cnpj-validator";
 
 interface FormPersonalInformationProps {
   isProfessional?: boolean;
-  onDateChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onCpfValidation?: (error: string | null) => void; // Nova prop
+  onFormValidityChange?: (isValid: boolean) => void;
 }
 
 interface HealthSector {
@@ -25,65 +22,60 @@ interface HealthSector {
 
 export default function FormPersonalInformation({
   isProfessional,
-  onDateChange,
-  onCpfValidation, 
+  onFormValidityChange,
 }: FormPersonalInformationProps) {
   const { user, setUser } = useContext(UserContext);
-
   const [healthSectors, setHealthSectors] = useState<HealthSector[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const professionalService = new ProfessionalService();
-  const [healthSectorsIsOpen, setHealthSectorsIsOpen] = useState<boolean>(false);
+  const [healthSectorsIsOpen, setHealthSectorsIsOpen] =
+    useState<boolean>(false);
   const [cpfError, setCpfError] = useState<string | null>(null);
+  const [phoneError, setPhoneError] = useState<string | null>(null); // Estado para o erro do telefone
+
+  const requiredFields = [
+    "fullName",
+    "cpf",
+    "birthDate",
+    "email",
+    "phoneNumber",
+    ...(isProfessional ? ["healthSectorsNames", "cnsNumber", "password"] : []),
+  ];
 
   const handleChange = (event: any) => {
-    if (event.target.name === "cpf") {
-      const formattedCpf = cpfMask(event.target.value);
-      setUser({
-        ...user,
-        [event.target.name]: formattedCpf,
-      });
+    const { name, value } = event.target;
 
-      // Remove todos os caracteres não numéricos
-      const unmaskedCpf = formattedCpf.replace(/\D/g, '');
-      
-      // Valida CPF apenas se tiver 11 dígitos
-      if (unmaskedCpf.length === 11) {
-        if (cpf.isValid(unmaskedCpf)) {
-          setCpfError(null);
-          onCpfValidation?.(null);
-        } else {
-          setCpfError("CPF inválido");
-          onCpfValidation?.("CPF inválido");
-        }
-      } else if (unmaskedCpf.length >= 0) {
+    if (name === "cpf") {
+      const formattedCpf = cpfMask(value);
+      setUser({ ...user, [name]: formattedCpf });
+      const unmaskedCpf = formattedCpf.replace(/\D/g, "");
+      if (unmaskedCpf.length === 11 && !cpf.isValid(unmaskedCpf)) {
         setCpfError("CPF inválido");
-        onCpfValidation?.("CPF inválido");
+      } else {
+        setCpfError(null);
       }
-      return;
-    }
+    } else if (name === "phoneNumber") {
+      const formattedPhone = cellPhoneMask(value);
+      setUser({ ...user, [name]: formattedPhone });
 
-    if (event.target.name === "phoneNumber") {
-      setUser({
-        ...user,
-        [event.target.name]: cellPhoneMask(event.target.value),
-      });
-      return;
+      // Validação do número de telefone
+      const phoneRegex = /^\(\d{2}\)9\d{4}-\d{4}$/;
+      if (!phoneRegex.test(formattedPhone)) {
+        setPhoneError(
+          "Número de telefone inválido. Use o formato (xx)9xxxx-xxxx."
+        );
+      } else {
+        setPhoneError(null);
+      }
+    } else {
+      setUser({ ...user, [name]: value });
     }
-
-    setUser({
-      ...user,
-      [event.target.name]: event.target.value,
-    });
   };
 
   const handleHealthSector = (healthSector: HealthSector) => {
-    setUser({
-      ...user,
-      healthSectorsNames: [healthSector.name],
-    });
-    setHealthSectorsIsOpen(!healthSectorsIsOpen)
-  }
+    setUser({ ...user, healthSectorsNames: [healthSector.name] });
+    setHealthSectorsIsOpen(!healthSectorsIsOpen);
+  };
 
   const fetchHealthSectors = async () => {
     try {
@@ -97,13 +89,22 @@ export default function FormPersonalInformation({
     }
   };
 
+  const checkFormValidity = () => {
+    const allFieldsValid = requiredFields.every((field) => user[field]);
+    onFormValidityChange?.(allFieldsValid && !cpfError && !phoneError);
+  };
+
   useEffect(() => {
-      fetchHealthSectors();
+    fetchHealthSectors();
   }, []);
+
+  useEffect(() => {
+    checkFormValidity();
+  }, [user, cpfError, phoneError]); // Agora também depende do phoneError
 
   return (
     <>
-      <Form.Header text="Informacões Pessoais" />
+      <Form.Header text="Informações Pessoais" />
       <form className="w-80 md:w-10/12 2xl:w-7/12 md:grid md:grid-cols-2 md:gap-3">
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="fullName">
@@ -117,7 +118,7 @@ export default function FormPersonalInformation({
             name="fullName"
             onChange={handleChange}
             value={user.fullName}
-          ></input>
+          />
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="cpf">
@@ -131,11 +132,11 @@ export default function FormPersonalInformation({
             placeholder="Digite o CPF"
             onChange={handleChange}
             value={user.cpf}
-          ></input>
+          />
           {cpfError && <p className="text-red-500 text-xs">{cpfError}</p>}
         </div>
         <div className="flex flex-col pt-6">
-          <label className="pb-2" htmlFor="dateBirthday">
+          <label className="pb-2" htmlFor="birthDate">
             DATA DE NASCIMENTO <span className="text-red-500">*</span>
           </label>
           <input
@@ -145,7 +146,7 @@ export default function FormPersonalInformation({
             name="birthDate"
             onChange={handleChange}
             value={user.birthDate}
-          ></input>
+          />
         </div>
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="email">
@@ -159,9 +160,8 @@ export default function FormPersonalInformation({
             name="email"
             onChange={handleChange}
             value={user.email}
-          ></input>
+          />
         </div>
-
         <div className="flex flex-col pt-6">
           <label className="pb-2" htmlFor="phoneNumber">
             NÚMERO DE CELULAR <span className="text-red-500">*</span>
@@ -174,15 +174,16 @@ export default function FormPersonalInformation({
             placeholder="Digite o número de celular"
             onChange={handleChange}
             value={user.phoneNumber}
-          ></input>
-          <p className="text-xs text-zinc-400 pt-2">Não coloque símbolos</p>
+          />
+          {phoneError && <p className="text-red-500 text-xs">{phoneError}</p>}{" "}
+          {/* Exibe o erro aqui */}
         </div>
 
         {isProfessional && (
           <>
-            <div className="flex flex-col pt-6">
+            <div className="flex flex-col pt-6 relative">
               <div className="flex items-center">
-                <label className="pb-2" htmlFor="helthSector">
+                <label className="pb-2" htmlFor="healthSector">
                   ÁREA DE TRABALHO <span className="text-red-500">*</span>
                 </label>
                 <IonImg
@@ -191,55 +192,61 @@ export default function FormPersonalInformation({
                   alt="Icone de interrogação"
                 />
               </div>
-              <div className="border border-zinc-400 p-2 rounded flex flex-row-reverse">
+              <div
+                className="border border-zinc-400 p-2 rounded flex items-center justify-between cursor-pointer"
+                onClick={() => setHealthSectorsIsOpen(!healthSectorsIsOpen)}
+              >
                 <input
                   className="w-full bg-transparent"
                   type="text"
                   id="healthSectorsNames"
                   name="healthSectorsNames"
                   placeholder="Selecione sua área de saúde"
-                  value={user.healthSectorsNames}
-                  disabled
+                  value={user.healthSectorsNames || ""}
+                  readOnly
                 />
                 <IonImg
                   src={IconDown}
-                  className="absolute cursor-pointer"
-                  alt="Icone de seta para baixo"
-                  onClick={() => setHealthSectorsIsOpen(!healthSectorsIsOpen)}
+                  className="cursor-pointer"
+                  alt="Ícone de seta para baixo"
                 />
               </div>
               {healthSectorsIsOpen && (
-                  healthSectors.map((healthSector, index) => {
-                    return (
-                      <div key={index}>
-                        <IonItem button={true}>
-                          <IonLabel onClick={() => handleHealthSector(healthSector)}>{healthSector.name}</IonLabel>
-                        </IonItem>
+                <div className="absolute z-10 bg-white border border-zinc-400 rounded shadow-lg mt-1 max-h-40 overflow-y-auto w-full">
+                  {isLoading ? (
+                    <p className="text-center text-zinc-500 py-2">
+                      Carregando...
+                    </p>
+                  ) : (
+                    healthSectors.map((healthSector) => (
+                      <div
+                        key={healthSector.id}
+                        className="px-4 py-2 hover:bg-zinc-100 cursor-pointer"
+                        onClick={() => {
+                          handleHealthSector(healthSector);
+                          setHealthSectorsIsOpen(false);
+                        }}
+                      >
+                        {healthSector.name}
                       </div>
-                    )
-                  })
-                  )} 
+                    ))
+                  )}
+                </div>
+              )}
             </div>
             <div className="flex flex-col pt-6">
-              <div className="flex items-center">
-                <label className="pb-2" htmlFor="cns">
-                  NÚMERO CNS <span className="text-red-500">*</span>
-                </label>
-                <IonImg
-                  src={IconInterrogacao}
-                  className="pb-2 pl-1 cursor-pointer"
-                  alt="Icone de interrogação"
-                />
-              </div>
+              <label className="pb-2" htmlFor="cnsNumber">
+                NÚMERO CNS <span className="text-red-500">*</span>
+              </label>
               <input
                 className="border border-zinc-400 p-2 rounded"
                 type="text"
                 id="cnsNumber"
-                placeholder="Digite o número CNS"
                 name="cnsNumber"
+                placeholder="Digite o número CNS"
                 onChange={handleChange}
                 value={user.cnsNumber}
-              ></input>
+              />
             </div>
             <div className="flex flex-col pt-6">
               <label className="pb-2" htmlFor="password">
@@ -249,32 +256,14 @@ export default function FormPersonalInformation({
                 className="border border-zinc-400 p-2 rounded"
                 type="password"
                 id="password"
-                placeholder="Digite sua senha"
                 name="password"
+                placeholder="Digite sua senha"
                 onChange={handleChange}
                 value={user.password}
-              ></input>
-              <p className="text-xs text-zinc-400 pt-2">
-                No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
-              </p>
+              />
             </div>
-            {/* <div className="flex flex-col pt-6">
-              <label className="pb-2" htmlFor="passwordConfirm">
-                CONFIRMAR SENHA
-              </label>
-              <input
-                className="border border-zinc-400 p-2 rounded"
-                type="passwordConfirm"
-                id="password"
-                name="passwordConfirm"
-              ></input>
-              <p className="text-xs text-zinc-400 pt-2">
-                No mínimo 8 caracteres, com pelo menos 1 letra maiúscula
-              </p>
-            </div> */}
           </>
         )}
-
       </form>
     </>
   );

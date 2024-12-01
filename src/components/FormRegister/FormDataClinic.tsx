@@ -1,7 +1,6 @@
-import { Form } from "."
+import { Form } from ".";
 
 import { IonImg } from "@ionic/react";
-
 
 import IconInterrogacao from "../../Images/Icons/IconInterrogacao.svg";
 import { UserContext } from "../../context/userContext";
@@ -11,11 +10,10 @@ import { cellPhoneMask } from "../../utils/cellPhoneMask";
 import { phoneMask } from "../../utils/phoneMask";
 
 export default function FormDataClinic() {
-
   const { user, setUser } = useContext(UserContext);
-  
+
   const handleChange = (event: any) => {
-    if(event.target.name === "cnpj") {
+    if (event.target.name === "cnpj") {
       setUser({
         ...user,
         clinic: [
@@ -27,7 +25,7 @@ export default function FormDataClinic() {
       });
       return;
     }
-    if(event.target.name === "phoneNumber") {
+    if (event.target.name === "phoneNumber") {
       setUser({
         ...user,
         clinic: [
@@ -39,7 +37,7 @@ export default function FormDataClinic() {
       });
       return;
     }
-    if(event.target.name === "telephoneNumber") {
+    if (event.target.name === "telephoneNumber") {
       setUser({
         ...user,
         clinic: [
@@ -60,8 +58,7 @@ export default function FormDataClinic() {
         },
       ],
     });
-
-  }
+  };
   return (
     <>
       <Form.Header text="Dados do Consultório" />
