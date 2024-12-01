@@ -65,6 +65,7 @@ const FormFinance = forwardRef((props: any, ref) => {
           <div className="flex flex-col pt-6">
             <label className="pb-2" htmlFor="financeName">NOME <span className="text-red-500">*</span> </label>
             <input
+              data-testid="input-finance-name"
               className="w-full border border-zinc-400 p-2 rounded"
               type="text"
               id="financeName"

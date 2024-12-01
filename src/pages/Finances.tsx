@@ -125,6 +125,7 @@ const Finances: React.FC = () => {
       </div>
 
       <IonModal
+        data-testid="transaction-modal"
         isOpen={showModal}
         onDidDismiss={() => {
           setShowModal(false);
@@ -153,6 +154,7 @@ const Finances: React.FC = () => {
               text="SALVAR"
               type="submit"
               onClick={handleSubmit}
+              data-testid="submit-button"
             />
           </div>
         </IonContent>

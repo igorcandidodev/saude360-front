@@ -57,7 +57,7 @@ import EditIcon from '../Images/Icons/editPencil.svg'; // Importe o ícone de ed
      return (
     <div className="rounded-lg overflow-hidden border">
       {loading ? (
-        <div className="flex justify-center items-center h-full py-8">
+        <div className="flex justify-center items-center h-full py-8" data-testid="moon-loader">
           <MoonLoader size={50} color={"#123abc"} loading={loading} />
         </div>
       ) : (
