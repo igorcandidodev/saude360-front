@@ -84,9 +84,10 @@ const RegisterProfessional: React.FC = () => {
       const isValidCNS = /^\d{15}$/.test(user.cnsNumber || "");
       console.log("Número CNS válido:", isValidCNS);
 
-      const isValidPassword = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/.test(
+      const isValidPassword = /^(?=.*[A-Z])(?=.*\d).{8,}$/.test(
         user.password || ""
       );
+
       console.log("Senha válida:", isValidPassword);
 
       isValid =
@@ -172,11 +173,19 @@ const RegisterProfessional: React.FC = () => {
               </IonToggle>
             </div>
             <Form.Actions>
-              <Form.ActionButton
-                text="PRÓXIMO"
-                onClick={() => setIndexForm(2)}
-                disabled={!isFormValid}
-              />
+              {hasClinic ? (
+                <Form.ActionButton
+                  text="PRÓXIMO"
+                  onClick={() => setIndexForm(2)}
+                  disabled={!isFormValid}
+                />
+              ) : (
+                <Form.ActionButton
+                  text="CADASTRAR"
+                  onClick={handleRegister}
+                  disabled={!isFormValid || loading}
+                />
+              )}
               {loading && (
                 <div className="mt-5 flex justify-center">
                   <MoonLoader

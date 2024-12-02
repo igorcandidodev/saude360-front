@@ -261,6 +261,9 @@ export default function FormPersonalInformation({
                 onChange={handleChange}
                 value={user.password}
               />
+              <p className="text-gray-400 italic text-sm">
+                8 dígitos, com pelo menos 1 letra maiúscula.
+              </p>
             </div>
           </>
         )}
