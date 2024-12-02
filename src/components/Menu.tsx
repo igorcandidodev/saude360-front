@@ -45,6 +45,11 @@ const SideMenu = () => {
     ],
   };
 
+  const loggout = () => {
+    localStorage.clear();
+    window.location.href = "/login";
+  }
+
   return (
     <div className=" z-50">
       {isOpen && (
@@ -106,7 +111,7 @@ const SideMenu = () => {
             </div>
             <div>
               <a
-                href="/login"
+                onClick={loggout}
                 className="flex items-center px-4 py-2 text-gray-800 bg-menu-color hover:rounded-md hover:text-white"
               >
                 <IonIcon

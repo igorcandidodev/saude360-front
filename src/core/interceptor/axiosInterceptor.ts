@@ -20,8 +20,7 @@ export class AxiosInterceptor {
   private handleRequest(config: InternalAxiosRequestConfig): InternalAxiosRequestConfig {
     const token = localStorage.getItem("token");
 
-    console.log(config.url.includes("/user/professional/"))
-    if (token !== null && (!config.url.includes("/api/authentication/login") || !config.url.includes("/user/professional/"))) {
+    if (token !== null && (!config.url.includes("/api/authentication/login") || !config.url.includes("/user/professional/") || !config.url.includes("/healthSector/"))) {
       if (token) {
         config.headers.Authorization = `Bearer ${token}`;
       } else {

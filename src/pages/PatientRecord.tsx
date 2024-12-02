@@ -65,10 +65,6 @@ const PatientRecord: React.FC = () => {
                   Dados do Paciente
                 </h2>
               </div>
-              <ActionButton // Botão posicionado à direita
-                text="ADICIONAR HISTÓRICO"
-                onClick={() => setShowModal(true)}
-              />
             </div>
 
 
