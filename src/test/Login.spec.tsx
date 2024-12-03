@@ -28,7 +28,6 @@ vi.mock('../core/services/ToastService', () => ({
   }
 }));
 
-// Create a mock for axios
 const mock = new MockAdapter(axios);
 
 const mockAuthContextValue = {
@@ -88,7 +87,6 @@ describe('LoginPage Component', () => {
       setUserCpf: vi.fn()
     };
 
-    // Mock successful login response
     mock.onPost(`${import.meta.env.VITE_API_URL}/api/authentication/login`).reply(200, {
       token: 'fake-token',
       cpf: '12345678900',
