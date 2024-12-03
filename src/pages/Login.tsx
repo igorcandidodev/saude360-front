@@ -21,6 +21,10 @@ const LoginPage: React.FC = () => {
   const authenticationService = new AuthenticationService();
   const history = useHistory();
 
+  const handleRegister = () => {
+    history.push('/cadastro-profissional');
+  };
+  
   const handleLogin = () => {
     if (authInitial.cpf === "" || authInitial.password === "") {
       return ToastService.showError("Preencha todos os campos");
@@ -92,9 +96,7 @@ const LoginPage: React.FC = () => {
                 <div className="flex items-center justify-center my-2">
                   <span className="text-gray-500 mx-2">ou</span>
                 </div>
-                <Link to="/cadastro-profissional">
-                  <Form.ActionButtonOutline text="CADASTRE-SE" />
-                </Link>
+                <Form.ActionButtonOutline text="CADASTRE-SE" id="Cadastrar" onClick={handleRegister}/>
                 <div className="flex justify-center mt-4">
                   <Link to="/esqueceu-senha" className="text-blue-500 hover:underline">
                     Esqueceu sua senha?
@@ -110,6 +112,7 @@ const LoginPage: React.FC = () => {
                   loading
                   size={50}
                   speedMultiplier={0.5}
+                  data-testid="moon-loader"
                 />
               </div>
             )}
