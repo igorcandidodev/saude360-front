@@ -1,4 +1,3 @@
-// ./src/test/selenium/finance-table.selenium.test.ts
 import { WebDriver, Builder, By, until } from 'selenium-webdriver';
 import chrome from 'selenium-webdriver/chrome';
 
